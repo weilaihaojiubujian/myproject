@@ -4,12 +4,12 @@
             <img class="inner_label login_logo" src="../../assets/logo.png">
         </div>
         <div class="login_form">
-            <input type="text"  class="qxs-ic_user qxs-icon"  placeholder="用户名" v-model="userName">
-            <input type="text"  class="qxs-ic_password qxs-icon"  placeholder="密码" v-model="password">
+            <input type="text"  class="qxs-ic_user qxs-icon"  placeholder="用户名" v-model="ruleForm.loginId">
+            <input type="text"  class="qxs-ic_password qxs-icon"  placeholder="密码" v-model="ruleForm.password">
             <!--<button class="login_btn el-button el-button&#45;&#45;primary is-round" type="primary" round>登录</button>-->
             <el-button class="login_btn" @click.native="login" type="primary" round :loading="isBtnLoading">登录</el-button>
             <div style="margin-top: 10px">
-                <span style="color: #000099;" @click="login">司机账号登陆</span><span style="float: right;color: #A9A9AB">忘记密码？</span>
+                <span style="color: #000099;" @click="register">注册用户</span><span style="float: right;color: #A9A9AB">忘记密码？</span>
             </div>
         </div>
     </div>
@@ -18,19 +18,24 @@
 
 
 <script>
-    //  import { userLogin } from '../../api/api';
+
+    import api from '../../api.js';
 
     export default {
+
+
         data() {
             return {
-                userName: '',
-                password: '',
+                ruleForm: {
+                    loginId: '',
+                    password: ''
+                },
                 isBtnLoading: false
             }
         },
         created () {
-            if(JSON.parse( localStorage.getItem('user')) && JSON.parse( localStorage.getItem('user')).userName){
-                this.userName = JSON.parse( localStorage.getItem('user')).userName;
+            if(JSON.parse( localStorage.getItem('user')) && JSON.parse( localStorage.getItem('user')).loginId){
+                this.loginId = JSON.parse( localStorage.getItem('user')).loginId;
                 this.password = JSON.parse( localStorage.getItem('user')).password;
             }
         },
@@ -42,14 +47,46 @@
         },
         methods: {
             login() {
-                if (!this.userName) {
+                if (!this.ruleForm.loginId) {
                     this.$message.error('请输入用户名');
                     return;
                 }
-                if (!this.password) {
+                if (!this.ruleForm.password) {
                     this.$message.error('请输入密码');
                     return;
                 }
+
+                this.$axios.post(api.authenticationUrl, JSON.stringify(this.ruleForm), {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }).then(res => {
+                    // if (res != null && res.status === 200) {
+                    //     this.$axios.get(api.userUrl, {
+                    //         headers: {
+                    //             'Authorization': localStorage.getItem('token')
+                    //         }
+                    //     }).then(res => {
+                    //         let obj = res.data;
+                    //         if (obj.role.filter(r => r === 'ROLE_ADMIN').length === 0) {
+                    //             this.$message({
+                    //                 type: 'warning',
+                    //                 message: '权限不够'
+                    //             })
+                    //         } else {
+                    //             localStorage.setItem('user', JSON.stringify(res.data));
+                    //             this.$router.replace('/');
+                    //         }
+                    //     });
+                    // } else {
+                    //     console.log(res);
+                    // }
+                    alert(res.data.msg);
+                });
+            },
+            register(){
+
+                this.$router.push( '/register')
 
             }
         }
