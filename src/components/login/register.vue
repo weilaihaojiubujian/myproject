@@ -7,18 +7,15 @@
     </div>
     <div class ="now_login">我已注册，现在就<button class="btd_login" @click="login">登录</button></div>
     <div id="app1">
-        <label>用户名</label><input type="text" placeholder="请设置用户名"  v-model="userInfo.user" class="input" @blur="a"><br>
+        <label>用户名/邮箱</label><input type="text" placeholder="请设置用户名/请输入邮箱名"  v-model="userInfo.email" class="input" @blur="a"><br>
         <span class="tiShi">{{ tiShi.tishi1 }}</span><br>
-        <label>设置密码</label><input type="password" placeholder="请设置登录密码" v-model="userInfo.password1"class="input" @blur="b"><br>
+        <button id="btn1" @click="getverifyCode" :disabled="btn">获得验证码</button>
+        <label>设置密码</label><input type="password" placeholder="请设置登录密码" v-model="userInfo.password" @blur="b"><br>
         <span class="tiShi">{{ tiShi.tishi2 }}</span><br>
-        <label>确认密码</label><input type="password" v-model="userInfo.password2"class="input" @blur="c"><br>
+        <label>确认密码</label><input type="password" v-model="userInfo.rePassword" @blur="c"><br>
         <span class="tiShi">{{ tiShi.tishi3}}</span><br>
-        <label>真实姓名</label><input type="text" v-model="userInfo.name"class="input" @blur="d"><br>
-        <span class="tiShi">{{ tiShi.tishi4}}</span><br>
-        <label>手机号</label><input type="text" placeholder="请输入手机号码"  v-model="userInfo.num"class="input" @blur="e"><br>
+        <label>验证码</label><input type="text" placeholder="请输入验证码"  v-model="userInfo.verifyCode" @blur="e"><br>
         <span class="tiShi">{{ tiShi.tishi5}}</span><br>
-        <label>家庭住址</label><textarea rows="5" cols="26"placeholder="请输入您的家庭住址" v-model="userInfo.address" @blur="f"></textarea><br>
-        <span class="tiShi">{{ tiShi.tishi6}}</span><br>
         <div class="checkbox"><input type="checkbox" style="margin-right: 10px;" v-model="userInfo.checkbox">阅读并接受<a href="" >《xxx用户协议》</a></div>
         <button id="btd" @click="flag" :disabled="btn">立即注册</button>
     </div>
@@ -26,6 +23,8 @@
 </template>
 
 <script>
+
+    import api from "@/api";
 
     export default{
         // el:'#app',
@@ -37,17 +36,13 @@
                     tiShi1:'',
                     tishi2:'',
                     tishi3:'',
-                    tishi4:'',
                     tishi5:'',
-                    tishi6:'',
                 },
                 userInfo:{
-                    user:'',
-                    password1:'',
-                    password2:'',
-                    num:'',
-                    name:'',
-                    address:'',
+                    email:'',
+                    password:'',
+                    rePassword:'',
+                    verifyCode:'',
                     checkbox:true,
                 },
                 userArr:[]
@@ -59,23 +54,25 @@
             a(){
                 this.tiShi.tishi1 = '';
                 this.isReturn = true;
-                var a=/^[a-z]+$/;//小写字母组成
-                if (!this.userInfo.user) this.tiShi.tishi1='用户名不能为空';
-                else if(!a.test(this.userInfo.user)){
+                var a=/^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;//判断是否是邮箱格式
+                if (!this.userInfo.email) this.tiShi.tishi1='用户名不能为空';
+                else if(!a.test(this.userInfo.email)){
                     this.isReturn = true;
-                    this.tiShi.tishi1="由小写字母组成"
+                    this.tiShi.tishi1="验证不通过"
                 }
+
+
             },
             //密码
             b (){
                 this.tiShi.tishi2 = '';
                 this.isReturn = true;
                 var p=/[a-zA-Z]\w[z0-9]/;
-                if (!this.userInfo.password1) {
+                if (!this.userInfo.password) {
                     this.isReturn = true;
                     this.tiShi.tishi2='密码不能为空';
                 }
-                else if(!p.test(this.userInfo.password1)){
+                else if(!p.test(this.userInfo.password)){
                     this.isReturn = true;
                     this.tiShi.tishi2="由字母+数字组成，字母开头"
                 }
@@ -85,131 +82,164 @@
                 this.tiShi.tishi3 = '';
                 this.isReturn = true;
                 var p=/[a-zA-Z]\w[z0-9]/;
-                if (!this.userInfo.password2) {
+                if (!this.userInfo.rePassword) {
                     this.isReturn = true;
                     this.tiShi.tishi3='密码不能为空';
                 }
-                else if(!p.test(this.userInfo.password2)){
+                else if(!p.test(this.userInfo.rePassword)){
                     this.isReturn = true;
                     this.tiShi.tishi3="由字母+数字组成，以字母开头"
                 }
-                if(this.userInfo.password1 != this.userInfo.password2){
+                if(this.userInfo.password != this.userInfo.rePassword){
                     this.isReturn = true;
                     this.tiShi.tishi3='两次密码不一致';
                 }
-            },
-            //真实姓名
-            d(){
-                this.tiShi.tishi4 = '';
-                this.isReturn = true;
-                if (!this.userInfo.name)this.tiShi.tishi4='姓名不能为空';this.isReturn = true;
             },
             //手机号
             e(){
                 this.tiShi.tishi5 = '';
                 this.isReturn = true;
-                var n=/^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/
-                if (!this.userInfo.num)
+                var n=/^[0-9]{6}$/
+                if (!this.userInfo.verifyCode)
                 {
-                    this.tiShi.tishi5='手机号不能为空';
+                    this.tiShi.tishi5='验证码不能为空';
                     this.isReturn = true;
                 }
-                else if (!n.test(this.userInfo.num)) {this.tiShi.tishi5='手机号码格式不正确';this.isReturn = true;}
+                else if (!n.test(this.userInfo.verifyCode)) {this.tiShi.tishi5='验证码格式不正确';this.isReturn = true;}
             },
-            //家庭住址
-            f(){
-                this.tiShi.tishi6 = '';
-                this.isReturn = true;
-                if (!this.userInfo.address) {this.tiShi.tishi6='请输入您的家庭住址';this.isReturn = true;}
+            getverifyCode(){
+                this.tiShi.tishi1 = '';
+                this.isReturn = false;
+                var a=/^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;//判断是否是邮箱格式
+                if (!this.userInfo.email)
+                {
+                    this.tiShi.tishi1='用户名不能为空';
+                    this.isReturn = true;
+                }
+                else if(!a.test(this.userInfo.email)){
+                    this.isReturn = true;
+                    this.tiShi.tishi1="验证不通过"
+                }
+
+                this.$axios.post(api.sendRegisterEmail, JSON.stringify(this.userInfo), {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }).then(res => {
+                    if (res != null && res.status === 200) {
+                        // this.$axios.get(api.userUrl, {
+                        //     headers: {
+                        //         'Authorization': localStorage.getItem('token')
+                        //     }
+                        // }).then(res => {
+                        //     let obj = res.data;
+                        //     if (obj.role.filter(r => r === 'ROLE_ADMIN').length === 0) {
+                        //         this.$message({
+                        //             type: 'warning',
+                        //             message: '权限不够'
+                        //         })
+                        //     } else {
+                        //         localStorage.setItem('user', JSON.stringify(res.data));
+                        //         this.$router.replace('/');
+                        //     }
+                        // });
+                    } else {
+                        console.log(res);
+                    }
+                    alert(res.data.msg);
+                });
             },
             flag (){
                 //alert(1)
                 this.tiShi.tishi1 = '';
                 this.tiShi.tishi2 = '';
                 this.tiShi.tishi3 = '';
-                this.tiShi.tishi4 = '';
                 this.tiShi.tishi5 = '';
-                this.tiShi.tishi6 = '';
                 this.isReturn = false;
                 //用户名
-                var a=/^[a-z]+$/;//小写字母组成
-                if (!this.userInfo.user)
+                var a=/^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;//判断是否是邮箱格式
+                if (!this.userInfo.email)
                 {
                     this.tiShi.tishi1='用户名不能为空';
                     this.isReturn = true;
                 }
-                else if(!a.test(this.userInfo.user)){
+                else if(!a.test(this.userInfo.email)){
                     this.isReturn = true;
-                    this.tiShi.tishi1="由小写字母组成"
-                }
-                if (localStorage.userArr) {
-                    var array=JSON.parse(localStorage.userArr);
-                }else{array=[]}
-                //遍历数组进行匹配
-                for (var i = 0; i < array.length; i++) {
-                    //判断是否有相同账号
-                    console.log(array)
-                    /*alert(array[i].username)*/
-                    if (this.userInfo.user==array[i].username) {
-                        alert('该账号已存在');
-                        /*this.tiShi.tiShi1='该账号已存在';*/
-                        return;
-                    }
+                    this.tiShi.tishi1="验证不通过"
                 }
 
                 //字母开头 ，由字母+数字组成
                 var p=/[a-zA-Z]\w[z0-9]/;
-                if (!this.userInfo.password1) {
+                if (!this.userInfo.password) {
                     this.isReturn = true;
                     this.tiShi.tishi2='密码不能为空';
                 }
-                else if(!p.test(this.userInfo.password1)){
+                else if(!p.test(this.userInfo.password)){
                     this.isReturn = true;
                     this.tiShi.tishi2="由字母+数字组成，字母开头"
                 }
                 //确认密码
-                if (!this.userInfo.password2) {
+                if (!this.userInfo.rePassword) {
                     this.isReturn = true;
                     this.tiShi.tishi3='密码不能为空';
                 }
-                else if(!p.test(this.userInfo.password2)){
+                else if(!p.test(this.userInfo.rePassword)){
                     this.isReturn = true;
                     this.tiShi.tishi3="由字母+数字组成，以字母开头"
                 }
-                if(this.userInfo.password1 != this.userInfo.password2){
+                if(this.userInfo.password != this.userInfo.rePassword){
                     this.isReturn = true;
                     this.tiShi.tishi3='两次密码不一致';
                 }
-                //姓名
-                if (!this.userInfo.name)this.tiShi.tishi4='姓名不能为空';this.isReturn = true;
+
                 //手机号
-                var n=/^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/
-                if (!this.userInfo.num)
+                var n=/^[0-9]{6}$/
+                if (!this.userInfo.verifyCode)
                 {
-                    this.tiShi.tishi5='手机号不能为空';
+                    this.tiShi.tishi5='验证码不能为空';
                     this.isReturn = true;
                 }
-                else if (!n.test(this.userInfo.num)) {this.tiShi.tishi5='手机号码格式不正确';this.isReturn = true;}
-                //家庭住址
-                if (!this.userInfo.address) {this.tiShi.tishi6='请输入您的家庭住址';this.isReturn = true;}
+                else if (!n.test(this.userInfo.verifyCode)) {this.tiShi.tishi5='验证码格式不正确';this.isReturn = true;}
+
                 //同意协议
                 if (this.userInfo.checkbox!=true) {this.btn=false;alert('是否同意该协议');this.isReturn = true;return}
                 //如果有这些提示就return
-                if (this.tiShi.tishi || this.tiShi.tishi2 ||this.tiShi.tishi3 ||this.tiShi.tishi4||this.tiShi.tishi5 ||this.tiShi.tishi6 ) return;
+                if (this.tiShi.tishi1 || this.tiShi.tishi2 ||this.tiShi.tishi3 ||this.tiShi.tishi5) return;
                 //if (this.isReturn) return;
                 var box=document.getElementById("successful");
                 box.style.display='block';
-                //创建对象
-                var obj = {username:this.userInfo.user,password:this.userInfo.password1,number:this.userInfo.num,name:this.userInfo.name,address:this.userInfo.address,}
 
-                array.push(obj);
-               localStorage.userArr=JSON.stringify(array);//把内容转换成字符串形式
-                /*userInfo =JSON.stringify(window.localStorage.userArr)*/
-                localStorage.setItem('userArr',localStorage.userArr);
-                // window.location.href='../登录/登录页面.html';
+                this.$axios.post(api.register, JSON.stringify(this.userInfo), {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }).then(res => {
+                    if (res != null && res.status === 200) {
+                        localStorage.setItem("openid",JSON.stringify(res.data));
+                        // this.$axios.get(api.userUrl, {
+                        //     headers: {
+                        //         'Authorization': localStorage.getItem('token')
+                        //     }
+                        // }).then(res => {
+                        //     let obj = res.data;
+                        //     if (obj.role.filter(r => r === 'ROLE_ADMIN').length === 0) {
+                        //         this.$message({
+                        //             type: 'warning',
+                        //             message: '权限不够'
+                        //         })
+                        //     } else {
+                        //         localStorage.setItem('user', JSON.stringify(res.data));
+                        //         this.$router.replace('/');
+                        //     }
+                        // });
+                    } else {
+                        console.log(res);
+                    }
+                    alert(res.data.msg);
+                });
             },
             login(){
-                this.$router.push( '/Login')
+                this.$router.push( '/')
             },
             close(){
                 var box=document.getElementById("successful");
@@ -234,4 +264,5 @@
     #btd{width: 270px;height: 38px;border-radius: 5px;background:#5B8020;border: 1px solid  silver;color: white;font-size: 18px;;cursor: pointer;margin-top: 10px;}
     #successful{width: 300px;height: 200px;border: 1px solid silver;position: fixed;left: 50%;bottom: 50%;background:#D8D8D8;display: none;}
     #btn{width: 50px;height: 30px;display: inline-block;float: right;margin-right: 15px;}
+    #btn1{width: 50px;height: 30px;display: inline-block;float: right;margin-right: 15px;}
 </style>

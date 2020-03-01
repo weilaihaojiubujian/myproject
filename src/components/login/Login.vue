@@ -33,12 +33,12 @@
                 isBtnLoading: false
             }
         },
-        created () {
-            if(JSON.parse( localStorage.getItem('user')) && JSON.parse( localStorage.getItem('user')).loginId){
-                this.loginId = JSON.parse( localStorage.getItem('user')).loginId;
-                this.password = JSON.parse( localStorage.getItem('user')).password;
-            }
-        },
+        // created () {
+        //     if(JSON.parse( localStorage.getItem('user')) && JSON.parse( localStorage.getItem('user')).loginId){
+        //         this.loginId = JSON.parse( localStorage.getItem('user')).loginId;
+        //         this.password = JSON.parse( localStorage.getItem('user')).password;
+        //     }
+        // },
         computed: {
             btnText() {
                 if (this.isBtnLoading) return '登录中...';
@@ -56,31 +56,33 @@
                     return;
                 }
 
-                this.$axios.post(api.authenticationUrl, JSON.stringify(this.ruleForm), {
+                this.$axios.post(api.login, JSON.stringify(this.ruleForm), {
                     headers: {
                         'Content-Type': 'application/json'
                     }
                 }).then(res => {
-                    // if (res != null && res.status === 200) {
-                    //     this.$axios.get(api.userUrl, {
-                    //         headers: {
-                    //             'Authorization': localStorage.getItem('token')
-                    //         }
-                    //     }).then(res => {
-                    //         let obj = res.data;
-                    //         if (obj.role.filter(r => r === 'ROLE_ADMIN').length === 0) {
-                    //             this.$message({
-                    //                 type: 'warning',
-                    //                 message: '权限不够'
-                    //             })
-                    //         } else {
-                    //             localStorage.setItem('user', JSON.stringify(res.data));
-                    //             this.$router.replace('/');
-                    //         }
-                    //     });
-                    // } else {
-                    //     console.log(res);
-                    // }
+                    if (res != null && res.status === 200) {
+                        localStorage.setItem("openid",JSON.stringify(res.data));
+                        // this.$axios.get(api.userUrl, {
+                        //     headers: {
+                        //         'Authorization': localStorage.getItem('token')
+                        //     }
+                        // }).then(res => {
+                        //     let obj = res.data;
+                        //     if (obj.role.filter(r => r === 'ROLE_ADMIN').length === 0) {
+                        //         this.$message({
+                        //             type: 'warning',
+                        //             message: '权限不够'
+                        //         })
+                        //     } else {
+                        //         localStorage.setItem('user', JSON.stringify(res.data));
+                        //         this.$router.replace('/');
+                        //     }
+                        // });
+                        this.$router.push( '/main')
+                    } else {
+                        console.log(res);
+                    }
                     alert(res.data.msg);
                 });
             },
