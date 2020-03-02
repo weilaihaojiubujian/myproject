@@ -20,7 +20,7 @@
 <script>
 
     import api from '../../api.js';
-
+    import Cookies from 'js-cookie'
     export default {
 
 
@@ -58,11 +58,12 @@
 
                 this.$axios.post(api.login, JSON.stringify(this.ruleForm), {
                     headers: {
-                        'Content-Type': 'application/json'
-                    }
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    withCredentials: true
                 }).then(res => {
                     if (res != null && res.status === 200) {
-                        localStorage.setItem("openid",JSON.stringify(res.data));
+                        localStorage.setItem("openid",res.data.data);
                         // this.$axios.get(api.userUrl, {
                         //     headers: {
                         //         'Authorization': localStorage.getItem('token')
@@ -79,7 +80,7 @@
                         //         this.$router.replace('/');
                         //     }
                         // });
-                        this.$router.push( '/main')
+                        this.$router.push( '/userInfo')
                     } else {
                         console.log(res);
                     }
