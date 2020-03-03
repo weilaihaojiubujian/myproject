@@ -1,6 +1,6 @@
 <template>
     <div class="hello">
-        <div>
+        <div v-if="showCard">
             {{userResponse}}
         </div>
         <hr>
@@ -10,12 +10,9 @@
 
 
 <script>
-
     import api from '../../api.js';
     import Cookies from 'js-cookie'
     export default {
-
-
         data() {
             return {
                 userRequest: {
@@ -35,13 +32,13 @@
                     nation: '',
                     money: '',
                     email: ''
-                }
+                },
+                showCard:false
             }
         },
-        created () {
-          this.getUserInfo;
-        },
-
+        mounted(){   //页面初始化方法
+        this.getUserInfo();
+    },
         methods: {
             getUserInfo() {
 
@@ -57,35 +54,13 @@
 
                 }).then(res => {
                     if (res != null && res.status === 200) {
+                        this.showCard = true;
                         this.userResponse = res.data.data;
-                        // this.$axios.get(api.userUrl, {
-                        //     headers: {
-                        //         'Authorization': localStorage.getItem('token')
-                        //     }
-                        // }).then(res => {
-                        //     let obj = res.data;
-                        //     if (obj.role.filter(r => r === 'ROLE_ADMIN').length === 0) {
-                        //         this.$message({
-                        //             type: 'warning',
-                        //             message: '权限不够'
-                        //         })
-                        //     } else {
-                        //         localStorage.setItem('user', JSON.stringify(res.data));
-                        //         this.$router.replace('/');
-                        //     }
-                        // });
 
                     } else {
                         console.log(res);
                     }
-                    alert(res.data);
-                    alert(res.data.msg);
                 });
-            },
-            register(){
-
-                this.$router.push( '/register')
-
             }
         }
     }

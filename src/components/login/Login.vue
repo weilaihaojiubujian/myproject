@@ -9,7 +9,7 @@
             <!--<button class="login_btn el-button el-button&#45;&#45;primary is-round" type="primary" round>登录</button>-->
             <el-button class="login_btn" @click.native="login" type="primary" round :loading="isBtnLoading">登录</el-button>
             <div style="margin-top: 10px">
-                <span style="color: #000099;" @click="register">注册用户</span><span style="float: right;color: #A9A9AB">忘记密码？</span>
+                <span style="color: #000099;" @click="register">注册用户</span><span style="float: right;color: #A9A9AB"@click="forgetPassword">忘记密码？</span>
             </div>
         </div>
     </div>
@@ -63,7 +63,12 @@
                     withCredentials: true
                 }).then(res => {
                     if (res != null && res.status === 200) {
-                        localStorage.setItem("openid",res.data.data);
+                        if (res.data.success) {
+                            localStorage.setItem("openid",res.data.data);
+                            this.$router.push( '/userInfo');
+                        } else {
+                            console.log(res);
+                        }
                         // this.$axios.get(api.userUrl, {
                         //     headers: {
                         //         'Authorization': localStorage.getItem('token')
@@ -80,7 +85,6 @@
                         //         this.$router.replace('/');
                         //     }
                         // });
-                        this.$router.push( '/userInfo')
                     } else {
                         console.log(res);
                     }
@@ -90,6 +94,11 @@
             register(){
 
                 this.$router.push( '/register')
+
+            },
+            forgetPassword(){
+
+                this.$router.push( '/forgetPassword')
 
             }
         }
