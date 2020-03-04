@@ -15,7 +15,7 @@
             <span class="tiShi">{{ tiShi.tishi3}}</span><br>
             <label>文件名</label><input type="text" v-model="file.fileName" ><br>
             <span class="tiShi">{{ tiShi.tishi5}}</span><br>
-            <label>文件名</label><input type="number" v-model="project.price"  @keyup="handleInput"><br>
+            <label>价格</label><input type="number" v-model="project.price"  @keyup="handleInput"><br>
             <span class="tiShi">{{ tiShi.tishi4}}</span><br>
             <div class="checkbox"><input type="checkbox" style="margin-right: 10px;" v-model="checkbox">阅读并接受<a href="" >《人力资源项目协议》</a></div>
             <button id="btd" @click="createProject" :disabled="btn">创建项目</button>
