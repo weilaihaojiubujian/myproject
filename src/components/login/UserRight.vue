@@ -10,12 +10,12 @@
                 <section class="chart-container">
                     <el-row>
                         <el-col :span="3">
-                            <el-card>
-                                ![](../../static/i/logo.png)
+                            <el-card >
+                                <a href="../../assets/logo.png"></a>
                                 <div style="padding: 14px;">
                                     <span>公司LOGO</span>
                                     <div class="bottom clearfix">
-                                        <time class="time">{{currentDate | formatDate(1)}}</time>
+                                        <time class="time">{{currentDate }}</time>
                                     </div>
                                 </div>
                             </el-card>

@@ -5,6 +5,8 @@
         </div>
         <hr>
         <button @click="getUserInfo">点击获取数据</button>
+        <button @click="changepasswd">修改密码</button>
+        <button @click="createProject">创建项目</button>
     </div>
 </template>
 
@@ -12,6 +14,7 @@
 <script>
     import api from '../../api.js';
     import Cookies from 'js-cookie'
+    import createProject from "@/components/login/CreateProject";
     export default {
         data() {
             return {
@@ -61,6 +64,12 @@
                         console.log(res);
                     }
                 });
+            },
+             changepasswd() {
+                this.$router.push( '/changePassword')
+            },
+            createProject() {
+                this.$router.push( '/createProject')
             }
         }
     }

@@ -65,6 +65,7 @@
                     if (res != null && res.status === 200) {
                         if (res.data.success) {
                             localStorage.setItem("openid",res.data.data);
+                            localStorage.setItem("userInfo",this.ruleForm);
                             this.$router.push( '/userInfo');
                         } else {
                             console.log(res);
