@@ -49,7 +49,8 @@ export default new Router({
             name: 'Home',
             component: Home,
             children: [
-                { path: '/projectList', component: projectList, name: 'projectList' }
+                { path: '/projectList', component: projectList, name: 'projectList' },
+                { path: '/createProject', component: createProject, name: 'createProject' },
 
             ]
         }
@@ -65,12 +66,13 @@ export default new Router({
             path: '/changePassword',
             name: 'changePassword',
             component: changePassword
-        },
-        {
-            path: '/createProject',
-            name: 'createProject',
-            component: createProject
         }
+        // ,
+        // {
+        //     path: '/createProject',
+        //     name: 'createProject',
+        //     component: createProject
+        // }
         // ,
         // {
         //     path: '/projectList',

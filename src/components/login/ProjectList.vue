@@ -1,5 +1,5 @@
 <template>
-    <div >
+    <div style="height:500px;overflow:scroll;">
         <Table border ref="selection"  @on-selection-change="handleSelectRow()" style="margin-top: 20px;" :columns="columns4" :data="tdata2"></Table>
         <Page :total="dataCount" :page-size="pageSize" show-total @on-change="changepage"></Page>
         <!--编辑界面-->
@@ -71,7 +71,7 @@
                          {type: 'selection',width: 60,align: 'center'},  //这里是复选框
                          {title: '项目id',width:170,key: 'id'},
                          {title: '项目名',width:100,key: 'name'},
-                         {title: '具体描述',width:300,key:'description'},
+                         {title: '具体描述',width:200,key:'description'},
                          {title: '创建者',width:150,key:'userId'},
                          {title: '价格',width:150,key:'price'},
                          // //  重点说明一下这里状态，我从后台获取 得到的是  3 2 1 这些数字，但是如何根据不同的数据显示不同的文字，
