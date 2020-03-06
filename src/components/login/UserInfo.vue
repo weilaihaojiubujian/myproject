@@ -7,6 +7,7 @@
         <button @click="getUserInfo">点击获取数据</button>
         <button @click="changepasswd">修改密码</button>
         <button @click="createProject">创建项目</button>
+        <button @click="projectList">项目列表</button>
     </div>
 </template>
 
@@ -70,7 +71,10 @@
             },
             createProject() {
                 this.$router.push( '/createProject')
-            }
+            },
+    projectList() {
+        this.$router.push( '/projectList')
+    }
         }
     }
 </script>

@@ -8,11 +8,10 @@ import Main from '@/components/login/Main'
 import userInfo from '@/components/login/UserInfo'
 import forgetPassword from '@/components/login/ForgetPassword'
 import Header from '@/components/login/Header'
-import UserLeft from '@/components/login/UserLeft'
-import UserRight from '@/components/login/UserRight'
 import Home from '@/components/login/Home'
 import changePassword from '@/components/login/ChangePassword'
 import createProject from '@/components/login/CreateProject'
+import projectList from '@/components/login/ProjectList'
 // import Login from '@/components/page/Login'
 Vue.use(Router)
 
@@ -46,9 +45,13 @@ export default new Router({
         }
         ,
         {
-            path: '/home',
+            path: '/',
             name: 'Home',
-            component: Home
+            component: Home,
+            children: [
+                { path: '/projectList', component: projectList, name: 'projectList' }
+
+            ]
         }
         ,
         {
@@ -57,17 +60,7 @@ export default new Router({
             component: Header
         }
         ,
-        {
-            path: '/userLeft',
-            name: 'UserLeft',
-            component: UserLeft
-        }
-        ,
-        {
-            path: '/userRight',
-            name: 'UserRight',
-            component: UserRight
-        },
+
         {
             path: '/changePassword',
             name: 'changePassword',
@@ -78,5 +71,11 @@ export default new Router({
             name: 'createProject',
             component: createProject
         }
+        // ,
+        // {
+        //     path: '/projectList',
+        //     name: 'projectList',
+        //     component: projectList
+        // }
     ]
 })

@@ -9,8 +9,15 @@ import 'element-ui/lib/theme-chalk/index.css'
 import './style/theme.css'
 import './style/character.css'
 
+import './style/vars.scss';
+import VueRouter from 'vue-router'
+import iView from 'iview';
+import 'iview/dist/styles/iview.css';
+
+Vue.use(iView);
 // 注册element-ui
 Vue.use(ElementUI)
+Vue.use(VueRouter)
 Vue.config.productionTip = false
 
 // const axios = Axios.create({
