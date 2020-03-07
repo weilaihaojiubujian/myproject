@@ -13,7 +13,7 @@
             <span class="tiShi">{{ tiShi.tishi2 }}</span><br>
             <label>文件</label><input type="file" ref="clearFile" @change="getFile($event)" multiple="multiplt" class="add-file-right-input" style="margin-left:70px;" ><br>
             <span class="tiShi">{{ tiShi.tishi3}}</span><br>
-            <label>文件名</label><input type="text" v-model="file.fileName" ><br>
+            <label>文件名</label><input type="text" v-model="project.fileName" ><br>
             <span class="tiShi">{{ tiShi.tishi5}}</span><br>
             <label>价格</label><input type="number" v-model="project.price"  @keyup="handleInput"><br>
             <span class="tiShi">{{ tiShi.tishi4}}</span><br>
@@ -44,13 +44,11 @@
                     name:'',
                     description:'',
                     price:'',
-                    url:''
-                },
-                file:{
+                    url:'',
                     multipartFile:'',
                     fileName:''
-
                 },
+
                 files:'',
                 checkbox:true,
                 userArr:[]
@@ -62,8 +60,8 @@
                 // var file = event.target.files;
                 // console.log(file);
                 // this.project.multipartFile=file;
-                this.file.multipartFile = event.target.files[0];
-                console.log(this.file.multipartFile);
+                this.project.multipartFile = event.target.files[0];
+                console.log(this.project.multipartFile);
                 this.files= event.target.files;
 
             },
@@ -85,8 +83,9 @@
                 box.style.display='block';
 
                 var formData = new FormData(this.files);
-                formData.append("multipartFile", this.file.multipartFile);
-                formData.append("fileName", this.file.fileName);
+                formData.append("multipartFile", this.project.multipartFile);
+                formData.append("fileName", this.project.fileName);
+                formData.append("name", this.project.name);
                 // formData.append("price", this.project.price);
                 // formData.append("name", this.project.name);
                 // formData.append("description", this.project.description);
@@ -99,7 +98,7 @@
                 // postData.append("fileName", this.project.fileName);
                 // postData.append("price", this.project.price);
 
-                this.$axios.post(api.fileUpload, formData, {
+                this.$axios.post(api.uploadFile, formData, {
                     headers: {
                         'Access-Control-Allow-Origin': '*'
                         // 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
@@ -132,7 +131,6 @@
                     } else {
                         console.log(res);
                     }
-                    alert(res.data.msg);
                 });
 
             },

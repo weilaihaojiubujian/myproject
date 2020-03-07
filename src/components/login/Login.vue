@@ -89,7 +89,6 @@
                     } else {
                         console.log(res);
                     }
-                    alert(res.data.msg);
                 });
             },
             register(){

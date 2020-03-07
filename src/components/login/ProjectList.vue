@@ -1,5 +1,18 @@
 <template>
     <div style="height:500px;overflow:scroll;">
+        <!--工具条-->
+        <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
+            <el-form :inline="true" >
+                <el-form-item>
+<!--                    <el-button type="primary" v-on:click="getUsers">查询</el-button>-->
+                    <el-button type="primary" >查询</el-button>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" @click="handleAdd">新增</el-button>
+                </el-form-item>
+            </el-form>
+        </el-col>
+
         <Table border ref="selection"  @on-selection-change="handleSelectRow()" style="margin-top: 20px;" :columns="columns4" :data="tdata2"></Table>
         <Page :total="dataCount" :page-size="pageSize" show-total @on-change="changepage"></Page>
         <!--编辑界面-->
@@ -29,6 +42,32 @@
                 <el-button type="primary" @click="editSubmit" :loading="editLoading">提交</el-button>
             </div>
         </el-dialog>
+
+        <!--新增界面-->
+        <el-dialog title="新增" v-model="addFormVisible" :visible.sync="addFormVisible">
+            <el-form :model="project" label-width="80px"  ref="project">
+                <el-form-item label="项目名" prop="name">
+                    <el-input v-model="project.name" auto-complete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="项目具体描述">
+                    <el-input  type="textarea" v-model="project.description" auto-complete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="价格">
+                    <el-input-number v-model="project.price" ></el-input-number>
+                </el-form-item>
+                <el-form-item label="文件">
+                    <input type="file" ref="clearFile" @change="getFile($event)" multiple="multiplt" class="add-file-right-input"  ><br>
+<!--                    <el-input type="file" ref="clearFile" @change="getFile($event)" multiple="multiplt" class="add-file-right-input"  ></el-input>-->
+                </el-form-item>
+                <el-form-item label="文件名">
+                    <el-input type="textarea" v-model="project.fileName"></el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="addFormVisible = false">取消</el-button>
+                <el-button type="primary" @click="addSubmit" :loading="addLoading">提交</el-button>
+            </div>
+        </el-dialog>
     </div>
 </template>
 <script>
@@ -55,6 +94,26 @@
                          birth: '',
                          addr: ''
                      },
+                     addFormVisible: false,//新增界面是否显示
+                     addLoading: false,
+
+                     //新增界面数据
+                     addForm: {
+                         name: '',
+                         sex: -1,
+                         age: 0,
+                         birth: '',
+                         addr: ''
+                     },
+                     project:{
+                         name:'',
+                         description:'',
+                         price:'',
+                         url:'',
+                         multipartFile:'',
+                         fileName:''
+                     },
+
                      projectListRequest: {
                          pageNo: '',
                          pageSize: ''
@@ -118,6 +177,16 @@
                  }
              },
         methods: {
+            getFile(event){
+                // var file = event.target.files;
+                // console.log(file);
+                // this.project.multipartFile=file;
+                // this.file.multipartFile = event.target.file;
+                this.project.multipartFile = event.target.files[0];
+                console.log(this.project.multipartFile);
+
+
+            },
             // 获取历史记录信息
             handleListApproveHistory() {
 
@@ -165,6 +234,21 @@
                 this.editFormVisible = true;
                 this.editForm = Object.assign({}, row);
             },
+            //显示新增界面
+            handleAdd () {
+                this.addFormVisible = true;
+                this.project= {
+                    name:'',
+                        description:'',
+                        price:'',
+                        url:''
+                };
+                this.file= {
+                    multipartFile:'',
+                        fileName:''
+
+                };
+            },
         //编辑
         editSubmit () {
             this.$refs.editForm.validate((valid) => {
@@ -183,12 +267,68 @@
                             });
                             this.$refs['editForm'].resetFields();
                             this.editFormVisible = false;
-                            this.getUsers();
                         });
                     });
                 }
             });
         },
+
+            //新增
+            addSubmit() {
+                this.$refs.project.validate((valid) => {
+                    if (valid) {
+                        this.$confirm('确认提交吗？', '提示', {}).then(() => {
+                            this.addLoading = true;
+                            var formData = new FormData();
+                            formData.append("multipartFile", this.project.multipartFile);
+                            formData.append("fileName", this.project.fileName);
+                            formData.append("name", this.project.name);
+                            this.$axios.post(api.uploadFile, formData, {
+                                headers: {
+                                    'Access-Control-Allow-Origin': '*'
+                                    // 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                                },
+                                withCredentials: true,
+                                params:{
+                                    openid: localStorage.getItem("openid")
+                                }
+                            }).then(res => {
+                                if (res != null && res.status === 200) {
+
+                                    this.project.url=res.data.data;
+                                    this.$axios.post(api.createProject, JSON.stringify(this.project), {
+                                        headers: {
+                                            'Access-Control-Allow-Origin': '*',
+                                            'Content-Type': 'application/json; charset=utf-8'
+                                        },
+                                        withCredentials: true,
+                                        params:{
+                                            openid: localStorage.getItem("openid")
+                                        }
+                                    }).then(res => {
+                                        if (res != null && res.status === 200) {
+                                            this.addLoading = false;
+                                            //NProgress.done();
+                                            this.$message({
+                                                message: '提交成功',
+                                                type: 'success'
+                                            });
+                                            this.$refs['project'].resetFields();
+                                            this.addFormVisible = false;
+                                        } else {
+                                            console.log(res);
+                                        }
+                                        alert(res.data.msg);
+                                    });
+                                } else {
+                                    console.log(res);
+                                }
+                                alert(res.data.msg);
+                            });
+                        });
+                    }
+                });
+            },
             handleSelectRow(){
                 //这里是获取点击的这一行的数据，
                 const a = this.$refs.selection.getSelection()

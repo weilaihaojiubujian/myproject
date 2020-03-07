@@ -10,6 +10,7 @@ const changepasswd = root + 'admin/user/changepasswd';
 const loginout = root + 'admin/user/loginout';
 const createProject = root1 + 'admin/project/createProject';
 const fileUpload = root1 + 'file/uploadFiles';
+const uploadFile = root1 + 'file/uploadFile';
 const projectList = root1 + 'admin/project/projectList';
 const bookUrl = root + 'api/books';
 export default {
@@ -24,6 +25,7 @@ export default {
     createProject,
     fileUpload,
     projectList,
+    uploadFile,
     bookUrl,
     root,
     root1
