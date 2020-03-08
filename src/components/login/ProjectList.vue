@@ -17,24 +17,22 @@
         <Page :total="dataCount" :page-size="pageSize" show-total @on-change="changepage"></Page>
         <!--编辑界面-->
         <el-dialog title="编辑" v-model="editFormVisible" :visible.sync="editFormVisible" top="0px">
-            <el-form :model="editForm" label-width="80px" :rules="editFormRules" ref="editForm">
-                <el-form-item label="姓名" prop="name">
-                    <el-input v-model="editForm.name" auto-complete="off"></el-input>
+            <el-form :model="project" label-width="80px" ref="project">
+                <el-form-item label="项目名" prop="name">
+                    <el-input v-model="project.name" auto-complete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="性别">
-                    <el-radio-group v-model="editForm.sex">
-                        <el-radio class="radio" :label="1">男</el-radio>
-                        <el-radio class="radio" :label="0">女</el-radio>
-                    </el-radio-group>
+                <el-form-item label="项目具体描述">
+                    <el-input  type="textarea" v-model="project.description" auto-complete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="年龄">
-                    <el-input-number v-model="editForm.age" :min="0" :max="200"></el-input-number>
+                <el-form-item label="价格">
+                    <el-input-number v-model="project.price" ></el-input-number>
                 </el-form-item>
-                <el-form-item label="生日">
-                    <el-date-picker type="date" placeholder="选择日期" v-model="editForm.birth"></el-date-picker>
+                <el-form-item label="文件">
+                    <input type="file" ref="clearFile" @change="getFile($event)" multiple="multiplt" class="add-file-right-input"  ><br>
+                    <!--                    <el-input type="file" ref="clearFile" @change="getFile($event)" multiple="multiplt" class="add-file-right-input"  ></el-input>-->
                 </el-form-item>
-                <el-form-item label="地址">
-                    <el-input type="textarea" v-model="editForm.addr"></el-input>
+                <el-form-item label="文件名">
+                    <el-input type="textarea" v-model="project.fileName"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -80,11 +78,6 @@
                  return{
                      editFormVisible: false,//编辑界面是否显示
                      editLoading: false,
-                     editFormRules: {
-                         name: [
-                             { required: true, message: '请输入姓名', trigger: 'blur' }
-                         ]
-                     },
                      //编辑界面数据
                      editForm: {
                          id: 0,
@@ -106,6 +99,7 @@
                          addr: ''
                      },
                      project:{
+                         id:'',
                          name:'',
                          description:'',
                          price:'',
@@ -166,10 +160,27 @@
                                  //  里面传 params.index   是当前的下标
                                  on: {
                                      click: () => {
-                                         this.handleEdit(params.index, params.row);
+                                         this.handleEdit(params,params.index, params.row);
                              }
                              }
-                             }, '编辑')
+                             }, '编辑'),
+                              h('Button', {
+                                     props: {
+                                         type: 'primary',
+                                         size: 'small'
+                                     },
+                                     style: {
+                                         marginRight: '5px'
+                                     },
+                                     //  这里就是给表格里面添加一个操作，删除编辑添加啥的，就是在这里了
+                                     //  this.Editadd(params.index)      这个是自己取得一个定义的一个方法，我的是编辑，弹出一个框进行编辑
+                                     //  里面传 params.index   是当前的下标
+                                     on: {
+                                         click: () => {
+                                             this.projectInfo(params,params.index, params.row);
+                                         }
+                                     }
+                                 }, '项目详情')
                          ]);
                          }},
                      ],
@@ -228,11 +239,19 @@
                 var _end = index * this.pageSize;
                 this.tdata2 = this.ajaxHistoryData.slice(_start, _end);
             },
+            //跳到项目详情页
+            projectInfo(params,index, row) {
+                this.project.id=params.row.id;
+                console.log(this.project.id);
+                this.$router.push({ name:'projectInfo', params:{id:this.project.id}});
+            },
             //显示编辑界面
-            handleEdit (index, row) {
-                alert(index);
+            handleEdit (params,index, row) {
+                this.project.id=params.row.id;
+                console.log(this.project.id);
                 this.editFormVisible = true;
-                this.editForm = Object.assign({}, row);
+                this.project = Object.assign({}, row);
+                console.log(this.project);
             },
             //显示新增界面
             handleAdd () {
@@ -251,22 +270,56 @@
             },
         //编辑
         editSubmit () {
-            this.$refs.editForm.validate((valid) => {
+            this.$refs.project.validate((valid) => {
                 if (valid) {
                     this.$confirm('确认提交吗？', '提示', {}).then(() => {
                         this.editLoading = true;
-                        //NProgress.start();
-                        let para = Object.assign({}, this.editForm);
-                        para.birth = (!para.birth || para.birth == '') ? '' : util.formatDate.format(new Date(para.birth), 'yyyy-MM-dd');
-                        editUser(para).then((res) => {
-                            this.editLoading = false;
-                            //NProgress.done();
-                            this.$message({
-                                message: '提交成功',
-                                type: 'success'
-                            });
-                            this.$refs['editForm'].resetFields();
-                            this.editFormVisible = false;
+                        var formData = new FormData();
+                        formData.append("multipartFile", this.project.multipartFile);
+                        formData.append("fileName", this.project.fileName);
+                        formData.append("name", this.project.name);
+                        this.$axios.post(api.uploadFile, formData, {
+                            headers: {
+                                'Access-Control-Allow-Origin': '*'
+                                // 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                            },
+                            withCredentials: true,
+                            params:{
+                                openid: localStorage.getItem("openid")
+                            }
+                        }).then(res => {
+                            if (res != null && res.status === 200) {
+
+                                this.project.url=res.data.data;
+                                this.$axios.post(api.editProject, JSON.stringify(this.project), {
+                                    headers: {
+                                        'Access-Control-Allow-Origin': '*',
+                                        'Content-Type': 'application/json; charset=utf-8'
+                                    },
+                                    withCredentials: true,
+                                    params:{
+                                        openid: localStorage.getItem("openid")
+                                    }
+                                }).then(res => {
+                                    if (res != null && res.status === 200) {
+                                        this.editLoading = false;
+                                        //NProgress.done();
+                                        this.$message({
+                                            message: '提交成功',
+                                            type: 'success'
+                                        });
+                                        this.$refs['project'].resetFields();
+                                        this.editFormVisible = false;
+
+                                    } else {
+                                        console.log(res);
+                                    }
+                                    alert(res.data.msg);
+                                });
+                            } else {
+                                console.log(res);
+                            }
+                            alert(res.data.msg);
                         });
                     });
                 }
@@ -332,6 +385,7 @@
             handleSelectRow(){
                 //这里是获取点击的这一行的数据，
                 const a = this.$refs.selection.getSelection()
+                console.log(a);
                 // 不明白是什么自己打印一下
                 //下面 的代码就是根据这一条数据，for循环是为了获取它的id  （这里根据自己的要求来定）
                 // 涉及到多条数据的查询，后台给我的要求每个id 之间是用 ' , ' 隔开，所以我直接把当前的id 和 之前的获取到的id 一并放到一起
@@ -347,6 +401,7 @@
                     }
                 }
                 this.daifaid = b
+                console.log(this.daifaid);
             }
 
         },

@@ -6,6 +6,7 @@ import Login from '@/components/login/Login'
 import register from '@/components/login/register'
 import Main from '@/components/login/Main'
 import userInfo from '@/components/login/UserInfo'
+import projectInfo from '@/components/login/ProjectInfo'
 import forgetPassword from '@/components/login/ForgetPassword'
 import Header from '@/components/login/Header'
 import Home from '@/components/login/Home'
@@ -37,6 +38,12 @@ export default new Router({
             name: 'userInfo',
             changeOrigin: true,//是否允许跨越
             component: userInfo
+        },
+        {
+            path: '/projectInfo/:id',
+            name: 'projectInfo',
+            changeOrigin: true,//是否允许跨越
+            component: projectInfo
         },
         {
             path: '/forgetPassword',

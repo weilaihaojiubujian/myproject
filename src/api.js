@@ -9,6 +9,8 @@ const resetPassword = root + 'admin/user/resetPassword';
 const changepasswd = root + 'admin/user/changepasswd';
 const loginout = root + 'admin/user/loginout';
 const createProject = root1 + 'admin/project/createProject';
+const editProject = root1 + 'admin/project/editProject';
+const projectInfo = root1 + 'admin/project/projectInfo';
 const fileUpload = root1 + 'file/uploadFiles';
 const uploadFile = root1 + 'file/uploadFile';
 const projectList = root1 + 'admin/project/projectList';
@@ -23,6 +25,8 @@ export default {
     changepasswd,
     loginout,
     createProject,
+    editProject,
+    projectInfo,
     fileUpload,
     projectList,
     uploadFile,
