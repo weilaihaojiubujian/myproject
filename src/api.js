@@ -11,6 +11,7 @@ const loginout = root + 'admin/user/loginout';
 const createProject = root1 + 'admin/project/createProject';
 const editProject = root1 + 'admin/project/editProject';
 const projectInfo = root1 + 'admin/project/projectInfo';
+const editUser = root1 + 'admin/user/editUser';
 const fileUpload = root1 + 'file/uploadFiles';
 const uploadFile = root1 + 'file/uploadFile';
 const projectList = root1 + 'admin/project/projectList';
@@ -29,6 +30,7 @@ export default {
     projectInfo,
     fileUpload,
     projectList,
+    editUser,
     uploadFile,
     bookUrl,
     root,
