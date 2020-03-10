@@ -13,6 +13,8 @@ import Home from '@/components/login/Home'
 import changePassword from '@/components/login/ChangePassword'
 import createProject from '@/components/login/CreateProject'
 import projectList from '@/components/login/ProjectList'
+import taskList from '@/components/login/TaskList'
+import taskInfo from '@/components/login/TaskInfo'
 // import Login from '@/components/page/Login'
 Vue.use(Router)
 
@@ -44,6 +46,18 @@ export default new Router({
             name: 'projectInfo',
             changeOrigin: true,//是否允许跨越
             component: projectInfo
+        },
+        {
+            path: '/taskInfo/:id',
+            name: 'taskInfo',
+            changeOrigin: true,//是否允许跨越
+            component: taskInfo
+        },
+        {
+            path: '/taskList/:id',
+            name: 'taskList',
+            changeOrigin: true,//是否允许跨越
+            component: taskList
         },
         {
             path: '/forgetPassword',

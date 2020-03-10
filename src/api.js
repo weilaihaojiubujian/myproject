@@ -9,13 +9,16 @@ const resetPassword = root + 'admin/user/resetPassword';
 const changepasswd = root + 'admin/user/changepasswd';
 const loginout = root + 'admin/user/loginout';
 const createProject = root1 + 'admin/project/createProject';
+const createTask = root1 + 'admin/task/createTask';
 const editProject = root1 + 'admin/project/editProject';
 const projectInfo = root1 + 'admin/project/projectInfo';
 const editUser = root1 + 'admin/user/editUser';
 const fileUpload = root1 + 'file/uploadFiles';
 const uploadFile = root1 + 'file/uploadFile';
 const projectList = root1 + 'admin/project/projectList';
-const bookUrl = root + 'api/books';
+const taskList = root1 + 'admin/task/taskList';
+const editTask = root1 + 'admin/task/editTask';
+const taskInfo = root1 + 'admin/task/taskInfo';
 export default {
     login,
     register,
@@ -32,7 +35,10 @@ export default {
     projectList,
     editUser,
     uploadFile,
-    bookUrl,
+    taskList,
+    createTask,
+    editTask,
+    taskInfo,
     root,
     root1
 };
