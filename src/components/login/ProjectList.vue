@@ -78,26 +78,8 @@
                  return{
                      editFormVisible: false,//编辑界面是否显示
                      editLoading: false,
-                     //编辑界面数据
-                     editForm: {
-                         id: 0,
-                         name: '',
-                         sex: -1,
-                         age: 0,
-                         birth: '',
-                         addr: ''
-                     },
                      addFormVisible: false,//新增界面是否显示
                      addLoading: false,
-
-                     //新增界面数据
-                     addForm: {
-                         name: '',
-                         sex: -1,
-                         age: 0,
-                         birth: '',
-                         addr: ''
-                     },
                      project:{
                          id:'',
                          name:'',

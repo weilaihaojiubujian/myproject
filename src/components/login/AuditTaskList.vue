@@ -13,29 +13,26 @@
         <Table border ref="selection"  @on-selection-change="handleSelectRow()" style="margin-top: 20px;" :columns="columns4" :data="tdata2"></Table>
         <Page :total="dataCount" :page-size="pageSize" show-total @on-change="changepage"></Page>
 
-
     </div>
 </template>
 <script>
     import api from "@/api";
-
+    import utils from '@/components/utils/utils'
 
     export default {
 
         data() {
             return{
-                project:{
+
+                task:{
                     id:'',
                     name:'',
                     description:'',
-                    price:'',
-                    url:'',
-                    multipartFile:'',
-                    fileName:'',
-                    status:''
+                    estimatedTime:'',
+                    projectId:''
                 },
-
-                projectListRequest: {
+                taskListRequest: {
+                    projectId: '',
                     pageNo: '',
                     pageSize: ''
                 },
@@ -49,11 +46,10 @@
                 columns4: [
 // 重点说明：key 里面的值，是和后台的字段相对应的
                     {type: 'selection',width: 60,align: 'center'},  //这里是复选框
-                    {title: '项目id',width:170,key: 'id'},
-                    {title: '项目名',width:100,key: 'name'},
+                    {title: '任务id',width:170,key: 'id'},
+                    {title: '任务名',width:100,key: 'name'},
                     {title: '具体描述',width:200,key:'description'},
-                    {title: '创建者',width:150,key:'userId'},
-                    {title: '价格',width:150,key:'price'},
+                    {title: '任务截止时间',width:150,key:'estimatedTime'},
                     // //  重点说明一下这里状态，我从后台获取 得到的是  3 2 1 这些数字，但是如何根据不同的数据显示不同的文字，
                     // //  需要用到render 这个函数
                     // {title: '状态',key:'taOrdertype',width:100,
@@ -121,10 +117,10 @@
                                     //  里面传 params.index   是当前的下标
                                     on: {
                                         click: () => {
-                                            this.projectInfo(params,params.index, params.row);
+                                            this.taskInfo(params,params.index, params.row);
                                         }
                                     }
-                                }, '项目详情')
+                                }, '任务详情')
                             ]);
                         }},
                 ],
@@ -132,10 +128,10 @@
             }
         },
         methods: {
-            // 获取历史记录信息
-            getAuditProductList() {
 
-                this.$axios.post(api.auditProductList, JSON.stringify(this.projectListRequest), {
+            // 获取历史记录信息
+            getAuditTaskList() {
+                this.$axios.post(api.auditTaskList, JSON.stringify(this.taskListRequest), {
                     headers: {
                         'Access-Control-Allow-Origin': '*',
                         'Content-Type': 'application/json; charset=utf-8'
@@ -173,18 +169,18 @@
                 var _end = index * this.pageSize;
                 this.tdata2 = this.ajaxHistoryData.slice(_start, _end);
             },
-            //跳到项目详情页
-            projectInfo(params,index, row) {
-                this.project.id=params.row.id;
-                console.log(this.project.id);
-                this.$router.push({ name:'projectInfo', params:{id:this.project.id}});
+            //跳到任务详情页
+            taskInfo(params,index, row) {
+                this.task.id=params.row.id;
+                console.log(this.task.id);
+                this.$router.push({ name:'taskInfo', params:{id:this.task.id}});
             },
             //审核失败
-            auditFail(params, index, row) {
-                this.project.id = params.row.id;
+            auditFail (params,index, row) {
+                this.task.id=params.row.id;
                 this.$confirm('确认提交吗？', '提示', {}).then(() => {
-                    this.project.status = 2;
-                    this.$axios.post(api.auditProduct, JSON.stringify(this.project), {
+                    this.task.status = 2;
+                    this.$axios.post(api.auditTask, JSON.stringify(this.task), {
                         headers: {
                             'Access-Control-Allow-Origin': '*',
                             'Content-Type': 'application/json; charset=utf-8'
@@ -201,21 +197,21 @@
                                     message: '提交成功',
                                     type: 'success'
                                 });
-                                this.getAuditProductList();
+                                this.getAuditTaskList();
                             } else {
                                 console.log(res);
                             }
                             alert(res.data.msg);
                         }
-                        });
+                    });
                 });
             },
             //审核成功
-            auditSuccess(params, index, row) {
-                this.project.id = params.row.id;
+            auditSuccess (params,index, row) {
+                this.task.id=params.row.id;
                 this.$confirm('确认提交吗？', '提示', {}).then(() => {
-                    this.project.status = 1;
-                    this.$axios.post(api.auditProduct, JSON.stringify(this.project), {
+                    this.task.status = 1;
+                    this.$axios.post(api.auditTask, JSON.stringify(this.task), {
                         headers: {
                             'Access-Control-Allow-Origin': '*',
                             'Content-Type': 'application/json; charset=utf-8'
@@ -232,7 +228,7 @@
                                     message: '提交成功',
                                     type: 'success'
                                 });
-                                this.getAuditProductList();
+                                this.getAuditTaskList();
                             } else {
                                 console.log(res);
                             }
@@ -266,7 +262,7 @@
 
         },
         created() {
-            this.getAuditProductList();
+            this.getAuditTaskList();
         }
 
 

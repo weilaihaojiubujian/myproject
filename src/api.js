@@ -19,6 +19,11 @@ const projectList = root1 + 'admin/project/projectList';
 const taskList = root1 + 'admin/task/taskList';
 const editTask = root1 + 'admin/task/editTask';
 const taskInfo = root1 + 'admin/task/taskInfo';
+const auditProductList = root1 + 'admin/auditProductList';
+const auditProduct = root1 + 'admin/auditProduct';
+const auditTaskList = root1 + 'admin/auditTaskList';
+const auditTask = root1 + 'admin/auditTask';
+const completeTask = root1 + 'admin/task/completeTask';
 export default {
     login,
     register,
@@ -39,6 +44,11 @@ export default {
     createTask,
     editTask,
     taskInfo,
+    auditProductList,
+    auditProduct,
+    auditTask,
+    auditTaskList,
+    completeTask,
     root,
     root1
 };

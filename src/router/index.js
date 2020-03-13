@@ -15,6 +15,8 @@ import createProject from '@/components/login/CreateProject'
 import projectList from '@/components/login/ProjectList'
 import taskList from '@/components/login/TaskList'
 import taskInfo from '@/components/login/TaskInfo'
+import auditProductList from '@/components/login/AuditProductList'
+import auditTaskList from '@/components/login/AuditTaskList'
 // import Login from '@/components/page/Login'
 Vue.use(Router)
 
@@ -40,6 +42,18 @@ export default new Router({
             name: 'userInfo',
             changeOrigin: true,//是否允许跨越
             component: userInfo
+        },
+        {
+            path: '/auditProductList',
+            name: 'auditProductList',
+            changeOrigin: true,//是否允许跨越
+            component: auditProductList
+        },
+        {
+            path: '/auditTaskList',
+            name: 'auditTaskList',
+            changeOrigin: true,//是否允许跨越
+            component: auditTaskList
         },
         {
             path: '/projectInfo/:id',

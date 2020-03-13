@@ -101,6 +101,8 @@
         <button @click="createProject">创建项目</button>
         <button @click="projectList">项目列表</button>
         <button @click="handleEdit">编辑用户信息</button>
+        <button @click="auditProductList">审核项目列表</button>
+        <button @click="auditTaskList">审核任务列表</button>
     </div>
 </template>
 
@@ -358,6 +360,12 @@
             },
             createProject() {
                 this.$router.push( '/createProject')
+            },
+            auditProductList() {
+                this.$router.push( '/auditProductList')
+            },
+            auditTaskList() {
+                this.$router.push( '/auditTaskList')
             },
     projectList() {
         this.$router.push( '/projectList')

@@ -76,27 +76,8 @@
             return{
                 editFormVisible: false,//编辑界面是否显示
                 editLoading: false,
-                //编辑界面数据
-                editForm: {
-                    id: 0,
-                    name: '',
-                    sex: -1,
-                    age: 0,
-                    birth: '',
-                    addr: ''
-                },
                 addFormVisible: false,//新增界面是否显示
                 addLoading: false,
-
-                //新增界面数据
-                addForm: {
-                    name: '',
-                    sex: -1,
-                    age: 0,
-                    birth: '',
-                    addr: ''
-                },
-
                 task:{
                     id:'',
                     name:'',
@@ -176,7 +157,24 @@
                                             this.taskInfo(params,params.index, params.row);
                                         }
                                     }
-                                }, '任务详情')
+                                }, '任务详情'),
+                                h('Button', {
+                                    props: {
+                                        type: 'primary',
+                                        size: 'small'
+                                    },
+                                    style: {
+                                        marginRight: '3px'
+                                    },
+                                    //  这里就是给表格里面添加一个操作，删除编辑添加啥的，就是在这里了
+                                    //  this.Editadd(params.index)      这个是自己取得一个定义的一个方法，我的是编辑，弹出一个框进行编辑
+                                    //  里面传 params.index   是当前的下标
+                                    on: {
+                                        click: () => {
+                                            this.completeTask(params,params.index, params.row);
+                                        }
+                                    }
+                                }, '完成任务')
                             ]);
                         }},
                 ],
@@ -231,6 +229,40 @@
                 this.task.id=params.row.id;
                 console.log(this.task.id);
                 this.$router.push({ name:'taskInfo', params:{id:this.task.id}});
+            },
+            //跳到完成任务
+            completeTask(params,index, row) {
+                this.task.id=params.row.id;
+                this.$confirm('确认提交吗？', '提示', {}).then(() => {
+                this.$axios.post(api.completeTask, JSON.stringify(this.task), {
+                    headers: {
+                        'Access-Control-Allow-Origin': '*',
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    withCredentials: true,
+                    params:{
+                        openid: localStorage.getItem("openid")
+                    }
+                }).then(res => {
+                    if (res != null && res.status === 200) {
+                        if (res != null && res.status === 200) {
+                            this.editLoading = false;
+                            //NProgress.done();
+                            this.$message({
+                                message: '提交成功',
+                                type: 'success'
+                            });
+
+                        } else {
+                            console.log(res);
+                        }
+
+                    } else {
+                        console.log(res);
+                    }
+                    alert(res.data.msg);
+                });
+                });
             },
             //显示编辑界面
             handleEdit (params,index, row) {
