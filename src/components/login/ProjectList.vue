@@ -30,9 +30,10 @@
                 <el-form-item label="文件">
                     <input type="file" ref="clearFile" @change="getFile($event)" multiple="multiplt" class="add-file-right-input"  ><br>
                     <!--                    <el-input type="file" ref="clearFile" @change="getFile($event)" multiple="multiplt" class="add-file-right-input"  ></el-input>-->
+                    <a>只支持doc,docx</a><br />
                 </el-form-item>
                 <el-form-item label="文件名">
-                    <el-input type="textarea" v-model="project.fileName"></el-input>
+                    <el-input type="textarea" v-model="project.fileName" @change="getFileName"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -54,11 +55,12 @@
                     <el-input-number v-model="project.price" ></el-input-number>
                 </el-form-item>
                 <el-form-item label="文件">
-                    <input type="file" ref="clearFile" @change="getFile($event)" multiple="multiplt" class="add-file-right-input"  ><br>
+                    <input type="file" ref="clearFile" @change="getFile($event)" multiple="multiplt" class="add-file-right-input" accept=".doc,.docx" ><br>
 <!--                    <el-input type="file" ref="clearFile" @change="getFile($event)" multiple="multiplt" class="add-file-right-input"  ></el-input>-->
+                    <a>只支持doc,docx</a><br />
                 </el-form-item>
                 <el-form-item label="文件名">
-                    <el-input type="textarea" v-model="project.fileName"></el-input>
+                    <el-input type="textarea" v-model="project.fileName" @change="getFileName"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -194,8 +196,33 @@
                 // this.file.multipartFile = event.target.file;
                 this.project.multipartFile = event.target.files[0];
                 console.log(this.project.multipartFile);
+                // let extName = event.target.files[0].name.substring(event.target.files[0].name.lastIndexOf(".")).toLowerCase();
+                // let AllUpExt = ".rar|.zip|.doc|.docx|.xls|.xlsx|.pdf|";
+                // if(AllUpExt.indexOf(extName + "|") == "-1"){
+                //     this.$message(this, "error", "文件格式不正确!");
+                // }else{
+                //     // 操作
+                // }
 
-
+            },
+            getFileName(){
+                var index= this.project.fileName.lastIndexOf(".");
+               //获取后缀
+                var ext = this.project.fileName.substr(index+1);
+                let AllUpExt = ".doc|.docx|";
+                if(AllUpExt.indexOf(ext+ "|") == "-1"){
+                    // this.$message(this, "error", "文件格式不正确!");
+                    this.$message({
+                        message: '文件格式不正确',
+                        type: 'error'
+                    });
+                }else{
+                    // 操作
+                    this.$message({
+                        message: '文件格式正确',
+                        type: 'success'
+                    });
+                }
             },
             // 获取历史记录信息
             handleListApproveHistory() {
@@ -335,6 +362,13 @@
                         this.$confirm('确认提交吗？', '提示', {}).then(() => {
                             this.addLoading = true;
                             var formData = new FormData();
+
+                            let AllUpExt = ".doc|.docx|";
+                            if(AllUpExt.indexOf(this.project.fileName + "|") == "-1"){
+                                this.$message(this, "error", "文件格式不正确!");
+                            }else{
+                                // 操作
+                            }
                             formData.append("multipartFile", this.project.multipartFile);
                             formData.append("fileName", this.project.fileName);
                             formData.append("name", this.project.name);

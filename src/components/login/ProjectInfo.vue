@@ -2,11 +2,13 @@
     <div class="hello">
         <div v-if="showCard">
             {{project}}
+
         </div>
         <hr>
         <button @click="changepasswd">修改密码</button>
         <button @click="createProject">创建项目</button>
         <button @click="projectList">项目列表</button>
+        <button @click="handleEdit">查看文件</button>
     </div>
 </template>
 
@@ -34,7 +36,14 @@
         },
 
         methods: {
+            handleEdit() {
 
+                    // 不是pdf格式
+                    window.open(
+                        "https://view.officeapps.live.com/op/view.aspx?src=" + this.project.url
+                    );
+
+            },
             changepasswd() {
                 this.$router.push( '/changePassword')
             },
