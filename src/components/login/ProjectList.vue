@@ -108,9 +108,9 @@
                          {type: 'selection',width: 60,align: 'center'},  //这里是复选框
                          {title: '项目id',width:170,key: 'id'},
                          {title: '项目名',width:100,key: 'name'},
-                         {title: '具体描述',width:200,key:'description'},
-                         {title: '创建者',width:150,key:'userId'},
-                         {title: '价格',width:150,key:'price'},
+                         {title: '创建者',width:100,key:'userId'},
+                         {title: '价格',width:100,key:'price'},
+                         {title: '完成进度',width:100,key:'progress'},
                          // //  重点说明一下这里状态，我从后台获取 得到的是  3 2 1 这些数字，但是如何根据不同的数据显示不同的文字，
                          // //  需要用到render 这个函数
                          // {title: '状态',key:'taOrdertype',width:100,

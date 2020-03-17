@@ -102,8 +102,8 @@
                     {type: 'selection',width: 60,align: 'center'},  //这里是复选框
                     {title: '任务id',width:170,key: 'id'},
                     {title: '任务名',width:100,key: 'name'},
-                    {title: '具体描述',width:200,key:'description'},
-                    {title: '任务截止时间',width:150,key:'estimatedTime'},
+                    {title: '任务截止时间',width:100,key:'estimatedTime'},
+                    {title: '任务种类',width:100,key:'taskTypeName'},
                     // //  重点说明一下这里状态，我从后台获取 得到的是  3 2 1 这些数字，但是如何根据不同的数据显示不同的文字，
                     // //  需要用到render 这个函数
                     // {title: '状态',key:'taOrdertype',width:100,
