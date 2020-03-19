@@ -103,6 +103,7 @@
         <button @click="handleEdit">编辑用户信息</button>
         <button @click="auditProductList">审核项目列表</button>
         <button @click="auditTaskList">审核任务列表</button>
+        <button @click="recharge">充值</button>
     </div>
 </template>
 
@@ -366,6 +367,9 @@
             },
             auditTaskList() {
                 this.$router.push( '/auditTaskList')
+            },
+            recharge() {
+                this.$router.push( '/recharge')
             },
     projectList() {
         this.$router.push( '/projectList')

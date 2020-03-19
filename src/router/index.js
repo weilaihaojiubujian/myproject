@@ -17,6 +17,8 @@ import taskList from '@/components/login/TaskList'
 import taskInfo from '@/components/login/TaskInfo'
 import auditProductList from '@/components/login/AuditProductList'
 import auditTaskList from '@/components/login/AuditTaskList'
+import recharge from '@/components/login/Recharge'
+import goAlipay from '@/components/login/GoAlipay'
 // import Login from '@/components/page/Login'
 Vue.use(Router)
 
@@ -48,6 +50,18 @@ export default new Router({
             name: 'auditProductList',
             changeOrigin: true,//是否允许跨越
             component: auditProductList
+        },
+        {
+            path: '/recharge',
+            name: 'recharge',
+            changeOrigin: true,//是否允许跨越
+            component: recharge
+        },
+        {
+            path: '/goAlipay/:htmls',
+            name: 'goAlipay',
+            changeOrigin: true,//是否允许跨越
+            component: goAlipay
         },
         {
             path: '/auditTaskList',
