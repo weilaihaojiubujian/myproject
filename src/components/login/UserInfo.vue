@@ -104,6 +104,7 @@
         <button @click="auditProductList">审核项目列表</button>
         <button @click="auditTaskList">审核任务列表</button>
         <button @click="recharge">充值</button>
+        <button @click="withdraw">提现</button>
     </div>
 </template>
 
@@ -370,6 +371,9 @@
             },
             recharge() {
                 this.$router.push( '/recharge')
+            },
+            withdraw() {
+                this.$router.push( '/withdraw')
             },
     projectList() {
         this.$router.push( '/projectList')

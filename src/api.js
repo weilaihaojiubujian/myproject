@@ -26,6 +26,7 @@ const auditTask = root1 + 'admin/auditTask';
 const completeTask = root1 + 'admin/task/completeTask';
 const recharge = root1 + 'admin/transfer/recharge';
 const goAlipay = root1 + 'alipay/goAlipay';
+const withdraw = root1 + 'admin/transfer/withdraw';
 export default {
     login,
     register,
@@ -52,6 +53,7 @@ export default {
     auditTaskList,
     completeTask,
     recharge,
+    withdraw,
     goAlipay,
     root,
     root1
