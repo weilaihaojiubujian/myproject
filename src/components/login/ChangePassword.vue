@@ -148,7 +148,7 @@
                 //if (this.isReturn) return;
                 var box=document.getElementById("successful");
                 box.style.display='block';
-                this.userInfo.loginId= localStorage.getItem("userInfo").loginId;
+                this.userInfo.loginId= JSON.parse(localStorage.getItem("userInfo")).loginId;
                 this.$axios.post(api.changepasswd, JSON.stringify(this.userInfo), {
                     headers: {
                         'Access-Control-Allow-Origin': '*',

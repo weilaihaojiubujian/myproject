@@ -27,6 +27,8 @@ const completeTask = root1 + 'admin/task/completeTask';
 const recharge = root1 + 'admin/transfer/recharge';
 const goAlipay = root1 + 'alipay/goAlipay';
 const withdraw = root1 + 'admin/transfer/withdraw';
+const transferAccount = root1 + 'admin/transfer/transferAccount';
+const transferRecord = root1 + 'admin/transfer/transferRecord';
 export default {
     login,
     register,
@@ -55,6 +57,8 @@ export default {
     recharge,
     withdraw,
     goAlipay,
+    transferAccount,
+    transferRecord,
     root,
     root1
 };

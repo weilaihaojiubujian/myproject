@@ -20,6 +20,8 @@ import auditTaskList from '@/components/login/AuditTaskList'
 import recharge from '@/components/login/Recharge'
 import withdraw from '@/components/login/Withdraw'
 import goAlipay from '@/components/login/GoAlipay'
+import transferAccount from '@/components/login/TransferAccount'
+import transferRecord from '@/components/login/TransferRecord'
 // import Login from '@/components/page/Login'
 Vue.use(Router)
 
@@ -63,6 +65,18 @@ export default new Router({
             name: 'withdraw',
             changeOrigin: true,//是否允许跨越
             component: withdraw
+        },
+        {
+            path: '/transferAccount',
+            name: 'transferAccount',
+            changeOrigin: true,//是否允许跨越
+            component: transferAccount
+        },
+        {
+            path: '/transferRecord',
+            name: 'transferRecord',
+            changeOrigin: true,//是否允许跨越
+            component: transferRecord
         },
         {
             path: '/goAlipay/:htmls',

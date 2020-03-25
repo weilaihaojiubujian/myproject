@@ -64,10 +64,15 @@
                 }).then(res => {
                     if (res != null && res.status === 200) {
                         if (res.data.success) {
-                            localStorage.setItem("openid",res.data.data);
-                            localStorage.setItem("userInfo",this.ruleForm);
+                            localStorage.setItem("openid",res.data.data.openId);
+                            console.log(res.data.data.openId);
+                            localStorage.setItem("userId",res.data.data.userId);
+                            console.log(res.data.data.userId);
+                            localStorage.setItem("userInfo",JSON.stringify(this.ruleForm));
+                            console.log(JSON.parse(localStorage.getItem("userInfo")).loginId);
                             this.$router.push( '/userInfo');
                         } else {
+                            alert(res.data.msg)
                             console.log(res);
                         }
                         // this.$axios.get(api.userUrl, {
@@ -87,6 +92,7 @@
                         //     }
                         // });
                     } else {
+                        alert(res.data.msg)
                         console.log(res);
                     }
                 });

@@ -105,6 +105,8 @@
         <button @click="auditTaskList">审核任务列表</button>
         <button @click="recharge">充值</button>
         <button @click="withdraw">提现</button>
+        <button @click="transferAccount">转账</button>
+        <button @click="transferRecord">用户转账记录</button>
     </div>
 </template>
 
@@ -374,6 +376,12 @@
             },
             withdraw() {
                 this.$router.push( '/withdraw')
+            },
+            transferAccount() {
+                this.$router.push( '/transferAccount')
+            },
+            transferRecord() {
+                this.$router.push( '/transferRecord')
             },
     projectList() {
         this.$router.push( '/projectList')
