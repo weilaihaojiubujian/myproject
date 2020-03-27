@@ -11,7 +11,7 @@
             </el-col>
             <el-col :span="4" class="userinfo">
                 <el-dropdown trigger="hover">
-                    <span class="el-dropdown-link userinfo-inner"><img :src="this.sysUserAvatar" /> {{sysUserName}}</span>
+                    <span class="el-dropdown-link userinfo-inner">{{sysUserName}}</span>
                     <el-dropdown-menu slot="dropdown">
                         <el-dropdown-item>我的消息</el-dropdown-item>
                         <el-dropdown-item>设置</el-dropdown-item>
@@ -79,7 +79,6 @@
             return {
                 sysName:'Human_Outsourcing',
                 collapsed:false,
-                sysUserName: '',
                 sysUserAvatar: '',
                 form: {
                     name: '',
@@ -127,12 +126,11 @@
                 this.$refs.menuCollapsed.getElementsByClassName('submenu-hook-'+i)[0].style.display=status?'block':'none';
             }
         },
-        mounted() {
+        created() {
             var user = JSON.parse(localStorage.getItem("userInfo"));
             if (user) {
                 // user = JSON.parse(user);
                 this.sysUserName = user.loginId || '';
-                this.sysUserAvatar = user.avatar || '';
             }
 
         }

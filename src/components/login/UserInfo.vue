@@ -96,17 +96,6 @@
                 <el-button type="primary" @click="editSubmit" :loading="editLoading">提交</el-button>
             </div>
         </el-dialog>
-        <button @click="getUserInfo">点击获取数据</button>
-        <button @click="changepasswd">修改密码</button>
-        <button @click="createProject">创建项目</button>
-        <button @click="projectList">项目列表</button>
-        <button @click="handleEdit">编辑用户信息</button>
-        <button @click="auditProductList">审核项目列表</button>
-        <button @click="auditTaskList">审核任务列表</button>
-        <button @click="recharge">充值</button>
-        <button @click="withdraw">提现</button>
-        <button @click="transferAccount">转账</button>
-        <button @click="transferRecord">用户转账记录</button>
     </div>
 </template>
 
@@ -359,33 +348,8 @@
                     }
                 });
             },
-             changepasswd() {
-                this.$router.push( '/changePassword')
-            },
-            createProject() {
-                this.$router.push( '/createProject')
-            },
-            auditProductList() {
-                this.$router.push( '/auditProductList')
-            },
-            auditTaskList() {
-                this.$router.push( '/auditTaskList')
-            },
-            recharge() {
-                this.$router.push( '/recharge')
-            },
-            withdraw() {
-                this.$router.push( '/withdraw')
-            },
-            transferAccount() {
-                this.$router.push( '/transferAccount')
-            },
-            transferRecord() {
-                this.$router.push( '/transferRecord')
-            },
-    projectList() {
-        this.$router.push( '/projectList')
-    }
+
+
         }
     }
 </script>

@@ -70,7 +70,7 @@
                             console.log(res.data.data.userId);
                             localStorage.setItem("userInfo",JSON.stringify(this.ruleForm));
                             console.log(JSON.parse(localStorage.getItem("userInfo")).loginId);
-                            this.$router.push( '/userInfo');
+                            this.$router.push( '/main');
                         } else {
                             alert(res.data.msg)
                             console.log(res);

@@ -269,12 +269,12 @@
             projectInfo(params,index, row) {
                 this.project.id=params.row.id;
                 console.log(this.project.id);
-                this.$router.push({ name:'projectInfo', params:{id:this.project.id}});
+                this.$router.push({ name:'项目详情', params:{id:this.project.id}});
             },
             taskList(params,index, row) {
                 this.project.id=params.row.id;
                 console.log(this.project.id);
-                this.$router.push({ name:'taskList', params:{id:this.project.id}});
+                this.$router.push({ name:'任务列表', params:{id:this.project.id}});
             },
             //显示编辑界面
             handleEdit (params,index, row) {

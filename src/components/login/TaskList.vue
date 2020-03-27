@@ -228,7 +228,7 @@
             taskInfo(params,index, row) {
                 this.task.id=params.row.id;
                 console.log(this.task.id);
-                this.$router.push({ name:'taskInfo', params:{id:this.task.id}});
+                this.$router.push({ name:'任务信息', params:{id:this.task.id}});
             },
             //跳到完成任务
             completeTask(params,index, row) {

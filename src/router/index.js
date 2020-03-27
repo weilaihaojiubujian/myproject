@@ -30,113 +30,166 @@ export default new Router({
         {
             path: '/',
             name: 'Login',
-            component: Login
+            component: Login,
+            hidden: true
+        },
+        {
+            path: '/forgetPassword',
+            name: '忘记密码',
+            component: forgetPassword,
+            hidden: true
         },
         {
             path: '/register',
             name: 'register',
-            component: register
+            component: register,
+            hidden: true
         },
         {
-            path: '/main',
-            name: 'Main',
-            component: Main
-        },
-        {
-            path: '/userInfo',
-            name: 'userInfo',
-            changeOrigin: true,//是否允许跨越
-            component: userInfo
-        },
-        {
-            path: '/auditProductList',
-            name: 'auditProductList',
-            changeOrigin: true,//是否允许跨越
-            component: auditProductList
-        },
-        {
-            path: '/recharge',
-            name: 'recharge',
-            changeOrigin: true,//是否允许跨越
-            component: recharge
-        },
-        {
-            path: '/withdraw',
-            name: 'withdraw',
-            changeOrigin: true,//是否允许跨越
-            component: withdraw
-        },
-        {
-            path: '/transferAccount',
-            name: 'transferAccount',
-            changeOrigin: true,//是否允许跨越
-            component: transferAccount
-        },
-        {
-            path: '/transferRecord',
-            name: 'transferRecord',
-            changeOrigin: true,//是否允许跨越
-            component: transferRecord
-        },
+            path: '/',
+            name: '',
+            component: Home,
+            hidden: true,
+            children: [
+                {
+                    path: '/main',
+                    name: '主页',
+                    component: Main,
+                },
+
+            ]
+        }
+       ,
         {
             path: '/goAlipay/:htmls',
             name: 'goAlipay',
             changeOrigin: true,//是否允许跨越
-            component: goAlipay
+            component: goAlipay,
+            hidden: true
         },
         {
-            path: '/auditTaskList',
-            name: 'auditTaskList',
-            changeOrigin: true,//是否允许跨越
-            component: auditTaskList
-        },
-        {
-            path: '/projectInfo/:id',
-            name: 'projectInfo',
-            changeOrigin: true,//是否允许跨越
-            component: projectInfo
-        },
-        {
-            path: '/taskInfo/:id',
-            name: 'taskInfo',
-            changeOrigin: true,//是否允许跨越
-            component: taskInfo
-        },
-        {
-            path: '/taskList/:id',
-            name: 'taskList',
-            changeOrigin: true,//是否允许跨越
-            component: taskList
-        },
-        {
-            path: '/forgetPassword',
-            name: 'forgetPassword',
-            component: forgetPassword
+            path: '/',
+            name: '任务管理',
+            component: Home,
+            hidden: true,
+            children: [
+                {
+                    path: '/taskInfo/:id',
+                    name: '任务信息',
+                    changeOrigin: true,//是否允许跨越
+                    component: taskInfo,
+                    hidden: true
+                },
+                {
+                    path: '/taskList/:id',
+                    name: '任务列表',
+                    changeOrigin: true,//是否允许跨越
+                    component: taskList,
+                    hidden: true
+                }
+
+            ]
         }
         ,
         {
             path: '/',
-            name: 'Home',
+            name: '支付管理',
             component: Home,
             children: [
-                { path: '/projectList', component: projectList, name: 'projectList' },
-                { path: '/createProject', component: createProject, name: 'createProject' },
+                {
+                    path: '/recharge',
+                    name: '充值',
+                    changeOrigin: true,//是否允许跨越
+                    component: recharge
+                },
+                {
+                    path: '/withdraw',
+                    name: '提现',
+                    changeOrigin: true,//是否允许跨越
+                    component: withdraw
+                },
+                {
+                    path: '/transferAccount',
+                    name: '转账',
+                    changeOrigin: true,//是否允许跨越
+                    component: transferAccount
+                },
+                {
+                    path: '/transferRecord',
+                    name: '转账记录',
+                    changeOrigin: true,//是否允许跨越
+                    component: transferRecord
+                },
 
+
+            ]
+        }
+        ,
+        {
+            path: '/',
+            name: '审核管理',
+            component: Home,
+            children: [
+                {
+                    path: '/auditTaskList',
+                    name: '审核任务列表',
+                    changeOrigin: true,//是否允许跨越
+                    component: auditTaskList
+                },
+                {
+                    path: '/auditProductList',
+                    name: '审核项目列表',
+                    changeOrigin: true,//是否允许跨越
+                    component: auditProductList
+                },
+
+            ]
+        }
+        ,
+        {
+            path: '/',
+            name: '用户管理',
+            component: Home,
+            children: [
+
+                {
+                    path: '/changePassword',
+                    name: '改变密码',
+                    component: changePassword
+                },
+                {
+                    path: '/userInfo',
+                    name: '用户信息',
+                    changeOrigin: true,//是否允许跨越
+                    component: userInfo
+                },
+            ]
+        }
+        ,
+        {
+            path: '/',
+            name: '项目管理',
+            component: Home,
+            children: [
+                { path: '/projectList', component: projectList, name: '项目列表' },
+                { path: '/createProject', component: createProject, name: '创建项目' },
+                {
+                    path: '/projectInfo/:id',
+                    name: '项目详情',
+                    changeOrigin: true,//是否允许跨越
+                    component: projectInfo,
+                    hidden: true
+                },
             ]
         }
         ,
         {
             path: '/header',
             name: 'Header',
-            component: Header
+            component: Header,
+            hidden: true
         }
-        ,
 
-        {
-            path: '/changePassword',
-            name: 'changePassword',
-            component: changePassword
-        }
         // ,
         // {
         //     path: '/createProject',

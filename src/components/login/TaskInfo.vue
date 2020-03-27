@@ -1,10 +1,36 @@
 <template>
     <div class="hello">
         <div v-if="showCard">
-            {{task}}
+            <el-form :model="task"  >
+                <el-form-item label="任务id"  >
+                    {{task.id}}
+                </el-form-item>
+                <el-form-item label="任务名"  >
+                    {{task.name}}
+                </el-form-item>
+                <el-form-item label="任务具体描述"  >
+                    {{task.description}}
+                </el-form-item>
+                <el-form-item label="任务预计截止时间"  >
+                    {{task.estimatedTime}}
+                </el-form-item>
+                <el-form-item label="创建时间"  >
+                    {{task.gmtCreate}}
+                </el-form-item>
+                <el-form-item label="修改时间"  >
+                    {{task.gmtModified}}
+                </el-form-item>
+                <el-form-item label="任务状态"  >
+                    <template v-if="task.status=='1'">
+                        未完成
+                    </template>
+                    <template v-else>
+                        已完成
+                    </template>
+                </el-form-item>
+            </el-form>
         </div>
         <hr>
-        <button @click="projectList">项目列表</button>
         <Table border    style="margin-bottom: 20px;" :columns="columns4" :data="tdata2"></Table>
     </div>
 </template>
@@ -65,9 +91,6 @@
 
         methods: {
 
-            projectList() {
-                this.$router.push( '/projectList')
-            },
             taskInfo() {
                 this.task.id=this.$route.params.id;
                 this.$axios.post(api.taskInfo, JSON.stringify(this.task), {
@@ -85,6 +108,8 @@
                             this.showCard = true;
                             this.task = res.data.data;
                             this.task.estimatedTime = (!this.task.estimatedTime || this.task.estimatedTime == '') ? '' : utils.formatDate.format(new  Date(this.task.estimatedTime), 'yyyy-MM-dd');
+                            this.task.gmtCreate=(!this.task.gmtCreate || this.task.gmtCreate == '') ? '' : utils.formatDate.format(new  Date(this.task.gmtCreate), 'yyyy-MM-dd');
+                            this.task.gmtModified=(!this.task.gmtModified || this.task.gmtModified == '') ? '' : utils.formatDate.format(new  Date(this.task.gmtModified), 'yyyy-MM-dd');
 
                             this.ajaxHistoryData =res.data.data.recordList;
                             this.tdata2 = this.ajaxHistoryData;
