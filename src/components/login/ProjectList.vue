@@ -34,6 +34,7 @@
                 </el-form-item>
                 <el-form-item label="文件名">
                     <el-input type="textarea" v-model="project.fileName" @change="getFileName"></el-input>
+                    <a>文件名需要加后缀</a><br />
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -61,11 +62,30 @@
                 </el-form-item>
                 <el-form-item label="文件名">
                     <el-input type="textarea" v-model="project.fileName" @change="getFileName"></el-input>
+                    <a>文件名需要加后缀</a><br />
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="addFormVisible = false">取消</el-button>
                 <el-button type="primary" @click="addSubmit" :loading="addLoading">提交</el-button>
+            </div>
+        </el-dialog>
+
+        <el-dialog title="上传文件" v-model="fileFormVisible" :visible.sync="fileFormVisible">
+            <el-form :model="project" label-width="80px"  ref="project">
+                <el-form-item label="文件">
+                    <input type="file" ref="clearFile" @change="getFile($event)" multiple="multiplt" class="add-file-right-input" accept=".zip,.rar" ><br>
+                    <!--                    <el-input type="file" ref="clearFile" @change="getFile($event)" multiple="multiplt" class="add-file-right-input"  ></el-input>-->
+                    <a>只支持.zip,.rar</a><br />
+                </el-form-item>
+                <el-form-item label="文件名">
+                    <el-input type="textarea" v-model="project.fileName" @change="getZipFileName"></el-input>
+                    <a>文件名需要加后缀</a><br />
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="fileFormVisible = false">取消</el-button>
+                <el-button type="primary" @click="fileSubmit" :loading="fileLoading">提交</el-button>
             </div>
         </el-dialog>
     </div>
@@ -78,6 +98,8 @@
 
         data() {
                  return{
+                     fileFormVisible: false,//文件界面是否显示
+                     fileLoading: false,
                      editFormVisible: false,//编辑界面是否显示
                      editLoading: false,
                      addFormVisible: false,//新增界面是否显示
@@ -106,7 +128,7 @@
                      columns4: [
 // 重点说明：key 里面的值，是和后台的字段相对应的
                          {type: 'selection',width: 60,align: 'center'},  //这里是复选框
-                         {title: '项目id',width:170,key: 'id'},
+                         {title: '项目id',width:100,key: 'id'},
                          {title: '项目名',width:100,key: 'name'},
                          {title: '创建者',width:100,key:'userId'},
                          {title: '价格',width:100,key:'price'},
@@ -156,9 +178,6 @@
                                      style: {
                                          marginRight: '3px'
                                      },
-                                     //  这里就是给表格里面添加一个操作，删除编辑添加啥的，就是在这里了
-                                     //  this.Editadd(params.index)      这个是自己取得一个定义的一个方法，我的是编辑，弹出一个框进行编辑
-                                     //  里面传 params.index   是当前的下标
                                      on: {
                                          click: () => {
                                              this.projectInfo(params,params.index, params.row);
@@ -173,15 +192,41 @@
                                      style: {
                                          marginRight: '3px'
                                      },
-                                     //  这里就是给表格里面添加一个操作，删除编辑添加啥的，就是在这里了
-                                     //  this.Editadd(params.index)      这个是自己取得一个定义的一个方法，我的是编辑，弹出一个框进行编辑
-                                     //  里面传 params.index   是当前的下标
                                      on: {
                                          click: () => {
                                              this.taskList(params,params.index, params.row);
                                          }
                                      }
                                  }, '任务列表')
+                                 ,
+                                 h('Button', {
+                                     props: {
+                                         type: 'primary',
+                                         size: 'small'
+                                     },
+                                     style: {
+                                         marginRight: '3px'
+                                     },
+                                     on: {
+                                         click: () => {
+                                             this.getFileList(params,params.index, params.row);
+                                         }
+                                     }
+                                 }, '项目文件列表'),
+                                 h('Button', {
+                                     props: {
+                                         type: 'primary',
+                                         size: 'small'
+                                     },
+                                     style: {
+                                         marginRight: '3px'
+                                     },
+                                     on: {
+                                         click: () => {
+                                             this.handleFile(params,params.index, params.row);
+                                         }
+                                     }
+                                 }, '上传项目代码')
                          ]);
                          }},
                      ],
@@ -210,6 +255,25 @@
                //获取后缀
                 var ext = this.project.fileName.substr(index+1);
                 let AllUpExt = ".doc|.docx|";
+                if(AllUpExt.indexOf(ext+ "|") == "-1"){
+                    // this.$message(this, "error", "文件格式不正确!");
+                    this.$message({
+                        message: '文件格式不正确',
+                        type: 'error'
+                    });
+                }else{
+                    // 操作
+                    this.$message({
+                        message: '文件格式正确',
+                        type: 'success'
+                    });
+                }
+            },
+            getZipFileName(){
+                var index= this.project.fileName.lastIndexOf(".");
+                //获取后缀
+                var ext = this.project.fileName.substr(index+1);
+                let AllUpExt = ".zip|.rar|";
                 if(AllUpExt.indexOf(ext+ "|") == "-1"){
                     // this.$message(this, "error", "文件格式不正确!");
                     this.$message({
@@ -275,6 +339,19 @@
                 this.project.id=params.row.id;
                 console.log(this.project.id);
                 this.$router.push({ name:'任务列表', params:{id:this.project.id}});
+            },
+            getFileList(params,index, row) {
+                this.project.name=params.row.name;
+                console.log(this.project.name);
+                this.$router.push({ name:'文件列表', params:{name:this.project.name}});
+            },
+            //显示上传文件界面
+            handleFile (params,index, row) {
+                this.project.name=params.row.name;
+                console.log(this.project.name);
+                this.fileFormVisible = true;
+                this.project = Object.assign({}, row);
+                console.log(this.project);
             },
             //显示编辑界面
             handleEdit (params,index, row) {
@@ -413,6 +490,46 @@
                                     console.log(res);
                                 }
                                 alert(res.data.msg);
+                            });
+                        });
+                    }
+                });
+            },
+            fileSubmit() {
+                this.$refs.project.validate((valid) => {
+                    if (valid) {
+                        this.$confirm('确认提交吗？', '提示', {}).then(() => {
+                            this.fileLoading = true;
+                            var formData = new FormData();
+
+                            let AllUpExt = ".zip|.rar|";
+                            if(AllUpExt.indexOf(this.project.fileName + "|") == "-1"){
+                                this.$message(this, "error", "文件格式不正确!");
+                            }else{
+                                // 操作
+                            }
+                            formData.append("multipartFile", this.project.multipartFile);
+                            formData.append("fileName", this.project.fileName);
+                            formData.append("name", this.project.name);
+                            this.$axios.post(api.uploadFile, formData, {
+                                headers: {
+                                    'Access-Control-Allow-Origin': '*'
+                                    // 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                                },
+                                withCredentials: true,
+                                params:{
+                                    openid: localStorage.getItem("openid")
+                                }
+                            }).then(res => {
+                                if (res != null && res.status === 200) {
+                                    this.$message({
+                                        message: '提交成功',
+                                        type: 'success'
+                                    });
+                                    this.fileFormVisible = false;
+                                } else {
+                                    console.log(res);
+                                }
                             });
                         });
                     }

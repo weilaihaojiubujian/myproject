@@ -29,6 +29,7 @@ const goAlipay = root1 + 'alipay/goAlipay';
 const withdraw = root1 + 'admin/transfer/withdraw';
 const transferAccount = root1 + 'admin/transfer/transferAccount';
 const transferRecord = root1 + 'admin/transfer/transferRecord';
+const listFile = root1 + 'file/listFile';
 export default {
     login,
     register,
@@ -59,6 +60,7 @@ export default {
     goAlipay,
     transferAccount,
     transferRecord,
+    listFile,
     root,
     root1
 };

@@ -22,6 +22,7 @@ import withdraw from '@/components/login/Withdraw'
 import goAlipay from '@/components/login/GoAlipay'
 import transferAccount from '@/components/login/TransferAccount'
 import transferRecord from '@/components/login/TransferRecord'
+import listFile from '@/components/login/ListFile'
 // import Login from '@/components/page/Login'
 Vue.use(Router)
 
@@ -43,6 +44,13 @@ export default new Router({
             path: '/register',
             name: 'register',
             component: register,
+            hidden: true
+        },
+        {
+            path: '/listFile/:name',
+            name: '文件列表',
+            changeOrigin: true,//是否允许跨越
+            component: listFile,
             hidden: true
         },
         {
