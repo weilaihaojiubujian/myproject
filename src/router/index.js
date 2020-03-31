@@ -23,6 +23,10 @@ import goAlipay from '@/components/login/GoAlipay'
 import transferAccount from '@/components/login/TransferAccount'
 import transferRecord from '@/components/login/TransferRecord'
 import listFile from '@/components/login/ListFile'
+import userProjectList from '@/components/login/UserProjectList'
+import userAcceptProjectList from '@/components/login/UserAcceptProjectList'
+import projectUserList from '@/components/login/ProjectUserList'
+import otherUserInfo from '@/components/login/OtherUserInfo'
 // import Login from '@/components/page/Login'
 Vue.use(Router)
 
@@ -171,6 +175,13 @@ export default new Router({
                     changeOrigin: true,//是否允许跨越
                     component: userInfo
                 },
+                {
+                    path: '/otherUserInfo/:id',
+                    name: '其他用户信息',
+                    changeOrigin: true,//是否允许跨越
+                    component: otherUserInfo,
+                    hidden: true
+                },
             ]
         }
         ,
@@ -180,12 +191,21 @@ export default new Router({
             component: Home,
             children: [
                 { path: '/projectList', component: projectList, name: '项目列表' },
+                { path: '/userProjectList', component: userProjectList, name: '我创建的项目列表' },
+                { path: '/userAcceptProjectList', component: userAcceptProjectList, name: '我接受的项目列表' },
                 { path: '/createProject', component: createProject, name: '创建项目' },
                 {
                     path: '/projectInfo/:id',
                     name: '项目详情',
                     changeOrigin: true,//是否允许跨越
                     component: projectInfo,
+                    hidden: true
+                },
+                {
+                    path: '/projectUserList/:id',
+                    name: '想要接受项目的用户列表',
+                    changeOrigin: true,//是否允许跨越
+                    component: projectUserList,
                     hidden: true
                 },
             ]

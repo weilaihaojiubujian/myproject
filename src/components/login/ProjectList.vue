@@ -118,6 +118,7 @@
                          pageNo: '',
                          pageSize: ''
                      },
+                     userId: '',
                      ajaxHistoryData: [],
                      // 初始化信息总条数
                      dataCount: 0,
@@ -152,82 +153,146 @@
                          // },
                          {title: '操作',
                              render: (h, params) => {
-                             return h('div', [
-                             h('Button', {
-                                 props: {
-                                     type: 'primary',
-                                     size: 'small'
-                                 },
-                                 style: {
-                                     marginRight: '3px'
-                                 },
-                                 //  这里就是给表格里面添加一个操作，删除编辑添加啥的，就是在这里了
-                                 //  this.Editadd(params.index)      这个是自己取得一个定义的一个方法，我的是编辑，弹出一个框进行编辑
-                                 //  里面传 params.index   是当前的下标
-                                 on: {
-                                     click: () => {
-                                         this.handleEdit(params,params.index, params.row);
-                             }
-                             }
-                             }, '编辑'),
-                              h('Button', {
-                                     props: {
-                                         type: 'primary',
-                                         size: 'small'
-                                     },
-                                     style: {
-                                         marginRight: '3px'
-                                     },
-                                     on: {
-                                         click: () => {
-                                             this.projectInfo(params,params.index, params.row);
-                                         }
-                                     }
-                                 }, '项目详情'),
-                                 h('Button', {
-                                     props: {
-                                         type: 'primary',
-                                         size: 'small'
-                                     },
-                                     style: {
-                                         marginRight: '3px'
-                                     },
-                                     on: {
-                                         click: () => {
-                                             this.taskList(params,params.index, params.row);
-                                         }
-                                     }
-                                 }, '任务列表')
-                                 ,
-                                 h('Button', {
-                                     props: {
-                                         type: 'primary',
-                                         size: 'small'
-                                     },
-                                     style: {
-                                         marginRight: '3px'
-                                     },
-                                     on: {
-                                         click: () => {
-                                             this.getFileList(params,params.index, params.row);
-                                         }
-                                     }
-                                 }, '项目文件列表'),
-                                 h('Button', {
-                                     props: {
-                                         type: 'primary',
-                                         size: 'small'
-                                     },
-                                     style: {
-                                         marginRight: '3px'
-                                     },
-                                     on: {
-                                         click: () => {
-                                             this.handleFile(params,params.index, params.row);
-                                         }
-                                     }
-                                 }, '上传项目代码')
-                         ]);
+                                 if(params.row.userId == this.userId){
+                                     return h('div', [
+                                         h('Button', {
+                                             props: {
+                                                 type: 'primary',
+                                                 size: 'small'
+                                             },
+                                             style: {
+                                                 marginRight: '3px'
+                                             },
+                                             on: {
+                                                 click: () => {
+                                                     this.projectInfo(params,params.index, params.row);
+                                                 }
+                                             }
+                                         }, '项目详情'),
+                                         h('Button', {
+                                             props: {
+                                                 type: 'primary',
+                                                 size: 'small'
+                                             },
+                                             style: {
+                                                 marginRight: '3px'
+                                             },
+                                             on: {
+                                                 click: () => {
+                                                     this.taskList(params,params.index, params.row);
+                                                 }
+                                             }
+                                         }, '任务列表')
+                                         ,
+                                         h('Button', {
+                                             props: {
+                                                 type: 'primary',
+                                                 size: 'small'
+                                             },
+                                             style: {
+                                                 marginRight: '3px'
+                                             },
+                                             on: {
+                                                 click: () => {
+                                                     this.getFileList(params,params.index, params.row);
+                                                 }
+                                             }
+                                         }, '项目文件列表'),
+                                         h('Button', {
+                                             props: {
+                                                 type: 'primary',
+                                                 size: 'small'
+                                             },
+                                             style: {
+                                                 marginRight: '3px'
+                                             },
+                                             on: {
+                                                 click: () => {
+                                                     this.handleFile(params,params.index, params.row);
+                                                 }
+                                             }
+                                         }, '上传项目代码')
+                                         ,h('Button', {
+                                             props: {
+                                                 type: 'primary',
+                                                 size: 'small'
+                                             },
+                                             style: {
+                                                 marginRight: '3px'
+                                             },
+                                             //  这里就是给表格里面添加一个操作，删除编辑添加啥的，就是在这里了
+                                             //  this.Editadd(params.index)      这个是自己取得一个定义的一个方法，我的是编辑，弹出一个框进行编辑
+                                             //  里面传 params.index   是当前的下标
+                                             on: {
+                                                 click: () => {
+                                                     this.handleEdit(params,params.index, params.row);
+                                                 }
+                                             }
+                                         }, '编辑')
+
+                                     ]);
+                                 }else {
+                                     return h('div', [
+                                         h('Button', {
+                                             props: {
+                                                 type: 'primary',
+                                                 size: 'small'
+                                             },
+                                             style: {
+                                                 marginRight: '3px'
+                                             },
+                                             on: {
+                                                 click: () => {
+                                                     this.projectInfo(params,params.index, params.row);
+                                                 }
+                                             }
+                                         }, '项目详情'),
+                                         h('Button', {
+                                             props: {
+                                                 type: 'primary',
+                                                 size: 'small'
+                                             },
+                                             style: {
+                                                 marginRight: '3px'
+                                             },
+                                             on: {
+                                                 click: () => {
+                                                     this.taskList(params,params.index, params.row);
+                                                 }
+                                             }
+                                         }, '任务列表')
+                                         ,
+                                         h('Button', {
+                                             props: {
+                                                 type: 'primary',
+                                                 size: 'small'
+                                             },
+                                             style: {
+                                                 marginRight: '3px'
+                                             },
+                                             on: {
+                                                 click: () => {
+                                                     this.getFileList(params,params.index, params.row);
+                                                 }
+                                             }
+                                         }, '项目文件列表'),
+                                         h('Button', {
+                                             props: {
+                                                 type: 'primary',
+                                                 size: 'small'
+                                             },
+                                             style: {
+                                                 marginRight: '3px'
+                                             },
+                                             on: {
+                                                 click: () => {
+                                                     this.handleFile(params,params.index, params.row);
+                                                 }
+                                             }
+                                         }, '上传项目代码')
+                                     ]);
+                                 }
+
                          }},
                      ],
 
@@ -289,7 +354,7 @@
                 }
             },
             // 获取历史记录信息
-            handleListApproveHistory() {
+            getProjectList() {
 
                 this.$axios.post(api.projectList, JSON.stringify(this.projectListRequest), {
                     headers: {
@@ -303,7 +368,8 @@
                 }).then(res => {
                     if (res != null && res.status === 200) {
                         if (res.data.success) {
-
+                            this.userId=localStorage.getItem("userId");
+                            console.log(this.userId);
                             // 保存取到的所有数据
                         this.ajaxHistoryData =res.data.data.list;
                         this.dataCount = res.data.data.count;
@@ -559,7 +625,7 @@
 
         },
         created() {
-            this.handleListApproveHistory();
+            this.getProjectList();
         }
 
 

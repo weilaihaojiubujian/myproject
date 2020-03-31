@@ -3,6 +3,7 @@ const root1 = 'http://localhost:8086/';
 const login = root + 'admin/user/login';
 const register = root + 'admin/user/userReg';
 const userInfo = root1 + 'admin/user/userInfo';
+const otherUserInfo = root1 + 'admin/user/otherUserInfo';
 const sendRegisterEmail = root + 'admin/user/sendVerifyCodeEmail';
 const sendForgetEmail = root + 'admin/user/sendForgetEmail';
 const resetPassword = root + 'admin/user/resetPassword';
@@ -30,6 +31,10 @@ const withdraw = root1 + 'admin/transfer/withdraw';
 const transferAccount = root1 + 'admin/transfer/transferAccount';
 const transferRecord = root1 + 'admin/transfer/transferRecord';
 const listFile = root1 + 'file/listFile';
+const userProjectList=root1 + 'admin/project/userProjectList';
+const userAcceptProjectList=root1 + 'admin/project/userAcceptProjectList';
+const projectUserList=root1 + 'admin/project/projectUserList';
+const confirmUser=root1 + 'admin/project/confirmUser';
 export default {
     login,
     register,
@@ -61,6 +66,11 @@ export default {
     transferAccount,
     transferRecord,
     listFile,
+    userProjectList,
+    userAcceptProjectList,
+    projectUserList,
+    confirmUser,
+    otherUserInfo,
     root,
     root1
 };
