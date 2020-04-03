@@ -220,9 +220,39 @@
 
             },
             changepage(index) {
-                var _start = (index - 1) * this.pageSize;
-                var _end = index * this.pageSize;
-                this.tdata2 = this.ajaxHistoryData.slice(_start, _end);
+                // var _start = (index - 1) * this.pageSize;
+                // var _end = index * this.pageSize;
+                // this.tdata2 = this.ajaxHistoryData.slice(_start, _end);
+                this.taskListRequest.pageNo=index;
+                this.$axios.post(api.taskList, JSON.stringify(this.taskListRequest), {
+                    headers: {
+                        'Access-Control-Allow-Origin': '*',
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    withCredentials: true,
+                    params:{
+                        openid: localStorage.getItem("openid")
+                    }
+                }).then(res => {
+                    if (res != null && res.status === 200) {
+                        if (res.data.success) {
+
+                            // 保存取到的所有数据
+                            this.ajaxHistoryData =res.data.data.list;
+                            this.dataCount = res.data.data.count;
+                            // 初始化显示，小于每页显示条数，全显，大于每页显示条数，取前每页条数显示
+                            if (this.dataCount < this.pageSize) {
+                                this.tdata2 = this.ajaxHistoryData;
+                            } else {
+                                this.tdata2 = this.ajaxHistoryData.slice(0, this.pageSize);
+                            }
+                        } else {
+                            console.log(res);
+                        }
+                    } else {
+                        console.log(res);
+                    }
+                });
             },
             //跳到任务详情页
             taskInfo(params,index, row) {
