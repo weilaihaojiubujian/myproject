@@ -25,11 +25,11 @@
                 <!--导航菜单-->
                 <el-menu :default-active="$route.path" class="el-menu-vertical-demo" @open="handleopen" @close="handleclose" @select="handleselect"
                          unique-opened router v-show="!collapsed">
-                    <template v-for="(item,index) in $router.options.routes"  v-if="!item.hidden" >
+                    <template v-for="(item,index) in $router.options.routes"  v-if="item.b" >
                         <el-submenu :index="index+''" v-if="!item.leaf" >
                             <template slot="title"><i :class="item.iconCls"></i>{{item.name}}</template>
                             <template v-for="child in item.children" >
-                            <el-menu-item  :index="child.path" :key="child.path" v-if="!child.hidden">{{child.name}}</el-menu-item>
+                            <el-menu-item  :index="child.path" :key="child.path" v-if="child.b">{{child.name}}</el-menu-item>
                             </template>
                         </el-submenu>
                         <el-menu-item v-if="item.leaf&&item.children.length>0" :index="item.children[0].path"><i :class="item.iconCls"></i>{{item.children[0].name}}</el-menu-item>
@@ -37,11 +37,11 @@
                 </el-menu>
                 <!--导航菜单-折叠后-->
                 <ul class="el-menu el-menu-vertical-demo collapsed" v-show="collapsed" ref="menuCollapsed">
-                    <li v-for="(item,index) in $router.options.routes" class="el-submenu item"  v-if="!item.hidden" >
+                    <li v-for="(item,index) in $router.options.routes" class="el-submenu item"  v-if="item.b" >
                         <template v-if="!item.leaf">
                             <div class="el-submenu__title" style="padding-left: 20px;" @mouseover="showMenu(index,true)" @mouseout="showMenu(index,false)"><i :class="item.iconCls"></i></div>
                             <ul class="el-menu submenu" :class="'submenu-hook-'+index" @mouseover="showMenu(index,true)" @mouseout="showMenu(index,false)">
-                                <li v-for="child in item.children" v-if="!child.hidden" :key="child.path" class="el-menu-item" style="padding-left: 40px;" :class="$route.path==child.path?'is-active':''" @click="$router.push(child.path)">{{child.name}}</li>
+                                <li v-for="child in item.children" v-if="child.b" :key="child.path" class="el-menu-item" style="padding-left: 40px;" :class="$route.path==child.path?'is-active':''" @click="$router.push(child.path)">{{child.name}}</li>
                             </ul>
                         </template>
                         <template v-else>
@@ -94,7 +94,7 @@
             handleclose() {
                 //console.log('handleclose');
             },
-            handleselect: function (a, b) {
+            handleselect() {
             },
             //退出登录
             logout () {

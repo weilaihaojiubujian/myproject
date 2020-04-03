@@ -8,15 +8,12 @@ import Main from '@/components/login/Main'
 import userInfo from '@/components/login/UserInfo'
 import projectInfo from '@/components/login/ProjectInfo'
 import forgetPassword from '@/components/login/ForgetPassword'
-import Header from '@/components/login/Header'
 import Home from '@/components/login/Home'
 import changePassword from '@/components/login/ChangePassword'
 import createProject from '@/components/login/CreateProject'
 import projectList from '@/components/login/ProjectList'
 import taskList from '@/components/login/TaskList'
 import taskInfo from '@/components/login/TaskInfo'
-import auditProductList from '@/components/login/AuditProductList'
-import auditTaskList from '@/components/login/AuditTaskList'
 import recharge from '@/components/login/Recharge'
 import withdraw from '@/components/login/Withdraw'
 import goAlipay from '@/components/login/GoAlipay'
@@ -27,6 +24,20 @@ import userProjectList from '@/components/login/UserProjectList'
 import userAcceptProjectList from '@/components/login/UserAcceptProjectList'
 import projectUserList from '@/components/login/ProjectUserList'
 import otherUserInfo from '@/components/login/OtherUserInfo'
+
+import Main1 from '@/components/login/admin/Main'
+import Home1 from '@/components/login/admin/Home1'
+import auditProductList from '@/components/login/admin/AuditProductList'
+import auditTaskList from '@/components/login/admin/AuditTaskList'
+
+import Main2 from '@/components/login/business/Main'
+import Home2 from '@/components/login/business/Home2'
+import projectList1 from '@/components/login/business/ProjectList1'
+import userProjectList1 from '@/components/login/business/UserProjectList1'
+// import projectUserList1 from '@/components/login/business/ProjectUserList1'
+import taskList1 from '@/components/login/business/TaskList1'
+// import otherUserInfo1 from '@/components/login/business/OtherUserInfo1'
+
 // import Login from '@/components/page/Login'
 Vue.use(Router)
 
@@ -71,7 +82,7 @@ export default new Router({
 
             ]
         }
-       ,
+        ,
         {
             path: '/goAlipay/:htmls',
             name: 'goAlipay',
@@ -136,27 +147,7 @@ export default new Router({
 
             ]
         }
-        ,
-        {
-            path: '/',
-            name: '审核管理',
-            component: Home,
-            children: [
-                {
-                    path: '/auditTaskList',
-                    name: '审核任务列表',
-                    changeOrigin: true,//是否允许跨越
-                    component: auditTaskList
-                },
-                {
-                    path: '/auditProductList',
-                    name: '审核项目列表',
-                    changeOrigin: true,//是否允许跨越
-                    component: auditProductList
-                },
 
-            ]
-        }
         ,
         {
             path: '/',
@@ -211,24 +202,227 @@ export default new Router({
             ]
         }
         ,
-        {
-            path: '/header',
-            name: 'Header',
-            component: Header,
-            hidden: true
-        }
 
-        // ,
-        // {
-        //     path: '/createProject',
-        //     name: 'createProject',
-        //     component: createProject
-        // }
-        // ,
-        // {
-        //     path: '/projectList',
-        //     name: 'projectList',
-        //     component: projectList
-        // }
+
+        //管理员端
+        {
+            path: '/',
+            name: '审核管理',
+            c: true,
+            hidden: true,
+            component: Home1,
+            children: [
+                {
+                    path: '/auditTaskList',
+                    name: '审核任务列表',
+                    changeOrigin: true,//是否允许跨越
+                    c: true,
+                    component: auditTaskList
+                },
+                {
+                    path: '/auditProductList',
+                    name: '审核项目列表',
+                    changeOrigin: true,//是否允许跨越
+                    c: true,
+                    component: auditProductList
+                },
+
+            ]
+        }
+        ,
+        {
+            path: '/',
+            name: '',
+            component: Home1,
+            c: false,
+            hidden: true,
+            children: [
+                {
+                    path: '/home1/main',
+                    name: '主页',
+                    component: Main1
+                },
+
+            ]
+        },
+        {
+            path: '/',
+            name: '',
+            component: Home1,
+            c: false,
+            hidden: true,
+            children: [
+                {
+                    path: '/home1/projectInfo/:id',
+                    name: '审核项目详情',
+                    changeOrigin: true,//是否允许跨越
+                    component: projectInfo,
+                    c: false
+                },
+
+            ]
+        }
+        ,
+        {
+            path: '/',
+            name: '',
+            component: Home1,
+            c: false,
+            hidden: true,
+            children: [
+                {
+                    path: '/home1/taskInfo/:id',
+                    name: '审核任务信息',
+                    changeOrigin: true,//是否允许跨越
+                    component: taskInfo,
+                    c: false
+                }
+
+            ]
+        }
+        ,
+
+        // 企业端
+        {
+            path: '/',
+            name: '',
+            component: Home2,
+            b: false,
+            hidden: true,
+            children: [
+                {
+                    path: '/home2/main',
+                    name: '主页',
+                    component: Main2
+                },
+
+            ]
+        }
+        ,
+        {
+            path: '/',
+            name: '用户管理',
+            component: Home2,
+            b: true,
+            hidden: true,
+            children: [
+                {
+                    path: '/home2/userInfo',
+                    name: '用户信息',
+                    changeOrigin: true,//是否允许跨越
+                    b: true,
+                    component: userInfo
+                },
+                {
+                    path: '/home2/otherUserInfo/:id',
+                    name: '项目其他用户信息',
+                    changeOrigin: true,//是否允许跨越
+                    component: otherUserInfo,
+                    b: false
+                },
+            ]
+        }
+        ,
+        {
+            path: '/',
+            name: '项目管理',
+            component: Home2,
+            b: true,
+            hidden: true,
+            children: [
+                {
+                    path: '/home2/projectList',
+                    component: projectList1,
+                    b: true,
+                    name: '项目列表'
+                },
+                {
+                    path: '/home2/userProjectList',
+                    component: userProjectList1,
+                    b: true,
+                    name: '我创建的项目列表'
+                },
+                {
+                    path: '/home2/projectInfo/:id',
+                    name: '企业项目详情',
+                    changeOrigin: true,//是否允许跨越
+                    component: projectInfo,
+                    b: false
+                },
+                {
+                    path: '/home2/projectUserList/:id',
+                    name: '投标项目的用户列表',
+                    changeOrigin: true,//是否允许跨越
+                    component: projectUserList,
+                    b: false
+                },
+            ]
+        }
+        ,
+        {
+            path: '/',
+            name: '任务管理',
+            component: Home2,
+            b: false,
+            hidden: true,
+            children: [
+                {
+                    path: '/home2/taskInfo/:id',
+                    name: '任务具体信息',
+                    changeOrigin: true,//是否允许跨越
+                    component: taskInfo,
+                    b: false
+                },
+                {
+                    path: '/home2/taskList/:id',
+                    name: '项目任务列表',
+                    changeOrigin: true,//是否允许跨越
+                    component: taskList1,
+                    b: false
+                }
+
+            ]
+        },
+        {
+            path: '/',
+            name: '支付管理',
+            component: Home2,
+            b: true,
+            hidden: true,
+            children: [
+                {
+                    path: '/recharge',
+                    name: '充值',
+                    changeOrigin: true,//是否允许跨越
+                    b: true,
+                    component: recharge
+                },
+                {
+                    path: '/withdraw',
+                    name: '提现',
+                    changeOrigin: true,//是否允许跨越
+                    b: true,
+                    component: withdraw
+                },
+                {
+                    path: '/transferAccount',
+                    name: '转账',
+                    changeOrigin: true,//是否允许跨越
+                    b: true,
+                    component: transferAccount
+                },
+                {
+                    path: '/transferRecord',
+                    name: '转账记录',
+                    changeOrigin: true,//是否允许跨越
+                    b: true,
+                    component: transferRecord
+                },
+
+
+            ]
+        }
+        //程序员端
+
     ]
 })

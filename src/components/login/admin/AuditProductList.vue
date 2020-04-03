@@ -207,7 +207,7 @@
             projectInfo(params,index, row) {
                 this.project.id=params.row.id;
                 console.log(this.project.id);
-                this.$router.push({ name:'projectInfo', params:{id:this.project.id}});
+                this.$router.push({ name:'审核项目详情', params:{id:this.project.id}});
             },
             //审核失败
             auditFail(params, index, row) {

@@ -70,29 +70,18 @@
                             console.log(res.data.data.userId);
                             localStorage.setItem("userInfo",JSON.stringify(this.ruleForm));
                             console.log(JSON.parse(localStorage.getItem("userInfo")).loginId);
-                            this.$router.push( '/main');
+                            if(res.data.data.roleId=='1'){
+                                this.$router.push( '/home1/main');
+                            }else if(res.data.data.roleId=='2'){
+                                this.$router.push( '/home2/main');
+                            }else{
+                                this.$router.push( '/main');
+                            }
+
                         } else {
-                            alert(res.data.msg)
                             console.log(res);
                         }
-                        // this.$axios.get(api.userUrl, {
-                        //     headers: {
-                        //         'Authorization': localStorage.getItem('token')
-                        //     }
-                        // }).then(res => {
-                        //     let obj = res.data;
-                        //     if (obj.role.filter(r => r === 'ROLE_ADMIN').length === 0) {
-                        //         this.$message({
-                        //             type: 'warning',
-                        //             message: '权限不够'
-                        //         })
-                        //     } else {
-                        //         localStorage.setItem('user', JSON.stringify(res.data));
-                        //         this.$router.replace('/');
-                        //     }
-                        // });
                     } else {
-                        alert(res.data.msg)
                         console.log(res);
                     }
                 });

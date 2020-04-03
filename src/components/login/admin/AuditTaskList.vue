@@ -203,7 +203,7 @@
             taskInfo(params,index, row) {
                 this.task.id=params.row.id;
                 console.log(this.task.id);
-                this.$router.push({ name:'taskInfo', params:{id:this.task.id}});
+                this.$router.push({ name:'审核任务信息', params:{id:this.task.id}});
             },
             //审核失败
             auditFail (params,index, row) {
