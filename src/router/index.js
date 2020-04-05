@@ -27,7 +27,7 @@ import otherUserInfo from '@/components/login/OtherUserInfo'
 
 import Main1 from '@/components/login/admin/Main'
 import Home1 from '@/components/login/admin/Home1'
-import auditProductList from '@/components/login/admin/AuditProductList'
+import auditProjectList from '@/components/login/admin/AuditProjectList'
 import auditTaskList from '@/components/login/admin/AuditTaskList'
 
 import Main2 from '@/components/login/business/Main'
@@ -220,11 +220,11 @@ export default new Router({
                     component: auditTaskList
                 },
                 {
-                    path: '/auditProductList',
+                    path: '/auditProjectList',
                     name: '审核项目列表',
                     changeOrigin: true,//是否允许跨越
                     c: true,
-                    component: auditProductList
+                    component: auditProjectList
                 },
 
             ]

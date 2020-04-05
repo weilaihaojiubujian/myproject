@@ -31,6 +31,8 @@
             </el-form>
         </div>
         <hr>
+        <br />
+        <strong><label>日志</label></strong>
         <Table border    style="margin-bottom: 20px;" :columns="columns4" :data="tdata2"></Table>
     </div>
 </template>

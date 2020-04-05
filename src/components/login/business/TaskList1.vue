@@ -83,7 +83,8 @@
                     name:'',
                     description:'',
                     estimatedTime:'',
-                    projectId:''
+                    projectId:'',
+                    status:''
                 },
                 taskListRequest: {
                     projectId: '',
@@ -106,21 +107,17 @@
                     {title: '任务种类',width:100,key:'taskTypeName'},
                     // //  重点说明一下这里状态，我从后台获取 得到的是  3 2 1 这些数字，但是如何根据不同的数据显示不同的文字，
                     // //  需要用到render 这个函数
-                    // {title: '状态',key:'taOrdertype',width:100,
-                    //     //  这个地方直接复制，修改从后台获取的字段taOrdertype
-                    //     render: (h, params) => {
-                    //     if(params.row.taOrdertype == '3'){
-                    //     return h('span',{},'已发包')
-                    // //  中文就是显示在表格里面的数据
-                    //
-                    // // 如果这里需要改变颜色，可以参考官网，复制style ,放在{} 这里面
-                    // }else if(params.row.taOrdertype == '2'){
-                    //     return h('span',{},'已申请发包')
-                    // }else if(params.row.taOrdertype == '1'){
-                    //     return h('span',{},'未申请发包')
-                    // }
-                    // }
-                    // },
+                    {title: '任务状态',key:'status',width:100,
+                        //  这个地方直接复制，修改从后台获取的字段taOrdertype
+                        render: (h, params) => {
+                            if(params.row.status == '3') {
+                                return h('span', {}, '完成')
+                                //  中文就是显示在表格里面的数据
+                            }else if(params.row.status == '1'){
+                                return h('span',{},'未完成')
+                            }
+                        }
+                    },
                     {title: '操作',
                         render: (h, params) => {
                             return h('div', [
@@ -264,34 +261,41 @@
             completeTask(params,index, row) {
                 this.task.id=params.row.id;
                 this.$confirm('确认提交吗？', '提示', {}).then(() => {
-                this.$axios.post(api.completeTask, JSON.stringify(this.task), {
-                    headers: {
-                        'Access-Control-Allow-Origin': '*',
-                        'Content-Type': 'application/json; charset=utf-8'
-                    },
-                    withCredentials: true,
-                    params:{
-                        openid: localStorage.getItem("openid")
-                    }
-                }).then(res => {
-                    if (res != null && res.status === 200) {
+                    this.$axios.post(api.completeTask, JSON.stringify(this.task), {
+                        headers: {
+                            'Access-Control-Allow-Origin': '*',
+                            'Content-Type': 'application/json; charset=utf-8'
+                        },
+                        withCredentials: true,
+                        params:{
+                            openid: localStorage.getItem("openid")
+                        }
+                    }).then(res => {
                         if (res != null && res.status === 200) {
-                            this.editLoading = false;
-                            //NProgress.done();
-                            this.$message({
-                                message: '提交成功',
-                                type: 'success'
-                            });
+                            if (res != null && res.status === 200) {
+                                this.editLoading = false;
+                                //NProgress.done();
+                                this.$message({
+                                    message: '提交成功',
+                                    type: 'success'
+                                });
+                                this.getTaskList();
+                            } else {
+                                this.$message({
+                                    message: res.data.msg,
+                                    type: 'error'
+                                });
+                                console.log(res);
+                            }
 
                         } else {
+                            this.$message({
+                                message: res.data.msg,
+                                type: 'error'
+                            });
                             console.log(res);
                         }
-
-                    } else {
-                        console.log(res);
-                    }
-                    alert(res.data.msg);
-                });
+                    });
                 });
             },
             //显示编辑界面

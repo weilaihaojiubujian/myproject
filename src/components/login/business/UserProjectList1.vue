@@ -104,6 +104,25 @@
                 editLoading: false,
                 addFormVisible: false,//新增界面是否显示
                 addLoading: false,
+                userRequest: {
+                    email: '',
+                    password: ''
+                },
+                userResponse: {
+                    id: '',
+                    loginId: '',
+                    roleName: '',
+                    phone: '',
+                    lastName: '',
+                    firstName: '',
+                    sex: '',
+                    certType: '',
+                    certNo: '',
+                    nation: '',
+                    money: '',
+                    email: '',
+                    roleId: ''
+                },
                 project:{
                     id:'',
                     name:'',
@@ -130,7 +149,6 @@
                     {type: 'selection',width: 60,align: 'center'},  //这里是复选框
                     {title: '项目id',width:100,key: 'id'},
                     {title: '项目名',width:100,key: 'name'},
-                    {title: '创建者',width:100,key:'userId'},
                     {title: '价格',width:100,key:'price'},
                     {title: '完成进度',width:100,key:'progress'},
                     // //  重点说明一下这里状态，我从后台获取 得到的是  3 2 1 这些数字，但是如何根据不同的数据显示不同的文字，
@@ -138,21 +156,21 @@
                     {title: '状态',key:'status',width:100,
                         //  这个地方直接复制，修改从后台获取的字段taOrdertype
                         render: (h, params) => {
-                        if(params.row.status == '0'){
-                        return h('span',{},'未审核')
-                    //  中文就是显示在表格里面的数据
+                            if(params.row.status == '0'){
+                                return h('span',{},'未审核')
+                                //  中文就是显示在表格里面的数据
 
-                    // 如果这里需要改变颜色，可以参考官网，复制style ,放在{} 这里面
-                    }else if(params.row.status == '1'){
-                        return h('span',{},'审核通过，未被接受')
-                    }else if(params.row.status == '2'){
-                        return h('span',{},'审核驳回')
-                    } else if(params.row.status == '3'){
-                            return h('span',{},'完成')
-                     }else if(params.row.status == '5'){
-                            return h('span',{},'已接受')
-                     }
-                    }
+                                // 如果这里需要改变颜色，可以参考官网，复制style ,放在{} 这里面
+                            }else if(params.row.status == '1'){
+                                return h('span',{},'审核通过，未被接受')
+                            }else if(params.row.status == '2'){
+                                return h('span',{},'审核驳回')
+                            } else if(params.row.status == '3'){
+                                return h('span',{},'完成')
+                            }else if(params.row.status == '5'){
+                                return h('span',{},'已接受')
+                            }
+                        }
                     },
                     {title: '操作',
                         render: (h, params) => {
@@ -247,7 +265,113 @@
                                         }
                                     }, '想要完成项目的用户')
                                 ]);
-                            } else if(params.row.status == '3' || params.row.status == '5'){
+                            }else if( params.row.status == '3'){
+                                return h('div', [
+                                    h('Button', {
+                                        props: {
+                                            type: 'primary',
+                                            size: 'small'
+                                        },
+                                        style: {
+                                            marginRight: '3px'
+                                        },
+                                        //  这里就是给表格里面添加一个操作，删除编辑添加啥的，就是在这里了
+                                        //  this.Editadd(params.index)      这个是自己取得一个定义的一个方法，我的是编辑，弹出一个框进行编辑
+                                        //  里面传 params.index   是当前的下标
+                                        on: {
+                                            click: () => {
+                                                this.handleEdit(params,params.index, params.row);
+                                            }
+                                        }
+                                    }, '编辑'),
+                                    h('Button', {
+                                        props: {
+                                            type: 'primary',
+                                            size: 'small'
+                                        },
+                                        style: {
+                                            marginRight: '3px'
+                                        },
+                                        on: {
+                                            click: () => {
+                                                this.projectInfo(params,params.index, params.row);
+                                            }
+                                        }
+                                    }, '项目详情'),
+                                    h('Button', {
+                                        props: {
+                                            type: 'primary',
+                                            size: 'small'
+                                        },
+                                        style: {
+                                            marginRight: '3px'
+                                        },
+                                        on: {
+                                            click: () => {
+                                                this.taskList(params,params.index, params.row);
+                                            }
+                                        }
+                                    }, '任务列表')
+                                    ,
+                                    h('Button', {
+                                        props: {
+                                            type: 'primary',
+                                            size: 'small'
+                                        },
+                                        style: {
+                                            marginRight: '3px'
+                                        },
+                                        on: {
+                                            click: () => {
+                                                this.getFileList(params,params.index, params.row);
+                                            }
+                                        }
+                                    }, '项目文件列表'),
+                                    h('Button', {
+                                        props: {
+                                            type: 'primary',
+                                            size: 'small'
+                                        },
+                                        style: {
+                                            marginRight: '3px'
+                                        },
+                                        on: {
+                                            click: () => {
+                                                this.handleFile(params,params.index, params.row);
+                                            }
+                                        }
+                                    }, '上传项目代码'),
+                                    h('Button', {
+                                        props: {
+                                            type: 'primary',
+                                            size: 'small'
+                                        },
+                                        style: {
+                                            marginRight: '3px'
+                                        },
+                                        on: {
+                                            click: () => {
+                                                this.otherUserInfo(params,params.index, params.row);
+                                            }
+                                        }
+                                    }, '查看接受项目的用户'),
+                                    h('Button', {
+                                        props: {
+                                            type: 'primary',
+                                            size: 'small'
+                                        },
+                                        style: {
+                                            marginRight: '3px'
+                                        },
+                                        on: {
+                                            click: () => {
+                                                this.confirmProject(params,params.index, params.row);
+                                            }
+                                        }
+                                    }, '确认项目完成')
+                                ]);
+                            }
+                            else if( params.row.status == '5'){
                                 return h('div', [
                                     h('Button', {
                                         props: {
@@ -583,6 +707,43 @@
                 console.log(this.project.id);
                 this.$router.push({ name:'投标项目的用户列表', params:{id:this.project.id}});
             },
+            confirmProject (params,index, row) {
+                this.project.id=params.row.id;
+                console.log(this.project.id);
+                this.$confirm('确认项目已完成吗？', '提示', {}).then(() => {
+                    this.$axios.post(api.confirmProject, JSON.stringify(this.project), {
+                        headers: {
+                            'Access-Control-Allow-Origin': '*',
+                            'Content-Type': 'application/json; charset=utf-8'
+                        },
+                        withCredentials: true,
+                        params:{
+                            openid: localStorage.getItem("openid")
+                        }
+                    }).then(res => {
+                        if (res != null && res.status === 200) {
+                            if (res.data.success) {
+                                this.$message({
+                                    message: '提交成功',
+                                    type: 'success'
+                                });
+
+                            } else {
+                                this.$message({
+                                    message: res.data.msg,
+                                    type: 'error'
+                                });
+                            }
+                        } else {
+                            this.$message({
+                                message: res.data.msg,
+                                type: 'error'
+                            });
+                        }
+
+                    });
+                });
+            },
             //显示编辑界面
             handleEdit (params,index, row) {
                 this.project.id=params.row.id;
@@ -676,6 +837,8 @@
                             }else{
                                 // 操作
                             }
+
+
                             formData.append("multipartFile", this.project.multipartFile);
                             formData.append("fileName", this.project.fileName);
                             formData.append("name", this.project.name);
@@ -712,15 +875,23 @@
                                             this.$refs['project'].resetFields();
                                             this.addFormVisible = false;
                                         } else {
+                                            this.$message({
+                                                message: res.data.msg,
+                                                type: 'error'
+                                            });
                                             console.log(res);
                                         }
-                                        alert(res.data.msg);
                                     });
                                 } else {
+                                    this.$message({
+                                        message: res.data.msg,
+                                        type: 'error'
+                                    });
                                     console.log(res);
                                 }
-                                alert(res.data.msg);
                             });
+
+
                         });
                     }
                 });

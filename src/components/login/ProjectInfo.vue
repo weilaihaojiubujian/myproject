@@ -35,6 +35,8 @@
         </div>
         <hr>
         <button @click="handleEdit">查看需求文件</button>
+        <br />
+        <br /><strong><label>日志</label></strong>
         <Table border    style="margin-bottom: 20px;" :columns="columns4" :data="tdata2"></Table>
     </div>
 </template>

@@ -133,9 +133,9 @@
         },
         methods: {
             // 获取历史记录信息
-            getAuditProductList() {
+            getAuditProjectList() {
 
-                this.$axios.post(api.auditProductList, JSON.stringify(this.projectListRequest), {
+                this.$axios.post(api.auditProjectList, JSON.stringify(this.projectListRequest), {
                     headers: {
                         'Access-Control-Allow-Origin': '*',
                         'Content-Type': 'application/json; charset=utf-8'
@@ -173,7 +173,7 @@
                 // var _end = index * this.pageSize;
                 // this.tdata2 = this.ajaxHistoryData.slice(_start, _end);
                 this.projectListRequest.pageNo=index;
-                this.$axios.post(api.auditProductList, JSON.stringify(this.projectListRequest), {
+                this.$axios.post(api.auditProjectList, JSON.stringify(this.projectListRequest), {
                     headers: {
                         'Access-Control-Allow-Origin': '*',
                         'Content-Type': 'application/json; charset=utf-8'
@@ -214,7 +214,7 @@
                 this.project.id = params.row.id;
                 this.$confirm('确认提交吗？', '提示', {}).then(() => {
                     this.project.status = 2;
-                    this.$axios.post(api.auditProduct, JSON.stringify(this.project), {
+                    this.$axios.post(api.auditProject, JSON.stringify(this.project), {
                         headers: {
                             'Access-Control-Allow-Origin': '*',
                             'Content-Type': 'application/json; charset=utf-8'
@@ -245,7 +245,7 @@
                 this.project.id = params.row.id;
                 this.$confirm('确认提交吗？', '提示', {}).then(() => {
                     this.project.status = 1;
-                    this.$axios.post(api.auditProduct, JSON.stringify(this.project), {
+                    this.$axios.post(api.auditProject, JSON.stringify(this.project), {
                         headers: {
                             'Access-Control-Allow-Origin': '*',
                             'Content-Type': 'application/json; charset=utf-8'
@@ -296,7 +296,7 @@
 
         },
         created() {
-            this.getAuditProductList();
+            this.getAuditProjectList();
         }
 
 

@@ -20,8 +20,8 @@ const projectList = root1 + 'admin/project/projectList';
 const taskList = root1 + 'admin/task/taskList';
 const editTask = root1 + 'admin/task/editTask';
 const taskInfo = root1 + 'admin/task/taskInfo';
-const auditProductList = root1 + 'admin/auditProductList';
-const auditProduct = root1 + 'admin/auditProduct';
+const auditProjectList = root1 + 'admin/auditProjectList';
+const auditProject = root1 + 'admin/auditProject';
 const auditTaskList = root1 + 'admin/auditTaskList';
 const auditTask = root1 + 'admin/auditTask';
 const completeTask = root1 + 'admin/task/completeTask';
@@ -35,6 +35,7 @@ const userProjectList=root1 + 'admin/project/userProjectList';
 const userAcceptProjectList=root1 + 'admin/project/userAcceptProjectList';
 const projectUserList=root1 + 'admin/project/projectUserList';
 const confirmUser=root1 + 'admin/project/confirmUser';
+const confirmProject=root1 + 'admin/project/confirmProject';
 export default {
     login,
     register,
@@ -55,8 +56,8 @@ export default {
     createTask,
     editTask,
     taskInfo,
-    auditProductList,
-    auditProduct,
+    auditProjectList,
+    auditProject,
     auditTask,
     auditTaskList,
     completeTask,
@@ -71,6 +72,7 @@ export default {
     projectUserList,
     confirmUser,
     otherUserInfo,
+    confirmProject,
     root,
     root1
 };

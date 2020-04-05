@@ -197,9 +197,12 @@
                                     type: 'success'
                                 });
                             } else {
+                                this.$message({
+                                    message: res.data.msg,
+                                    type: 'error'
+                                });
                                 console.log(res);
                             }
-                            alert(res.data.msg);
                         }
                     });
                 });
