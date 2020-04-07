@@ -3,14 +3,36 @@
         <!--工具条-->
         <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
             <el-form :inline="true" >
+                <el-form-item label="项目名" prop="name">
+                    <el-input v-model="taskListRequest.name" auto-complete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="开始时间">
+                    <el-date-picker
+                            v-model="taskListRequest.startTime"
+                            type="date"
+                            value-format="yyyy-MM-dd"
+                            format="yyyy-MM-dd"
+                            placeholder="选择日期">
+                    </el-date-picker>
+                </el-form-item>
+                <el-form-item label="结束时间">
+                    <el-date-picker
+                            v-model="taskListRequest.endTime"
+                            type="date"
+                            value-format="yyyy-MM-dd"
+                            format="yyyy-MM-dd"
+                            placeholder="选择日期">
+                    </el-date-picker>
+                </el-form-item>
                 <el-form-item>
                     <!--                    <el-button type="primary" v-on:click="getUsers">查询</el-button>-->
-                    <el-button type="primary" >查询</el-button>
+                    <el-button type="primary" @click="select">查询</el-button>
                 </el-form-item>
             </el-form>
         </el-col>
 
-        <Table border ref="selection"  @on-selection-change="handleSelectRow()" style="margin-top: 20px;" :columns="columns4" :data="tdata2"></Table>
+        <Table border ref="selection"  @on-selection-change="handleSelectRow()" style="margin-top: 20px;"  no-data-text="暂无数据"
+               :columns="columns4" :data="tdata2" highlight-row></Table>
         <Page :total="dataCount" :page-size="pageSize" show-total @on-change="changepage"></Page>
 
     </div>
@@ -33,6 +55,9 @@
                 },
                 taskListRequest: {
                     projectId: '',
+                    name:'',
+                    startTime:'',
+                    endTime:'',
                     pageNo: '',
                     pageSize: ''
                 },
@@ -49,7 +74,11 @@
                     {title: '任务id',width:170,key: 'id'},
                     {title: '任务名',width:100,key: 'name'},
                     {title: '具体描述',width:200,key:'description'},
-                    {title: '任务截止时间',width:150,key:'estimatedTime'},
+                    {title: '任务截止时间',width:100,key:'estimatedTime',
+                        render: (h, params) => {
+                            return h('span', {}, params.row.estimatedTime = (!params.row.estimatedTime || params.row.estimatedTime == '') ? '' : utils.formatDate.format(new  Date(params.row.estimatedTime), 'yyyy-MM-dd'))
+                        }
+                    },
                     // //  重点说明一下这里状态，我从后台获取 得到的是  3 2 1 这些数字，但是如何根据不同的数据显示不同的文字，
                     // //  需要用到render 这个函数
                     // {title: '状态',key:'taOrdertype',width:100,
@@ -199,6 +228,40 @@
                     }
                 });
             },
+            select () {
+
+                this.$axios.post(api.auditTaskList, JSON.stringify(this.taskListRequest), {
+                    headers: {
+                        'Access-Control-Allow-Origin': '*',
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    withCredentials: true,
+                    params:{
+                        openid: localStorage.getItem("openid")
+                    }
+                }).then(res => {
+                    if (res != null && res.status === 200) {
+                        if (res.data.success) {
+
+                            // 保存取到的所有数据
+                            this.ajaxHistoryData =res.data.data.list;
+                            this.dataCount = res.data.data.count;
+                            // 初始化显示，小于每页显示条数，全显，大于每页显示条数，取前每页条数显示
+                            if (this.dataCount < this.pageSize) {
+                                this.tdata2 = this.ajaxHistoryData;
+                            } else {
+                                this.tdata2 = this.ajaxHistoryData.slice(0, this.pageSize);
+                            }
+                        } else {
+                            console.log(res);
+                        }
+                    } else {
+                        console.log(res);
+                    }
+                });
+
+
+            },
             //跳到任务详情页
             taskInfo(params,index, row) {
                 this.task.id=params.row.id;
@@ -298,3 +361,13 @@
 
     };
 </script>
+<style>
+
+    .ivu-table-row-hover td {
+        background-color: #d63333!important;
+    }
+    .ivu-table-row-highlight td {
+        background-color: #d63333!important;
+    }
+
+</style>

@@ -3,14 +3,18 @@
         <!--工具条-->
         <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
             <el-form :inline="true" >
+                <el-form-item label="项目名" prop="name">
+                    <el-input v-model="projectListRequest.name" auto-complete="off"></el-input>
+                </el-form-item>
                 <el-form-item>
                     <!--                    <el-button type="primary" v-on:click="getUsers">查询</el-button>-->
-                    <el-button type="primary" >查询</el-button>
+                    <el-button type="primary" @click="select">查询</el-button>
                 </el-form-item>
             </el-form>
         </el-col>
 
-        <Table border ref="selection"  @on-selection-change="handleSelectRow()" style="margin-top: 20px;" :columns="columns4" :data="tdata2"></Table>
+        <Table border ref="selection"  @on-selection-change="handleSelectRow()" style="margin-top: 20px;"  no-data-text="暂无数据"
+               :columns="columns4" :data="tdata2" highlight-row></Table>
         <Page :total="dataCount" :page-size="pageSize" show-total @on-change="changepage"></Page>
 
         <el-dialog title="上传文件" v-model="fileFormVisible" :visible.sync="fileFormVisible">
@@ -53,6 +57,7 @@
                 },
 
                 projectListRequest: {
+                    name:'',
                     pageNo: '',
                     pageSize: ''
                 },
@@ -304,6 +309,39 @@
                 this.project = Object.assign({}, row);
                 console.log(this.project);
             },
+            select () {
+                this.$axios.post(api.userAcceptProjectList, JSON.stringify(this.projectListRequest), {
+                    headers: {
+                        'Access-Control-Allow-Origin': '*',
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    withCredentials: true,
+                    params:{
+                        openid: localStorage.getItem("openid")
+                    }
+                }).then(res => {
+                    if (res != null && res.status === 200) {
+                        if (res.data.success) {
+                            // 保存取到的所有数据
+                            this.ajaxHistoryData =res.data.data.list;
+                            this.dataCount = res.data.data.count;
+                            // 初始化显示，小于每页显示条数，全显，大于每页显示条数，取前每页条数显示
+                            if (this.dataCount < this.pageSize) {
+                                this.tdata2 = this.ajaxHistoryData;
+                            } else {
+                                this.tdata2 = this.ajaxHistoryData.slice(0, this.pageSize);
+                            }
+                        } else {
+                            console.log(res);
+                        }
+                    } else {
+                        console.log(res);
+                    }
+                });
+
+
+
+            },
             fileSubmit() {
                 this.$refs.project.validate((valid) => {
                     if (valid) {
@@ -332,7 +370,7 @@
                             }).then(res => {
                                 if (res != null && res.status === 200) {
                                     this.$message({
-                                        message: '提交成功',
+                                        message: '上传文件成功',
                                         type: 'success'
                                     });
                                     this.fileFormVisible = false;
@@ -374,3 +412,13 @@
 
     };
 </script>
+<style>
+
+    .ivu-table-row-hover td {
+        background-color: #d63333!important;
+    }
+    .ivu-table-row-highlight td {
+        background-color: #d63333!important;
+    }
+
+</style>

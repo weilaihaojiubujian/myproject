@@ -36,6 +36,7 @@ const userAcceptProjectList=root1 + 'admin/project/userAcceptProjectList';
 const projectUserList=root1 + 'admin/project/projectUserList';
 const confirmUser=root1 + 'admin/project/confirmUser';
 const confirmProject=root1 + 'admin/project/confirmProject';
+const deleteProject=root1 + 'admin/project/deleteProject';
 export default {
     login,
     register,
@@ -73,6 +74,7 @@ export default {
     confirmUser,
     otherUserInfo,
     confirmProject,
+    deleteProject,
     root,
     root1
 };

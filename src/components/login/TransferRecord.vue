@@ -3,20 +3,31 @@
         <!--工具条-->
         <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
             <el-form :inline="true" >
+                <el-form-item label="时间">
+                    <el-date-picker
+                            v-model="transferRecordRequest.gmtCreate"
+                            type="date"
+                            value-format="yyyy-MM-dd"
+                            format="yyyy-MM"
+                            placeholder="选择日期">
+                    </el-date-picker>
+                </el-form-item>
                 <el-form-item>
                     <!--                    <el-button type="primary" v-on:click="getUsers">查询</el-button>-->
-                    <el-button type="primary" >查询</el-button>
+                    <el-button type="primary" @click="select">查询</el-button>
                 </el-form-item>
             </el-form>
         </el-col>
 
-        <Table border ref="selection"  @on-selection-change="handleSelectRow()" style="margin-top: 20px;" :columns="columns4" :data="tdata2"></Table>
+        <Table border ref="selection"  @on-selection-change="handleSelectRow()" style="margin-top: 20px;"  no-data-text="暂无数据"
+               :columns="columns4" :data="tdata2" highlight-row></Table>
         <Page :total="dataCount" :page-size="pageSize" show-total @on-change="changepage"></Page>
 
     </div>
 </template>
 <script>
     import api from "@/api";
+    import utils from "@/components/utils/utils";
 
 
     export default {
@@ -38,6 +49,7 @@
                     password: ''
                 },
                 transferRecordRequest: {
+                    gmtCreate: '',
                     pageNo: '',
                     pageSize: ''
                 },
@@ -51,7 +63,6 @@
                 tdata2: [],
                 columns4: [
 // 重点说明：key 里面的值，是和后台的字段相对应的
-                    {type: 'selection',width: 60,align: 'center'},  //这里是复选框
                     {title: '转账id',width:170,key: 'id'},
                     {title: '支付者',width:100,key: 'payUserId'},
                     {title: '接收者',width:100,key:'receiveUserId'},
@@ -80,12 +91,19 @@
                     // 如果这里需要改变颜色，可以参考官网，复制style ,放在{} 这里面
                     }else if(params.row.state == '1'){
                         return h('span',{},'支付成功')
-                    }else if(params.row.state == '2'){
+                    }else if(params.row.state == '3'){
+                            return h('span',{},'等待项目完成')
+                     }
+                    else if(params.row.state == '2'){
                         return h('span',{},'删除')
                     }
                     }
                     },
-                    {title: '支付时间',width:100,key:'gmtModified'},
+                    {title: '支付时间',width:100,key:'gmtModified',
+                        render: (h, params) => {
+                            return h('span', {}, params.row.gmtModified = (!params.row.gmtModified || params.row.gmtModified == '') ? '' : utils.formatDate.format(new  Date(params.row.gmtModified), 'yyyy-MM-dd'))
+                        }
+                    },
                 ],
 
             }
@@ -163,7 +181,38 @@
                     }
                 });
             },
+            select () {
 
+                this.$axios.post(api.transferRecord, JSON.stringify(this.transferRecordRequest), {
+                    headers: {
+                        'Access-Control-Allow-Origin': '*',
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    withCredentials: true,
+                    params:{
+                        openid: localStorage.getItem("openid")
+                    }
+                }).then(res => {
+                    if (res != null && res.status === 200) {
+                        if (res.data.success) {
+                            // 保存取到的所有数据
+                            this.ajaxHistoryData =res.data.data.list;
+                            this.dataCount = res.data.data.count;
+                            // 初始化显示，小于每页显示条数，全显，大于每页显示条数，取前每页条数显示
+                            if (this.dataCount < this.pageSize) {
+                                this.tdata2 = this.ajaxHistoryData;
+                            } else {
+                                this.tdata2 = this.ajaxHistoryData.slice(0, this.pageSize);
+                            }
+                        } else {
+                            console.log(res);
+                        }
+                    } else {
+                        console.log(res);
+                    }
+                });
+
+            },
             handleSelectRow(){
                 //这里是获取点击的这一行的数据，
                 const a = this.$refs.selection.getSelection()
@@ -194,3 +243,13 @@
 
     };
 </script>
+<style>
+
+    .ivu-table-row-hover td {
+        background-color: #d63333!important;
+    }
+    .ivu-table-row-highlight td {
+        background-color: #d63333!important;
+    }
+
+</style>

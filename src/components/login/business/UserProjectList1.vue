@@ -3,17 +3,27 @@
         <!--工具条-->
         <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
             <el-form :inline="true" >
+                <el-form-item label="项目名" prop="name">
+                    <el-input v-model="projectListRequest.name" auto-complete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="状态"  >
+                    <Select style="width:200px" v-model="projectListRequest.status">
+                        <Option v-for="item in statusList" :value="item.value" :key="item.value" >{{
+                            item.label }}
+                        </Option>
+                    </Select>
+                </el-form-item>
                 <el-form-item>
                     <!--                    <el-button type="primary" v-on:click="getUsers">查询</el-button>-->
-                    <el-button type="primary" >查询</el-button>
+                    <el-button type="primary" @click="select">查询</el-button>
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="handleAdd">新增</el-button>
                 </el-form-item>
             </el-form>
         </el-col>
-
-        <Table border ref="selection"  @on-selection-change="handleSelectRow()" style="margin-top: 20px;" :columns="columns4" :data="tdata2"></Table>
+        <Table border ref="selection"  @on-selection-change="handleSelectRow()" style="margin-top: 20px;" no-data-text="暂无数据"
+               :columns="columns4" :data="tdata2" highlight-row></Table>
         <Page :total="dataCount" :page-size="pageSize" show-total @on-change="changepage"></Page>
         <!--编辑界面-->
         <el-dialog title="编辑" v-model="editFormVisible" :visible.sync="editFormVisible" top="0px">
@@ -134,9 +144,38 @@
                 },
 
                 projectListRequest: {
+                    name:'',
+                    status:'',
                     pageNo: '',
                     pageSize: ''
                 },
+                statusList: [
+
+                    {
+                        value: '',
+                        label: '请选择'
+                    },
+                    {
+                        value: '0',
+                        label: '未审核'
+                    },
+                    {
+                        value: '1',
+                        label: '审核通过,未被接受'
+                    },
+                    {
+                        value: '2',
+                        label: '审核驳回'
+                    },
+                    {
+                        value: '5',
+                        label: '已接受'
+                    },
+                    {
+                        value: '3',
+                        label: '完成'
+                    }
+                ],
                 ajaxHistoryData: [],
                 // 初始化信息总条数
                 dataCount: 0,
@@ -263,7 +302,21 @@
                                                 this.projectUserList(params,params.index, params.row);
                                             }
                                         }
-                                    }, '想要完成项目的用户')
+                                    }, '想要完成项目的用户'),
+                                    h('Button', {
+                                        props: {
+                                            type: 'primary',
+                                            size: 'small'
+                                        },
+                                        style: {
+                                            marginRight: '3px'
+                                        },
+                                        on: {
+                                            click: () => {
+                                                this.handleDelete(params,params.index, params.row);
+                                            }
+                                        }
+                                    }, '删除项目')
                                 ]);
                             }else if( params.row.status == '3'){
                                 return h('div', [
@@ -538,7 +591,21 @@
                                                 this.handleFile(params,params.index, params.row);
                                             }
                                         }
-                                    }, '上传项目代码')
+                                    }, '上传项目代码'),
+                                    h('Button', {
+                                        props: {
+                                            type: 'primary',
+                                            size: 'small'
+                                        },
+                                        style: {
+                                            marginRight: '3px'
+                                        },
+                                        on: {
+                                            click: () => {
+                                                this.handleDelete(params,params.index, params.row);
+                                            }
+                                        }
+                                    }, '删除项目')
                                 ]);
                             }
 
@@ -724,7 +791,7 @@
                         if (res != null && res.status === 200) {
                             if (res.data.success) {
                                 this.$message({
-                                    message: '提交成功',
+                                    message: '确认完成成功',
                                     type: 'success'
                                 });
 
@@ -743,6 +810,80 @@
 
                     });
                 });
+            },
+            //批量删除
+            handleDelete(params,index, row) {
+
+                this.deleteProjectRequest.id = params.row.id;
+                this.$axios.post(api.deleteProject, JSON.stringify(this.deleteProjectRequest), {
+                    headers: {
+                        'Access-Control-Allow-Origin': '*',
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    withCredentials: true,
+                    params:{
+                        openid: localStorage.getItem("openid")
+                    }
+                }).then(res => {
+                    if (res != null && res.status === 200) {
+                        if (res.data.success) {
+                            this.$message({
+                                message: '删除成功',
+                                type: 'success'
+                            });
+                        } else {
+                            this.$message({
+                                message: res.data.msg,
+                                type: 'error'
+                            });
+                            console.log(res);
+                        }
+                    } else {
+                        this.$message({
+                            message: res.data.msg,
+                            type: 'error'
+                        });
+                        console.log(res);
+                    }
+                });
+
+                //设置延迟执行
+                this.getUserProjectList();
+
+
+            },
+            select () {
+                this.$axios.post(api.userProjectList, JSON.stringify(this.projectListRequest), {
+                    headers: {
+                        'Access-Control-Allow-Origin': '*',
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    withCredentials: true,
+                    params:{
+                        openid: localStorage.getItem("openid")
+                    }
+                }).then(res => {
+                    if (res != null && res.status === 200) {
+                        if (res.data.success) {
+                            // 保存取到的所有数据
+                            this.ajaxHistoryData =res.data.data.list;
+                            this.dataCount = res.data.data.count;
+                            // 初始化显示，小于每页显示条数，全显，大于每页显示条数，取前每页条数显示
+                            if (this.dataCount < this.pageSize) {
+                                this.tdata2 = this.ajaxHistoryData;
+                            } else {
+                                this.tdata2 = this.ajaxHistoryData.slice(0, this.pageSize);
+                            }
+                        } else {
+                            console.log(res);
+                        }
+                    } else {
+                        console.log(res);
+                    }
+                });
+
+
+
             },
             //显示编辑界面
             handleEdit (params,index, row) {
@@ -924,7 +1065,7 @@
                             }).then(res => {
                                 if (res != null && res.status === 200) {
                                     this.$message({
-                                        message: '提交成功',
+                                        message: '上传文件成功',
                                         type: 'success'
                                     });
                                     this.fileFormVisible = false;
@@ -966,3 +1107,13 @@
 
     };
 </script>
+<style>
+
+    .ivu-table-row-hover td {
+        background-color: #d63333!important;
+    }
+    .ivu-table-row-highlight td {
+        background-color: #d63333!important;
+    }
+
+</style>
