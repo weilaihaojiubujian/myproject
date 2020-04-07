@@ -34,6 +34,7 @@ import Main2 from '@/components/login/business/Main'
 import Home2 from '@/components/login/business/Home2'
 import projectList1 from '@/components/login/business/ProjectList1'
 import userProjectList1 from '@/components/login/business/UserProjectList1'
+import listFile1 from '@/components/login/business/ListFile1'
 // import projectUserList1 from '@/components/login/business/ProjectUserList1'
 import taskList1 from '@/components/login/business/TaskList1'
 // import otherUserInfo1 from '@/components/login/business/OtherUserInfo1'
@@ -62,10 +63,17 @@ export default new Router({
             hidden: true
         },
         {
-            path: '/listFile/:name',
+            path: '/listFile',
             name: '文件列表',
             changeOrigin: true,//是否允许跨越
             component: listFile,
+            hidden: true
+        },
+        {
+            path: '/listFile/:name',
+            name: '项目文件列表',
+            changeOrigin: true,//是否允许跨越
+            component: listFile1,
             hidden: true
         },
         {

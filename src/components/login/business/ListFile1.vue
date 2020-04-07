@@ -6,7 +6,7 @@
     </div>
 </template>
 <script>
-    import api from '../../api.js';
+    import api from "@/api";
 
     export default {
         name:'upload-file',
@@ -14,7 +14,6 @@
             return {
                 project:{
                     url:'',
-                    userId: '',
                     name:''
                 },
                 ajaxHistoryData: [],
@@ -63,12 +62,10 @@
             },
             getFileList(){
                 this.project.name=this.$route.params.name;
-                this.project.userId=this.$route.params.userId;
                 console.log(this.project.name);
                 var formData = new FormData();
                 formData.append("name", this.project.name);
-                formData.append("userId", this.project.userId);
-                this.$axios.post(api.listFileByUserId, formData, {
+                this.$axios.post(api.listFile, formData, {
                     headers: {
                         'Access-Control-Allow-Origin': '*'
                     },

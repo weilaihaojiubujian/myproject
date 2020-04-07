@@ -14,7 +14,7 @@ const createTask = root1 + 'admin/task/createTask';
 const editProject = root1 + 'admin/project/editProject';
 const projectInfo = root1 + 'admin/project/projectInfo';
 const editUser = root1 + 'admin/user/editUser';
-const fileUpload = root1 + 'file/uploadFiles';
+const uploadFileByUserId = root1 + 'file/uploadFileByUserId';
 const uploadFile = root1 + 'file/uploadFile';
 const projectList = root1 + 'admin/project/projectList';
 const taskList = root1 + 'admin/task/taskList';
@@ -31,6 +31,7 @@ const withdraw = root1 + 'admin/transfer/withdraw';
 const transferAccount = root1 + 'admin/transfer/transferAccount';
 const transferRecord = root1 + 'admin/transfer/transferRecord';
 const listFile = root1 + 'file/listFile';
+const listFileByUserId= root1 + 'file/listFileByUserId';
 const userProjectList=root1 + 'admin/project/userProjectList';
 const userAcceptProjectList=root1 + 'admin/project/userAcceptProjectList';
 const projectUserList=root1 + 'admin/project/projectUserList';
@@ -49,7 +50,7 @@ export default {
     createProject,
     editProject,
     projectInfo,
-    fileUpload,
+    uploadFileByUserId,
     projectList,
     editUser,
     uploadFile,
@@ -75,6 +76,7 @@ export default {
     otherUserInfo,
     confirmProject,
     deleteProject,
+    listFileByUserId,
     root,
     root1
 };

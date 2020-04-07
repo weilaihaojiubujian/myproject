@@ -456,7 +456,7 @@
             getFileList(params,index, row) {
                 this.project.name=params.row.name;
                 console.log(this.project.name);
-                this.$router.push({ name:'文件列表', params:{name:this.project.name}});
+                this.$router.push({ name:'项目文件列表', params:{name:this.project.name}});
             },
             //显示上传文件界面
             handleFile (params,index, row) {
