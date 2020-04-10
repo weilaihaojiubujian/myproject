@@ -28,6 +28,7 @@
             return {
                 ruleForm: {
                     loginId: '',
+                    portraitUrl: '',
                     password: ''
                 },
                 isBtnLoading: false
@@ -68,6 +69,7 @@
                             console.log(res.data.data.openId);
                             localStorage.setItem("userId",res.data.data.userId);
                             console.log(res.data.data.userId);
+                            this.ruleForm.portraitUrl=res.data.data.portraitUrl;
                             localStorage.setItem("userInfo",JSON.stringify(this.ruleForm));
                             console.log(JSON.parse(localStorage.getItem("userInfo")).loginId);
                             if(res.data.data.roleId=='1'){

@@ -38,6 +38,10 @@ const projectUserList=root1 + 'admin/project/projectUserList';
 const confirmUser=root1 + 'admin/project/confirmUser';
 const confirmProject=root1 + 'admin/project/confirmProject';
 const deleteProject=root1 + 'admin/project/deleteProject';
+const createChat=root1 + 'admin/chat/createChat';
+const chatList=root1 + 'admin/chat/chatList';
+const uploadPicture= root1 + 'file/uploadPicture';
+const otherUserInfoByUserId= root1 + 'admin/user/otherUserInfoByUserId';
 export default {
     login,
     register,
@@ -77,6 +81,10 @@ export default {
     confirmProject,
     deleteProject,
     listFileByUserId,
+    createChat,
+    chatList,
+    uploadPicture,
+    otherUserInfoByUserId,
     root,
     root1
 };

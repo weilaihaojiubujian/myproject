@@ -52,6 +52,7 @@
                     description:'',
                     price:'',
                     url:'',
+                    userId:'',
                     multipartFile:'',
                     fileName:''
                 },
@@ -70,7 +71,6 @@
                 tdata2: [],
                 columns4: [
 // 重点说明：key 里面的值，是和后台的字段相对应的
-                    {type: 'selection',width: 60,align: 'center'},  //这里是复选框
                     {title: '项目id',width:100,key: 'id'},
                     {title: '项目名',width:100,key: 'name'},
                     {title: '创建者',width:100,key:'userId'},
@@ -152,7 +152,21 @@
                                             this.handleFile(params,params.index, params.row);
                                         }
                                     }
-                                }, '上传项目代码')
+                                }, '上传项目代码'),
+                                h('Button', {
+                                    props: {
+                                        type: 'primary',
+                                        size: 'small'
+                                    },
+                                    style: {
+                                        marginRight: '3px'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.chat(params,params.index, params.row);
+                                        }
+                                    }
+                                }, '聊天')
                             ]);
                         }},
                 ],
@@ -295,6 +309,11 @@
                 this.project.id=params.row.id;
                 console.log(this.project.id);
                 this.$router.push({ name:'任务列表', params:{id:this.project.id}});
+            },
+            chat(params,index, row) {
+                this.project.userId=params.row.userId;
+                console.log(this.project.userId);
+                this.$router.push({ name:'聊天', params:{userId:this.project.userId}});
             },
             getFileList(params,index, row) {
                 this.project.name=params.row.name;

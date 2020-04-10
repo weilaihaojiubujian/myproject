@@ -24,6 +24,7 @@ import userProjectList from '@/components/login/UserProjectList'
 import userAcceptProjectList from '@/components/login/UserAcceptProjectList'
 import projectUserList from '@/components/login/ProjectUserList'
 import otherUserInfo from '@/components/login/OtherUserInfo'
+import chat from '@/components/login/Chat'
 
 import Main1 from '@/components/login/admin/Main'
 import Home1 from '@/components/login/admin/Home1'
@@ -181,6 +182,12 @@ export default new Router({
                     component: otherUserInfo,
                     hidden: true
                 },
+                {
+                    path: '/chat',
+                    name: '聊天',
+                    hidden: true,
+                    component: chat
+                }
             ]
         }
         ,
@@ -192,7 +199,7 @@ export default new Router({
                 { path: '/projectList', component: projectList, name: '项目列表' },
                 { path: '/userProjectList', component: userProjectList, name: '我创建的项目列表' },
                 { path: '/userAcceptProjectList', component: userAcceptProjectList, name: '我接受的项目列表' },
-                { path: '/createProject', component: createProject, name: '创建项目' },
+                // { path: '/createProject', component: createProject, name: '创建项目' },
                 {
                     path: '/projectInfo/:id',
                     name: '项目详情',

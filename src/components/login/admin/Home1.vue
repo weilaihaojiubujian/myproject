@@ -11,7 +11,7 @@
             </el-col>
             <el-col :span="4" class="userinfo">
                 <el-dropdown trigger="hover">
-                    <span class="el-dropdown-link userinfo-inner">{{sysUserName}}</span>
+                    <span class="el-dropdown-link userinfo-inner"><img :src=this.sysUserAvatar /> {{sysUserName}}</span>
                     <el-dropdown-menu slot="dropdown">
                         <el-dropdown-item>我的消息</el-dropdown-item>
                         <el-dropdown-item>设置</el-dropdown-item>
@@ -25,7 +25,8 @@
                 <!--导航菜单-->
                 <el-menu :default-active="$route.path" class="el-menu-vertical-demo" @open="handleopen" @close="handleclose" @select="handleselect"
                          unique-opened router v-show="!collapsed">
-                    <template v-for="(item,index) in $router.options.routes"  v-if="item.c" >
+                    <template v-for="(item,index) in $router.options.routes"   >
+                        <div v-if="item.c"  :key="index">
                         <el-submenu :index="index+''" v-if="!item.leaf" >
                             <template slot="title"><i :class="item.iconCls"></i>{{item.name}}</template>
                             <template v-for="child in item.children" >
@@ -33,25 +34,32 @@
                             </template>
                         </el-submenu>
                         <el-menu-item v-if="item.leaf&&item.children.length>0" :index="item.children[0].path"><i :class="item.iconCls"></i>{{item.children[0].name}}</el-menu-item>
+                        </div>
                     </template>
                 </el-menu>
                 <!--导航菜单-折叠后-->
                 <ul class="el-menu el-menu-vertical-demo collapsed" v-show="collapsed" ref="menuCollapsed">
-                    <li v-for="(item,index) in $router.options.routes" class="el-submenu item"  v-if="item.c" >
+                    <li v-for="(item,index) in $router.options.routes" class="el-submenu item" :key="index"  >
+                        <div v-if="item.c"  >
                         <template v-if="!item.leaf">
                             <div class="el-submenu__title" style="padding-left: 20px;" @mouseover="showMenu(index,true)" @mouseout="showMenu(index,false)"><i :class="item.iconCls"></i></div>
                             <ul class="el-menu submenu" :class="'submenu-hook-'+index" @mouseover="showMenu(index,true)" @mouseout="showMenu(index,false)">
-                                <li v-for="child in item.children" v-if="child.c" :key="child.path" class="el-menu-item" style="padding-left: 40px;" :class="$route.path==child.path?'is-active':''" @click="$router.push(child.path)">{{child.name}}</li>
+                                <li v-for="child in item.children"  :key="child.path" class="el-menu-item" style="padding-left: 40px;" :class="$route.path==child.path?'is-active':''" @click="$router.push(child.path)">
+                                    <div v-if="child.c"  >
+                                    {{child.name}}
+                                    </div>
+                                </li>
                             </ul>
                         </template>
                         <template v-else>
-                    <li class="el-submenu">
-                        <div class="el-submenu__title el-menu-item" style="padding-left: 20px;height: 56px;line-height: 56px;padding: 0 20px;" :class="$route.path==item.children[0].path?'is-active':''" @click="$router.push(item.children[0].path)"><i :class="item.iconCls"></i></div>
+                              <li class="el-submenu">
+                                  <div class="el-submenu__title el-menu-item" style="padding-left: 20px;height: 56px;line-height: 56px;padding: 0 20px;" :class="$route.path==item.children[0].path?'is-active':''" @click="$router.push(item.children[0].path)"><i :class="item.iconCls"></i></div>
+                              </li>
+                        </template>
+                        </div>
                     </li>
-</template>
-</li>
-</ul>
-</aside>
+                </ul>
+            </aside>
 <section class="content-container">
     <div class="grid-content bg-purple-light">
         <el-col :span="24" class="content-wrapper">
@@ -66,12 +74,16 @@
 </template>
 
 <script>
+    import imgSrc from "@/assets/img/bg.jpg";
+
     export default {
         data() {
             return {
                 sysName:'Human_Outsourcing',
                 collapsed:false,
+                sysUserName: '',
                 sysUserAvatar: '',
+                imgSrc: imgSrc,
                 form: {
                     name: '',
                     region: '',
@@ -94,7 +106,7 @@
             handleclose() {
                 //console.log('handleclose');
             },
-            handleselect: function (a, b) {
+            handleselect() {
             },
             //退出登录
             logout () {
@@ -123,6 +135,7 @@
             if (user) {
                 // user = JSON.parse(user);
                 this.sysUserName = user.loginId || '';
+                this.sysUserAvatar = user.portraitUrl || this.imgSrc;
             }
 
         }

@@ -43,6 +43,13 @@
                 <el-form-item label="邮箱"  >
                     {{userResponse.email}}
                 </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" @click="handleEdit" >编辑</el-button>
+                    <el-button  type="primary" @click="handleFile">上传头像</el-button>
+                </el-form-item>
+<!--                <el-form-item>-->
+<!--                    <el-button  type="primary" @click="handleFile">上传头像</el-button>-->
+<!--                </el-form-item>-->
             </el-form>
         </div>
         <hr>
@@ -94,6 +101,20 @@
             <div slot="footer" class="dialog-footer">
                 <el-button @click="editFormVisible = false">取消</el-button>
                 <el-button type="primary" @click="editSubmit" :loading="editLoading">提交</el-button>
+            </div>
+        </el-dialog>
+
+        <el-dialog title="上传头像" v-model="fileFormVisible" :visible.sync="fileFormVisible">
+            <el-form :model="file" label-width="80px"  ref="file">
+                <el-form-item label="文件">
+                    <input type="file" ref="clearFile" @change="getFile($event)" multiple="multiplt" class="add-file-right-input" accept=".jpg,.png,.gif" ><br>
+                    <!--                    <el-input type="file" ref="clearFile" @change="getFile($event)" multiple="multiplt" class="add-file-right-input"  ></el-input>-->
+                    <a>只支持.jpg,.png,.gif</a><br />
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="fileFormVisible = false">取消</el-button>
+                <el-button type="primary" @click="fileSubmit" :loading="fileLoading">提交</el-button>
             </div>
         </el-dialog>
     </div>
@@ -152,6 +173,8 @@
                 ],
                 sexValue: '',
                 certTypeValue: '',
+                fileFormVisible: false,//文件界面是否显示
+                fileLoading: false,
                 editFormVisible: false,//编辑界面是否显示
                 editLoading: false,
                 userRequest: {
@@ -188,6 +211,10 @@
                     email: '',
                     roleId: ''
                 },
+                file:{
+                    multipartFile:''
+                },
+                portraitUrl: '',
                 showCard:false
             }
         },
@@ -240,6 +267,10 @@
                 this.editFormVisible = true;
                 // this.userResponse = Object.assign({}, row);
                 // console.log(this.userResponse);
+            },
+            //显示上传头像界面
+            handleFile () {
+                this.fileFormVisible = true;
             },
             //编辑
             editSubmit () {
@@ -325,7 +356,51 @@
                     }
                 });
             },
+            getFile(event){
+                this.file.multipartFile = event.target.files[0];
+                console.log(this.file.multipartFile);
 
+            },
+            fileSubmit() {
+                this.$refs.file.validate((valid) => {
+                    if (valid) {
+                        this.$confirm('确认提交吗？', '提示', {}).then(() => {
+                            this.fileLoading = true;
+                            var formData = new FormData();
+
+                            formData.append("multipartFile", this.file.multipartFile);
+                            this.$axios.post(api.uploadPicture, formData, {
+                                headers: {
+                                    'Access-Control-Allow-Origin': '*'
+                                    // 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                                },
+                                withCredentials: true,
+                                params:{
+                                    openid: localStorage.getItem("openid")
+                                }
+                            }).then(res => {
+                                if (res != null && res.status === 200) {
+                                    var user = JSON.parse(localStorage.getItem("userInfo"));
+                                    if (user) {
+
+                                        this.portraitUrl =res.data.data;
+                                        console.log(res.data.data);
+                                        user.portraitUrl =this.portraitUrl;
+                                        localStorage.setItem("userInfo",JSON.stringify(user));
+                                    }
+                                    this.$message({
+                                        message: '上传文件成功',
+                                        type: 'success'
+                                    });
+                                    this.fileFormVisible = false;
+                                } else {
+                                    console.log(res);
+                                }
+                            });
+                        });
+                    }
+                });
+            },
             getUserInfo() {
 
                 this.$axios.post(api.userInfo, JSON.stringify(this.userRequest), {

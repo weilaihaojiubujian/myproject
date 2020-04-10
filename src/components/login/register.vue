@@ -155,7 +155,6 @@
                     this.isReturn = true;
                     this.tiShi.tishi1="验证不通过"
                 }
-                this.userInfo.roleId=this.sendValue;
                 this.$axios.post(api.sendRegisterEmail, JSON.stringify(this.userInfo), {
                     headers: {
                         'Content-Type': 'application/json'
@@ -241,9 +240,9 @@
                 //如果有这些提示就return
                 if (this.tiShi.tishi1 || this.tiShi.tishi2 ||this.tiShi.tishi3 ||this.tiShi.tishi5) return;
                 //if (this.isReturn) return;
-                var box=document.getElementById("successful");
-                box.style.display='block';
+
                 this.editLoading = true;
+                this.userInfo.roleId=this.sendValue;
                 this.$axios.post(api.register, JSON.stringify(this.userInfo), {
                     headers: {
                         'Content-Type': 'application/json'
@@ -258,6 +257,13 @@
                                 });
                             this.$router.push( '/')
 
+                        }else {
+                            this.editLoading = false;
+                            this.$message({
+                                message: res.data.msg,
+                                type: 'error'
+                            });
+                            console.log(res);
                         }
                     } else {
                         this.$message({
