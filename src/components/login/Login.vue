@@ -5,7 +5,7 @@
         </div>
         <div class="login_form">
             <input type="text"  class="qxs-ic_user qxs-icon"  placeholder="用户名" v-model="ruleForm.loginId">
-            <input type="text"  class="qxs-ic_password qxs-icon"  placeholder="密码" v-model="ruleForm.password">
+            <input type="password"  class="qxs-ic_password qxs-icon"  placeholder="密码" v-model="ruleForm.password">
             <!--<button class="login_btn el-button el-button&#45;&#45;primary is-round" type="primary" round>登录</button>-->
             <el-button class="login_btn" @click.native="login" type="primary" round :loading="isBtnLoading">登录</el-button>
             <div style="margin-top: 10px">

@@ -45,6 +45,7 @@
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="handleEdit" >编辑</el-button>
+                    <el-button  type="primary" @click="handleChangePassword">改变密码</el-button>
                     <el-button  type="primary" @click="handleFile">上传头像</el-button>
                 </el-form-item>
 <!--                <el-form-item>-->
@@ -104,6 +105,27 @@
             </div>
         </el-dialog>
 
+        <el-dialog title="修改密码" v-model="changePasswordFormVisible" :visible.sync="changePasswordFormVisible" top="0px">
+            <el-form :model="userInfo" label-width="80px" ref="userInfo">
+                <el-form-item label="老密码"  >
+                    <el-input v-model="userInfo.oldPassword" auto-complete="off" @blur="c" placeholder="请输入老密码" type="password"></el-input>
+                    <span class="tiShi">{{ tiShi.tishi1 }}</span><br>
+                </el-form-item>
+                <el-form-item label="新密码"  >
+                    <el-input v-model="userInfo.newPassword" @blur="d" placeholder="请设置登录密码" type="password"></el-input>
+                    <span class="tiShi">{{ tiShi.tishi2 }}</span><br>
+                </el-form-item>
+                <el-form-item label="确认密码"  >
+                    <el-input v-model="userInfo.reNewPassword"  @blur="f" type="password"></el-input>
+                    <span class="tiShi">{{ tiShi.tishi3}}</span><br>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="changePasswordFormVisible = false">取消</el-button>
+                <el-button type="primary" @click="changePasswordSubmit" :loading="changePasswordLoading">提交</el-button>
+            </div>
+        </el-dialog>
+
         <el-dialog title="上传头像" v-model="fileFormVisible" :visible.sync="fileFormVisible">
             <el-form :model="file" label-width="80px"  ref="file">
                 <el-form-item label="文件">
@@ -123,9 +145,9 @@
 
 <script>
     import api from '../../api.js';
-    import Cookies from 'js-cookie'
-    import createProject from "@/components/login/CreateProject";
+
     export default {
+        inject: ['reload'], // 引入方法
         data() {
             return {
                 isReturn: false,
@@ -173,6 +195,8 @@
                 ],
                 sexValue: '',
                 certTypeValue: '',
+                changePasswordFormVisible: false,//修改密码界面是否显示
+                changePasswordLoading: false,
                 fileFormVisible: false,//文件界面是否显示
                 fileLoading: false,
                 editFormVisible: false,//编辑界面是否显示
@@ -210,6 +234,13 @@
                     money: '',
                     email: '',
                     roleId: ''
+                },
+                userInfo:{
+                    oldPassword:'',
+                    newPassword:'',
+                    reNewPassword:'',
+                    loginId:'',
+                    checkbox:true,
                 },
                 file:{
                     multipartFile:''
@@ -250,6 +281,58 @@
                     this.tiShi.tishi2="证件号有误，验证不通过"
                 }
             },
+            //老密码
+            c(){
+                this.tiShi.tishi1 = '';
+                this.isReturn = true;
+                var p=/^[A-Za-z][A-Za-z0-9]{5,11}$/;
+                if (!this.userInfo.oldPassword) {
+                    this.isReturn = true;
+                    this.tiShi.tishi1='老密码不能为空';
+                }
+                else if(!p.test(this.userInfo.oldPassword)){
+                    this.isReturn = true;
+                    this.tiShi.tishi1="由字母+数字组成，字母开头，6-12位"
+                }
+
+
+            },
+            //新密码
+            d (){
+                this.tiShi.tishi2 = '';
+                this.isReturn = true;
+                var p=/^[A-Za-z][A-Za-z0-9]{5,11}$/;
+                if (!this.userInfo.newPassword) {
+                    this.isReturn = true;
+                    this.tiShi.tishi2='密码不能为空';
+                }
+                else if(!p.test(this.userInfo.newPassword)){
+                    this.isReturn = true;
+                    this.tiShi.tishi2="由字母+数字组成，字母开头，6-12位"
+                }
+                if(this.userInfo.newPassword == this.userInfo.oldPassword){
+                    this.isReturn = true;
+                    this.tiShi.tishi2='新旧密码一致，请重新输入';
+                }
+            },
+            //第二遍密码
+            f(){
+                this.tiShi.tishi3 = '';
+                this.isReturn = true;
+                var p=/^[A-Za-z][A-Za-z0-9]{5,11}$/;
+                if (!this.userInfo.reNewPassword) {
+                    this.isReturn = true;
+                    this.tiShi.tishi3='密码不能为空';
+                }
+                else if(!p.test(this.userInfo.reNewPassword)){
+                    this.isReturn = true;
+                    this.tiShi.tishi3="由字母+数字组成，字母开头，6-12位"
+                }
+                if(this.userInfo.newPassword != this.userInfo.reNewPassword){
+                    this.isReturn = true;
+                    this.tiShi.tishi3='两次密码不一致';
+                }
+            },
             //手机号
             e(){
                 this.tiShi.tishi5 = '';
@@ -267,6 +350,11 @@
                 this.editFormVisible = true;
                 // this.userResponse = Object.assign({}, row);
                 // console.log(this.userResponse);
+            },
+            //显示修改密码界面
+            handleChangePassword() {
+                this.changePasswordFormVisible = true;
+
             },
             //显示上传头像界面
             handleFile () {
@@ -356,7 +444,97 @@
                     }
                 });
             },
-            getFile(event){
+            changePasswordSubmit(){
+                this.$refs.userInfo.validate((valid) => {
+                        this.changePasswordLoading = true;
+                        this.tiShi.tishi1 = '';
+                        this.tiShi.tishi2 = '';
+                        this.tiShi.tishi3 = '';
+                        this.isReturn = false;
+                        //字母开头 ，由字母+数字组成
+                        var a=/^[A-Za-z][A-Za-z0-9]{5,11}$/;
+                        if (!this.userInfo.oldPassword) {
+                            this.isReturn = true;
+                            this.tiShi.tishi1='老密码不能为空';
+                        }
+                        else if(!a.test(this.userInfo.oldPassword)){
+                            this.isReturn = true;
+                            this.tiShi.tishi1="由字母+数字组成，字母开头，6-12位"
+                        }
+
+                        //字母开头 ，由字母+数字组成
+                        var p=/^[A-Za-z][A-Za-z0-9]{5,11}$/;
+                        if (!this.userInfo.newPassword) {
+                            this.isReturn = true;
+                            this.tiShi.tishi2='密码不能为空';
+                        }
+                        else if(!p.test(this.userInfo.newPassword)){
+                            this.isReturn = true;
+                            this.tiShi.tishi2="由字母+数字组成，字母开头，6-12位"
+                        }
+                        if(this.userInfo.newPassword == this.userInfo.oldPassword){
+                            this.isReturn = true;
+                            this.tiShi.tishi2='新旧密码一致，请重新输入';
+                        }
+                        //确认密码
+                        if (!this.userInfo.reNewPassword) {
+                            this.isReturn = true;
+                            this.tiShi.tishi3='密码不能为空';
+                        }
+                        else if(!p.test(this.userInfo.reNewPassword)){
+                            this.isReturn = true;
+                            this.tiShi.tishi3="由字母+数字组成，字母开头，6-12位"
+                        }
+                        if(this.userInfo.newPassword != this.userInfo.reNewPassword){
+                            this.isReturn = true;
+                            this.tiShi.tishi3='两次密码不一致';
+                        }
+
+
+
+                        //如果有这些提示就return
+                        if (this.tiShi.tishi1 || this.tiShi.tishi2 ||this.tiShi.tishi3 ) return;
+                        //if (this.isReturn) return;
+
+                        this.userInfo.loginId= JSON.parse(localStorage.getItem("userInfo")).loginId;
+                        this.$axios.post(api.changepasswd, JSON.stringify(this.userInfo), {
+                            headers: {
+                                'Access-Control-Allow-Origin': '*',
+                                'Content-Type': 'application/json; charset=utf-8'
+                            },
+                            withCredentials: true,
+                            params:{
+                                openid: localStorage.getItem("openid")
+                            }
+                        }).then(res => {
+                            if (res != null && res.status === 200) {
+                                if (res.data.success) {
+                                    this.changePasswordLoading = false;
+                                    this.$message({
+                                        message: '修改密码成功',
+                                        type: 'success'
+                                    });
+                                    this.changePasswordFormVisible = false;
+                                }else {
+                                    this.$message({
+                                        message: res.data.msg,
+                                        type: 'error'
+                                    });
+                                    console.log(res);
+                                }
+
+                            } else {
+                                this.$message({
+                                    message: res.data.msg,
+                                    type: 'error'
+                                });
+                                console.log(res);
+                            }
+                        });
+                });
+            },
+            getFile(event)
+            {
                 this.file.multipartFile = event.target.files[0];
                 console.log(this.file.multipartFile);
 
@@ -389,10 +567,11 @@
                                         localStorage.setItem("userInfo",JSON.stringify(user));
                                     }
                                     this.$message({
-                                        message: '上传文件成功',
+                                        message: '上传头像成功',
                                         type: 'success'
                                     });
                                     this.fileFormVisible = false;
+                                    this.reload();
                                 } else {
                                     console.log(res);
                                 }

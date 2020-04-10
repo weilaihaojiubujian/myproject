@@ -9,8 +9,6 @@ import userInfo from '@/components/login/UserInfo'
 import projectInfo from '@/components/login/ProjectInfo'
 import forgetPassword from '@/components/login/ForgetPassword'
 import Home from '@/components/login/Home'
-import changePassword from '@/components/login/ChangePassword'
-import createProject from '@/components/login/CreateProject'
 import projectList from '@/components/login/ProjectList'
 import taskList from '@/components/login/TaskList'
 import taskInfo from '@/components/login/TaskInfo'
@@ -25,6 +23,7 @@ import userAcceptProjectList from '@/components/login/UserAcceptProjectList'
 import projectUserList from '@/components/login/ProjectUserList'
 import otherUserInfo from '@/components/login/OtherUserInfo'
 import chat from '@/components/login/Chat'
+import chatRecord from '@/components/login/ChatRecord'
 
 import Main1 from '@/components/login/admin/Main'
 import Home1 from '@/components/login/admin/Home1'
@@ -165,11 +164,6 @@ export default new Router({
             children: [
 
                 {
-                    path: '/changePassword',
-                    name: '改变密码',
-                    component: changePassword
-                },
-                {
                     path: '/userInfo',
                     name: '用户信息',
                     changeOrigin: true,//是否允许跨越
@@ -187,6 +181,12 @@ export default new Router({
                     name: '聊天',
                     hidden: true,
                     component: chat
+                },
+                {
+                    path: '/chatRecord',
+                    name: '聊天记录',
+                    hidden: true,
+                    component: chatRecord
                 }
             ]
         }
@@ -199,7 +199,6 @@ export default new Router({
                 { path: '/projectList', component: projectList, name: '项目列表' },
                 { path: '/userProjectList', component: userProjectList, name: '我创建的项目列表' },
                 { path: '/userAcceptProjectList', component: userAcceptProjectList, name: '我接受的项目列表' },
-                // { path: '/createProject', component: createProject, name: '创建项目' },
                 {
                     path: '/projectInfo/:id',
                     name: '项目详情',

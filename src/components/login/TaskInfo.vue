@@ -40,8 +40,7 @@
 
 <script>
     import api from '../../api.js';
-    import Cookies from 'js-cookie'
-    import createProject from "@/components/login/CreateProject";
+
     import utils from "@/components/utils/utils";
     export default {
         data() {

@@ -36,6 +36,7 @@
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="send">发送</el-button>
+                <el-button type="primary" @click="chatRecord">聊天记录</el-button>
             </el-form-item>
         </el-form>
         </div>
@@ -117,7 +118,12 @@
                     }
                 });
             },
+            //聊天记录
+            chatRecord(){
 
+
+                this.$router.push({ name:'聊天记录', params:{userId:this.othername}});
+            },
             //发送消息
             send(){
                         this.chat.receiveUserId=this.chatListRequest.receiveUserId;

@@ -11,8 +11,7 @@
 
 <script>
     import api from '../../api.js';
-    import Cookies from 'js-cookie'
-    import createProject from "@/components/login/CreateProject";
+
     export default {
         data() {
             return {
