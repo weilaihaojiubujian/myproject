@@ -24,6 +24,7 @@ import projectUserList from '@/components/login/ProjectUserList'
 import otherUserInfo from '@/components/login/OtherUserInfo'
 import chat from '@/components/login/Chat'
 import chatRecord from '@/components/login/ChatRecord'
+import validationUser from '@/components/login/ValidationUser'
 
 import Main1 from '@/components/login/admin/Main'
 import Home1 from '@/components/login/admin/Home1'
@@ -180,13 +181,21 @@ export default new Router({
                     path: '/chat',
                     name: '聊天',
                     hidden: true,
+                    changeOrigin: true,//是否允许跨越
                     component: chat
                 },
                 {
                     path: '/chatRecord',
                     name: '聊天记录',
                     hidden: true,
+                    changeOrigin: true,//是否允许跨越
                     component: chatRecord
+                },
+                {
+                    path: '/validationUser',
+                    name: '实名认证',
+                    changeOrigin: true,//是否允许跨越
+                    component: validationUser
                 }
             ]
         }

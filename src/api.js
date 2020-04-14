@@ -42,6 +42,8 @@ const createChat=root1 + 'admin/chat/createChat';
 const chatList=root1 + 'admin/chat/chatList';
 const uploadPicture= root1 + 'file/uploadPicture';
 const otherUserInfoByUserId= root1 + 'admin/user/otherUserInfoByUserId';
+const validationUser= root1 + 'admin/user/validationUser';
+const evaluationUser= root1 + 'admin/user/evaluationUser';
 export default {
     login,
     register,
@@ -85,6 +87,8 @@ export default {
     chatList,
     uploadPicture,
     otherUserInfoByUserId,
+    validationUser,
+    evaluationUser,
     root,
     root1
 };

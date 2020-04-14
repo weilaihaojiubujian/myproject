@@ -1,13 +1,20 @@
 <template>
     <div class="hello">
         <div >
-
-                <label>用户账号</label><el-input  v-model="user.userId"  ></el-input>
-                <label>金额</label><el-input  v-model="user.price"  ></el-input>
+            <el-form :model="user" label-width="80px" ref="user">
+                <el-form-item label="用户账号"  >
+                    <el-input v-model="user.userId"  ></el-input>
+                </el-form-item>
+                <el-form-item label="金额"  >
+                    <el-input v-model="user.price"  @keyup="user.price=(user.price).replace(/\D/g,'')"></el-input>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" @click="transferAccount">转账</el-button>
+                </el-form-item>
+            </el-form>
 
         </div>
-        <hr>
-        <button @click="transferAccount">转账</button>
+
     </div>
 </template>
 

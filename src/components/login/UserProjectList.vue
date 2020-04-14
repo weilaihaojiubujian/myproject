@@ -98,6 +98,22 @@
                 <el-button type="primary" @click="fileSubmit" :loading="fileLoading">提交</el-button>
             </div>
         </el-dialog>
+
+        <el-dialog title="评价" v-model="evaluationFormVisible" :visible.sync="evaluationFormVisible">
+            <el-form :model="evaluation" label-width="80px"  ref="evaluation">
+                <el-form-item label="具体评价" prop="name">
+                    <el-input v-model="evaluation.description" auto-complete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="评价打分">
+                    <el-input type="text" @blur="b" @keyup="evaluation.evaluation=(evaluation.evaluation).replace(/\D/g,'')" v-model="evaluation.evaluation"  placeholder="请输入100以内放人评价分数"></el-input>
+                    <span class="tiShi">{{ tiShi.tishi2 }}</span><br>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="evaluationFormVisible = false">取消</el-button>
+                <el-button type="primary" @click="evaluationSubmit" :loading="evaluationLoading">提交</el-button>
+            </div>
+        </el-dialog>
     </div>
 </template>
 <script>
@@ -108,6 +124,8 @@
 
         data() {
             return{
+                evaluationFormVisible: false,//评价界面是否显示
+                evaluationLoading: false,
                 fileFormVisible: false,//文件界面是否显示
                 fileLoading: false,
                 editFormVisible: false,//编辑界面是否显示
@@ -142,7 +160,11 @@
                     multipartFile:'',
                     fileName:''
                 },
-
+                evaluation:{
+                    projectId:'',
+                    description:'',
+                    evaluation:''
+                },
                 projectListRequest: {
                     name:'',
                     status:'',
@@ -176,6 +198,12 @@
                         label: '完成'
                     }
                 ],
+                tiShi:{
+                    tiShi1:'',
+                    tishi2:'',
+                    tishi3:'',
+                    tishi5:'',
+                },
                 ajaxHistoryData: [],
                 // 初始化信息总条数
                 dataCount: 0,
@@ -421,7 +449,21 @@
                                                 this.confirmProject(params,params.index, params.row);
                                             }
                                         }
-                                    }, '确认项目完成')
+                                    }, '确认项目完成'),
+                                    h('Button', {
+                                        props: {
+                                            type: 'primary',
+                                            size: 'small'
+                                        },
+                                        style: {
+                                            marginRight: '3px'
+                                        },
+                                        on: {
+                                            click: () => {
+                                                this.handleEvaluation(params,params.index, params.row);
+                                            }
+                                        }
+                                    }, '评价用户')
                                 ]);
                             }
                             else if( params.row.status == '5'){
@@ -616,19 +658,8 @@
         },
         methods: {
             getFile(event){
-                // var file = event.target.files;
-                // console.log(file);
-                // this.project.multipartFile=file;
-                // this.file.multipartFile = event.target.file;
                 this.project.multipartFile = event.target.files[0];
                 console.log(this.project.multipartFile);
-                // let extName = event.target.files[0].name.substring(event.target.files[0].name.lastIndexOf(".")).toLowerCase();
-                // let AllUpExt = ".rar|.zip|.doc|.docx|.xls|.xlsx|.pdf|";
-                // if(AllUpExt.indexOf(extName + "|") == "-1"){
-                //     this.$message(this, "error", "文件格式不正确!");
-                // }else{
-                //     // 操作
-                // }
 
             },
             getFileName(){
@@ -773,6 +804,13 @@
                 this.project.id=params.row.id;
                 console.log(this.project.id);
                 this.$router.push({ name:'想要接受项目的用户列表', params:{id:this.project.id}});
+            },
+            //评价用户
+            handleEvaluation (params,index, row) {
+                this.evaluation.projectId=params.row.id;
+
+                this.evaluationFormVisible = true;
+
             },
             confirmProject (params,index, row) {
                 this.project.id=params.row.id;
@@ -943,7 +981,7 @@
                                             this.editLoading = false;
                                             //NProgress.done();
                                             this.$message({
-                                                message: '提交成功',
+                                                message: '编辑项目成功',
                                                 type: 'success'
                                             });
                                             this.$refs['project'].resetFields();
@@ -1010,7 +1048,7 @@
                                             this.addLoading = false;
                                             //NProgress.done();
                                             this.$message({
-                                                message: '提交成功',
+                                                message: '创建项目成功',
                                                 type: 'success'
                                             });
                                             this.$refs['project'].resetFields();
@@ -1033,6 +1071,79 @@
                             });
 
 
+                        });
+                    }
+                });
+            },
+            b (){
+                this.tiShi.tishi2 = '';
+                this.isReturn = true;
+                if (!this.evaluation.evaluation) {
+                    this.isReturn = true;
+                    this.tiShi.tishi2='评分不能为空';
+                }
+                else if(this.evaluation.evaluation>100){
+                    this.isReturn = true;
+                    this.tiShi.tishi2="评分不能大于100"
+                }
+                else if(this.evaluation.evaluation<0){
+                    this.isReturn = true;
+                    this.tiShi.tishi2="评分不能小于0"
+                }
+            },
+            evaluationSubmit() {
+                this.$refs.evaluation.validate((valid) => {
+                    this.tiShi.tishi2 = '';
+                    this.isReturn = true;
+                    if (!this.evaluation.evaluation) {
+                        this.isReturn = true;
+                        this.tiShi.tishi2='评分不能为空';
+                    }
+                    else if(this.evaluation.evaluation>100){
+                        this.isReturn = true;
+                        this.tiShi.tishi2="评分不能大于100"
+                    }
+                    else if(this.evaluation.evaluation<0){
+                        this.isReturn = true;
+                        this.tiShi.tishi2="评分不能小于0"
+                    }
+                    if (this.tiShi.tishi2 ) return;
+                    if (valid) {
+                        this.$confirm('确认提交评价吗？', '提示', {}).then(() => {
+                            this.evaluationLoading = true;
+                            this.$axios.post(api.evaluationUser, JSON.stringify(this.evaluation), {
+                                headers: {
+                                    'Access-Control-Allow-Origin': '*',
+                                    'Content-Type': 'application/json; charset=utf-8'
+                                },
+                                withCredentials: true,
+                                params:{
+                                    openid: localStorage.getItem("openid")
+                                }
+                            }).then(res => {
+                                if (res != null && res.status === 200) {
+                                    this.evaluationLoading = false;
+                                    if (res.data.success) {
+                                        this.$message({
+                                            message: '评价用户成功',
+                                            type: 'success'
+                                        });
+                                        this.evaluationFormVisible = false;
+                                    }else{
+                                        this.$message({
+                                            message: res.data.msg,
+                                            type: 'error'
+                                        });
+                                        console.log(res);
+                                    }
+                                } else {
+                                    this.$message({
+                                        message: res.data.msg,
+                                        type: 'error'
+                                    });
+                                    console.log(res);
+                                }
+                            });
                         });
                     }
                 });

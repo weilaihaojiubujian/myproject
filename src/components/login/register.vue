@@ -2,7 +2,7 @@
 <div id="app">
     <div id="app1">
 
-        <el-dialog title="编辑" v-model="editFormVisible" :visible.sync="editFormVisible" top="0px">
+        <el-dialog title="注册" v-model="editFormVisible" :visible.sync="editFormVisible" top="0px">
             <el-form :model="userInfo" label-width="80px" ref="userResponse">
                 <el-form-item label="登陆名"  >
                     <el-input v-model="userInfo.email" placeholder="请设置用户名/请输入邮箱名" auto-complete="off" @blur="a"></el-input>
