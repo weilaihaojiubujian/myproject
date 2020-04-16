@@ -12,11 +12,8 @@
                 <el-form-item label="手机号"  >
                     {{userResponse.phone}}
                 </el-form-item>
-                <el-form-item label="姓"  >
-                    {{userResponse.lastName}}
-                </el-form-item>
-                <el-form-item label="名"  >
-                    {{userResponse.firstName}}
+                <el-form-item label="真实姓名"  >
+                    {{userResponse.realName}}
                 </el-form-item>
                 <el-form-item label="性别"  >
                     <template v-if="userResponse.sex=='0'">
@@ -43,14 +40,17 @@
                 <el-form-item label="邮箱"  >
                     {{userResponse.email}}
                 </el-form-item>
+                <el-form-item label="用户评价"  >
+                    {{userResponse.evaluation}}
+                </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="handleEdit" >编辑</el-button>
                     <el-button  type="primary" @click="handleChangePassword">改变密码</el-button>
                     <el-button  type="primary" @click="handleFile">上传头像</el-button>
+                    <template v-if="userResponse.realName==null">
+                        <el-button  type="primary" @click="validationUser">实名验证</el-button>
+                    </template>
                 </el-form-item>
-<!--                <el-form-item>-->
-<!--                    <el-button  type="primary" @click="handleFile">上传头像</el-button>-->
-<!--                </el-form-item>-->
             </el-form>
         </div>
         <hr>
@@ -70,12 +70,6 @@
                 <el-form-item label="手机号"  >
                     <el-input v-model="user.phone" @blur="e"></el-input>
                     <span class="tiShi">{{ tiShi.tishi5}}</span><br>
-                </el-form-item>
-                <el-form-item label="姓"  >
-                    <el-input v-model="user.lastName" auto-complete="off"></el-input>
-                </el-form-item>
-                <el-form-item label="名"  >
-                    <el-input v-model="user.firstName" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="性别"  >
                     <Select style="width:200px" v-model="sexValue">
@@ -210,8 +204,8 @@
                     loginId: '',
                     roleName: '',
                     phone: '',
-                    lastName: '',
-                    firstName: '',
+                    realName: '',
+                    evaluation: '',
                     sex: '',
                     certType: '',
                     certNo: '',
@@ -225,8 +219,6 @@
                     loginId: '',
                     roleName: '',
                     phone: '',
-                    lastName: '',
-                    firstName: '',
                     sex: '',
                     certType: '',
                     certNo: '',
@@ -359,6 +351,10 @@
             //显示上传头像界面
             handleFile () {
                 this.fileFormVisible = true;
+            },
+            //实名验证
+            validationUser() {
+                this.$router.push( '/validationUser');
             },
             //编辑
             editSubmit () {

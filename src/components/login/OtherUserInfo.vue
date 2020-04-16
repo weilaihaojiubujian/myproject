@@ -11,11 +11,8 @@
                 <el-form-item label="手机号"  >
                     {{userResponse.phone}}
                 </el-form-item>
-                <el-form-item label="姓"  >
-                    {{userResponse.lastName}}
-                </el-form-item>
-                <el-form-item label="名"  >
-                    {{userResponse.firstName}}
+                <el-form-item label="真实姓名"  >
+                    {{userResponse.realName}}
                 </el-form-item>
                 <el-form-item label="性别"  >
                     <template v-if="userResponse.sex=='0'">
@@ -41,6 +38,9 @@
                 </el-form-item>
                 <el-form-item label="邮箱"  >
                     {{userResponse.email}}
+                </el-form-item>
+                <el-form-item label="用户评价"  >
+                    {{userResponse.evaluation}}
                 </el-form-item>
             </el-form>
         </div>
@@ -111,8 +111,8 @@
                     loginId: '',
                     roleName: '',
                     phone: '',
-                    lastName: '',
-                    firstName: '',
+                    realName: '',
+                    evaluation: '',
                     sex: '',
                     certType: '',
                     certNo: '',
@@ -126,8 +126,6 @@
                     loginId: '',
                     roleName: '',
                     phone: '',
-                    lastName: '',
-                    firstName: '',
                     sex: '',
                     certType: '',
                     certNo: '',

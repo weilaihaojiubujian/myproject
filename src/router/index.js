@@ -195,6 +195,7 @@ export default new Router({
                     path: '/validationUser',
                     name: '实名认证',
                     changeOrigin: true,//是否允许跨越
+                    hidden: true,
                     component: validationUser
                 }
             ]

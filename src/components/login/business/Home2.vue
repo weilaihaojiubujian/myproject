@@ -15,7 +15,7 @@
                     <el-dropdown-menu slot="dropdown">
                         <el-dropdown-item>我的消息</el-dropdown-item>
                         <el-dropdown-item>设置</el-dropdown-item>
-                        <el-dropdown-item divided @click="logout">退出登录</el-dropdown-item>
+                        <el-dropdown-item divided @click.native="logout">退出登录</el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
             </el-col>
@@ -110,12 +110,12 @@
             },
             //退出登录
             logout () {
-                var _this = this;
+
                 this.$confirm('确认退出吗?', '提示', {
                     //type: 'warning'
                 }).then(() => {
                     localStorage.removeItem('userInfo');
-                    _this.$router.push('/login');
+                    this.$router.push('/');
                 }).catch(() => {
 
                 });

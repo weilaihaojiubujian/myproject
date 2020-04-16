@@ -102,28 +102,28 @@
             b (){
                 this.tiShi.tishi2 = '';
                 this.isReturn = true;
-                var p=/[a-zA-Z]\w[z0-9]/;
+                var p=/^[A-Za-z][A-Za-z0-9]{5,11}$/;
                 if (!this.userInfo.password) {
                     this.isReturn = true;
                     this.tiShi.tishi2='密码不能为空';
                 }
                 else if(!p.test(this.userInfo.password)){
                     this.isReturn = true;
-                    this.tiShi.tishi2="由字母+数字组成，字母开头"
+                    this.tiShi.tishi2="由字母+数字组成，字母开头，6-12位"
                 }
             },
             //第二遍密码
             c(){
                 this.tiShi.tishi3 = '';
                 this.isReturn = true;
-                var p=/[a-zA-Z]\w[z0-9]/;
+                var p=/^[A-Za-z][A-Za-z0-9]{5,11}$/;
                 if (!this.userInfo.rePassword) {
                     this.isReturn = true;
                     this.tiShi.tishi3='密码不能为空';
                 }
                 else if(!p.test(this.userInfo.rePassword)){
                     this.isReturn = true;
-                    this.tiShi.tishi3="由字母+数字组成，以字母开头"
+                    this.tiShi.tishi3="由字母+数字组成，字母开头，6-12位"
                 }
                 if(this.userInfo.password != this.userInfo.rePassword){
                     this.isReturn = true;
@@ -161,26 +161,25 @@
                     }
                 }).then(res => {
                     if (res != null && res.status === 200) {
-                        // this.$axios.get(api.userUrl, {
-                        //     headers: {
-                        //         'Authorization': localStorage.getItem('token')
-                        //     }
-                        // }).then(res => {
-                        //     let obj = res.data;
-                        //     if (obj.role.filter(r => r === 'ROLE_ADMIN').length === 0) {
-                        //         this.$message({
-                        //             type: 'warning',
-                        //             message: '权限不够'
-                        //         })
-                        //     } else {
-                        //         localStorage.setItem('user', JSON.stringify(res.data));
-                        //         this.$router.replace('/');
-                        //     }
-                        // });
+                        if (res.data.success) {
+                            this.$message({
+                                message: '获得验证码成功',
+                                type: 'success'
+                            });
+                        }else {
+                            this.$message({
+                                message: res.data.msg,
+                                type: 'error'
+                            });
+                            console.log(res);
+                        }
                     } else {
+                        this.$message({
+                            message: res.data.msg,
+                            type: 'error'
+                        });
                         console.log(res);
                     }
-                    alert(res.data.msg);
                 });
             },
             flag (){
@@ -203,14 +202,14 @@
                 }
 
                 //字母开头 ，由字母+数字组成
-                var p=/[a-zA-Z]\w[z0-9]/;
+                var p=/^[A-Za-z][A-Za-z0-9]{5,11}$/;
                 if (!this.userInfo.password) {
                     this.isReturn = true;
                     this.tiShi.tishi2='密码不能为空';
                 }
                 else if(!p.test(this.userInfo.password)){
                     this.isReturn = true;
-                    this.tiShi.tishi2="由字母+数字组成，字母开头"
+                    this.tiShi.tishi2="由字母+数字组成，字母开头，6-12位"
                 }
                 //确认密码
                 if (!this.userInfo.rePassword) {
@@ -219,7 +218,7 @@
                 }
                 else if(!p.test(this.userInfo.rePassword)){
                     this.isReturn = true;
-                    this.tiShi.tishi3="由字母+数字组成，以字母开头"
+                    this.tiShi.tishi3="由字母+数字组成，字母开头，6-12位"
                 }
                 if(this.userInfo.password != this.userInfo.rePassword){
                     this.isReturn = true;
@@ -276,10 +275,6 @@
             },
             login(){
                 this.$router.push( '/')
-            },
-            close(){
-                var box=document.getElementById("successful");
-                box.style.display="none";
             }
 
         }

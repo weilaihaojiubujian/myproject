@@ -1,22 +1,33 @@
 <template>
     <div id="app">
-        <div id="successful">
-            <h3 style="text-align: center;margin-top: 80px;margin-bottom: 40px;">更新密码成功，快去登录吧!</h3>
-            <button id="btn" @click="close" >取消</button>
-            <button @click="login" >登录</button>
-        </div>
-        <div class ="now_login">我已注册，现在就<button class="btd_login" @click="login">登录</button></div>
+
         <div id="app1">
-            <label>邮箱</label><input type="text" placeholder="请输入邮箱名"  v-model="userInfo.email" class="input" @blur="a"><br>
-            <span class="tiShi">{{ tiShi.tishi1 }}</span><br>
-            <button id="btn1" @click="getverifyCode" :disabled="btn">获得验证码</button>
-            <label>设置密码</label><input type="password" placeholder="请设置登录密码" v-model="userInfo.newPassword" @blur="b"><br>
-            <span class="tiShi">{{ tiShi.tishi2 }}</span><br>
-            <label>确认密码</label><input type="password" v-model="userInfo.reNewPassword" @blur="c"><br>
-            <span class="tiShi">{{ tiShi.tishi3}}</span><br>
-            <label>验证码</label><input type="text" placeholder="请输入验证码"  v-model="userInfo.verifyCode" @blur="e"><br>
-            <span class="tiShi">{{ tiShi.tishi5}}</span><br>
-            <button id="btd" @click="flag" :disabled="btn">更新密码</button>
+
+            <el-dialog title="忘记密码" v-model="editFormVisible" :visible.sync="editFormVisible" top="0px">
+                <el-form :model="userInfo" label-width="80px" ref="userResponse">
+                    <el-form-item label="登陆名"  >
+                        <el-input v-model="userInfo.email" placeholder="请设置用户名/请输入邮箱名" auto-complete="off" @blur="a"></el-input>
+                        <span class="tiShi">{{ tiShi.tishi1 }}</span><br>
+                    </el-form-item>
+                    <el-button type="primary" @click="getverifyCode" >获得验证码</el-button>
+                    <el-form-item label="设置密码"  >
+                        <el-input type="password" placeholder="请设置登录密码" v-model="userInfo.newPassword" @blur="b"></el-input>
+                        <span class="tiShi">{{ tiShi.tishi2 }}</span><br>
+                    </el-form-item>
+                    <el-form-item label="确认密码"  >
+                        <el-input type="password"  v-model="userInfo.reNewPassword" @blur="c"></el-input>
+                        <span class="tiShi">{{ tiShi.tishi3}}</span><br>
+                    </el-form-item>
+                    <el-form-item label="验证码"  >
+                        <el-input placeholder="请输入验证码"  v-model="userInfo.verifyCode" @blur="e"></el-input>
+                        <span class="tiShi">{{ tiShi.tishi5}}</span><br>
+                    </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                    <el-button @click="login">返回登录界面</el-button>
+                    <el-button type="primary" @click="flag" :loading="editLoading">提交</el-button>
+                </div>
+            </el-dialog>
         </div>
     </div>
 </template>
@@ -29,6 +40,8 @@
         // el:'#app',
         data(){
             return {
+                editFormVisible: true,//编辑界面是否显示
+                editLoading: false,
                 isReturn: false,
                 btn:false,
                 tiShi:{
@@ -66,28 +79,28 @@
             b (){
                 this.tiShi.tishi2 = '';
                 this.isReturn = true;
-                var p=/[a-zA-Z]\w[z0-9]/;
+                var p=/^[A-Za-z][A-Za-z0-9]{5,11}$/;
                 if (!this.userInfo.newPassword) {
                     this.isReturn = true;
                     this.tiShi.tishi2='密码不能为空';
                 }
                 else if(!p.test(this.userInfo.newPassword)){
                     this.isReturn = true;
-                    this.tiShi.tishi2="由字母+数字组成，字母开头"
+                    this.tiShi.tishi2="由字母+数字组成，字母开头，6-12位"
                 }
             },
             //第二遍密码
             c(){
                 this.tiShi.tishi3 = '';
                 this.isReturn = true;
-                var p=/[a-zA-Z]\w[z0-9]/;
+                var p=/^[A-Za-z][A-Za-z0-9]{5,11}$/;
                 if (!this.userInfo.reNewPassword) {
                     this.isReturn = true;
                     this.tiShi.tishi3='密码不能为空';
                 }
                 else if(!p.test(this.userInfo.reNewPassword)){
                     this.isReturn = true;
-                    this.tiShi.tishi3="由字母+数字组成，以字母开头"
+                    this.tiShi.tishi3="由字母+数字组成，字母开头，6-12位"
                 }
                 if(this.userInfo.newPassword != this.userInfo.reNewPassword){
                     this.isReturn = true;
@@ -126,26 +139,25 @@
                     }
                 }).then(res => {
                     if (res != null && res.status === 200) {
-                        // this.$axios.get(api.userUrl, {
-                        //     headers: {
-                        //         'Authorization': localStorage.getItem('token')
-                        //     }
-                        // }).then(res => {
-                        //     let obj = res.data;
-                        //     if (obj.role.filter(r => r === 'ROLE_ADMIN').length === 0) {
-                        //         this.$message({
-                        //             type: 'warning',
-                        //             message: '权限不够'
-                        //         })
-                        //     } else {
-                        //         localStorage.setItem('user', JSON.stringify(res.data));
-                        //         this.$router.replace('/');
-                        //     }
-                        // });
+                        if (res.data.success) {
+                            this.$message({
+                                message: '获得验证码成功',
+                                type: 'success'
+                            });
+                        }else {
+                            this.$message({
+                                message: res.data.msg,
+                                type: 'error'
+                            });
+                            console.log(res);
+                        }
                     } else {
+                        this.$message({
+                            message: res.data.msg,
+                            type: 'error'
+                        });
                         console.log(res);
                     }
-                    alert(res.data.msg);
                 });
             },
             flag (){
@@ -168,14 +180,14 @@
                 }
 
                 //字母开头 ，由字母+数字组成
-                var p=/[a-zA-Z]\w[z0-9]/;
+                var p=/^[A-Za-z][A-Za-z0-9]{5,11}$/;
                 if (!this.userInfo.newPassword) {
                     this.isReturn = true;
                     this.tiShi.tishi2='密码不能为空';
                 }
                 else if(!p.test(this.userInfo.newPassword)){
                     this.isReturn = true;
-                    this.tiShi.tishi2="由字母+数字组成，字母开头"
+                    this.tiShi.tishi2="由字母+数字组成，字母开头，6-12位"
                 }
                 //确认密码
                 if (!this.userInfo.reNewPassword) {
@@ -184,7 +196,7 @@
                 }
                 else if(!p.test(this.userInfo.reNewPassword)){
                     this.isReturn = true;
-                    this.tiShi.tishi3="由字母+数字组成，以字母开头"
+                    this.tiShi.tishi3="由字母+数字组成，字母开头，6-12位"
                 }
                 if(this.userInfo.newPassword != this.userInfo.reNewPassword){
                     this.isReturn = true;
@@ -202,45 +214,41 @@
 
                 //如果有这些提示就return
                 if (this.tiShi.tishi1 || this.tiShi.tishi2 ||this.tiShi.tishi3 ||this.tiShi.tishi5) return;
-                //if (this.isReturn) return;
-                var box=document.getElementById("successful");
-                box.style.display='block';
 
+                this.editLoading = true;
                 this.$axios.post(api.resetPassword, JSON.stringify(this.userInfo), {
                     headers: {
                         'Content-Type': 'application/json'
                     }
                 }).then(res => {
                     if (res != null && res.status === 200) {
-                        localStorage.setItem("openid",JSON.stringify(res.data));
-                        // this.$axios.get(api.userUrl, {
-                        //     headers: {
-                        //         'Authorization': localStorage.getItem('token')
-                        //     }
-                        // }).then(res => {
-                        //     let obj = res.data;
-                        //     if (obj.role.filter(r => r === 'ROLE_ADMIN').length === 0) {
-                        //         this.$message({
-                        //             type: 'warning',
-                        //             message: '权限不够'
-                        //         })
-                        //     } else {
-                        //         localStorage.setItem('user', JSON.stringify(res.data));
-                        //         this.$router.replace('/');
-                        //     }
-                        // });
+                        this.editLoading = false;
+                        if (res.data.success) {
+                            this.$message({
+                                message: '忘记密码成功',
+                                type: 'success'
+                            });
+                            this.$router.push( '/')
+
+                        }else {
+                            this.$message({
+                                message: res.data.msg,
+                                type: 'error'
+                            });
+                            console.log(res);
+                        }
+
                     } else {
+                        this.$message({
+                            message: res.data.msg,
+                            type: 'error'
+                        });
                         console.log(res);
                     }
-                    alert(res.data.msg);
                 });
             },
             login(){
                 this.$router.push( '/')
-            },
-            close(){
-                var box=document.getElementById("successful");
-                box.style.display="none";
             }
 
         }
