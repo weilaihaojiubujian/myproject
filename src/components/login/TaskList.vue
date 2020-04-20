@@ -3,7 +3,7 @@
         <!--工具条-->
         <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
             <el-form :inline="true" >
-                <el-form-item label="项目名" prop="name">
+                <el-form-item label="任务名" prop="name">
                     <el-input v-model="taskListRequest.name" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="状态"  >
@@ -30,6 +30,13 @@
                             format="yyyy-MM-dd"
                             placeholder="选择日期">
                     </el-date-picker>
+                </el-form-item>
+                <el-form-item label="任务种类" prop="name">
+                    <Select style="width:200px" v-model="taskListRequest.taskTypeId">
+                        <Option v-for="item in taskTypeList" :value="item.value" :key="item.value" >{{
+                            item.label }}
+                        </Option>
+                    </Select>
                 </el-form-item>
                 <el-form-item>
                     <!--                    <el-button type="primary" v-on:click="getUsers">查询</el-button>-->
@@ -90,6 +97,13 @@
                             placeholder="选择日期">
                     </el-date-picker>
                 </el-form-item>
+                <el-form-item label="任务种类" prop="name">
+                    <Select style="width:200px" v-model="task.taskTypeId">
+                        <Option v-for="item in taskTypeList" :value="item.value" :key="item.value" >{{
+                            item.label }}
+                        </Option>
+                    </Select>
+                </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="addFormVisible = false">取消</el-button>
@@ -110,6 +124,62 @@
                 editLoading: false,
                 addFormVisible: false,//新增界面是否显示
                 addLoading: false,
+                taskTypeIdList: [
+                    {
+                        value: '',
+                        label: '请选择'
+                    },
+                    {
+                        value: '1',
+                        label: '需求分析'
+                    },
+                    {
+                        value: '2',
+                        label: '原型设计'
+                    },
+                    {
+                        value: '3',
+                        label: '文档编写'
+                    },
+                    {
+                        value: '4',
+                        label: '编码开发'
+                    },
+                    {
+                        value: '5',
+                        label: '测试代码'
+                    },
+                    {
+                        value: '6',
+                        label: '修复bug'
+                    }
+                ],
+                taskTypeList: [
+                    {
+                        value: '1',
+                        label: '需求分析'
+                    },
+                    {
+                        value: '2',
+                        label: '原型设计'
+                    },
+                    {
+                        value: '3',
+                        label: '文档编写'
+                    },
+                    {
+                        value: '4',
+                        label: '编码开发'
+                    },
+                    {
+                        value: '5',
+                        label: '测试代码'
+                    },
+                    {
+                        value: '6',
+                        label: '修复bug'
+                    }
+                ],
                 task:{
                     id:'',
                     name:'',
@@ -124,6 +194,7 @@
                     startTime:'',
                     endTime:'',
                     status:'',
+                    taskTypeId:'',
                     pageNo: '',
                     pageSize: ''
                 },

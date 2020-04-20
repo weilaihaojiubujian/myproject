@@ -54,6 +54,7 @@
                     projectId:'',
                     gmtCreate:'',
                     gmtModified:'',
+                    taskTypeName:'',
                     status:''
                 },
                 showCard:false,
