@@ -6,18 +6,16 @@
             <div style="text-align:center;line-height:70px;display:block;">
                 <span >{{talk.gmtCreate}}</span>
             </div>
-            <br>
-            <div v-if="othername!=talk.sendUserId">
-                <!--            <span style="text-align:center;line-height:50px;display:block;">{{talk.message_time}}</span>-->
+            <div v-if="othername!=talk.sendUserId"   class="myUserAvatar">
+
                 <img style="width:45px;height:45px;border-radius: 50%;float: right;background-size: 45px 45px;"  :src="myUserAvatar" />
                 <p style="float:right;margin-right: 10px;max-width:60%;border-radius: 6px;font-size: 14px;padding:10px;">{{talk.content}}</p>
             </div>
-            <div v-else>
-                <!--            <span style="text-align:center;line-height:50px;display:block;">{{talk.message_time}}</span>-->
+            <div v-else  class="otherUserAvatar">
+
                 <img style="width:45px;height:45px;border-radius: 50%;float: left;background-size: 45px 45px;" :src="otherUserAvatar" />
                 <p style="float:left;margin-left: 10px;max-width:60%;font-size: 14px;padding:10px;border-radius: 6px;" >{{talk.content}}</p>
             </div>
-            <br>
         </ul>
         <div style="text-align:center;line-height:70px;display:block;">
             <Page :total="dataCount" :page-size="pageSize" show-total @on-change="changepage"></Page>
@@ -181,3 +179,17 @@
 
     }
 </script>
+<style>
+    .myUserAvatar::after{
+        display: block;
+        clear: both;
+        content:'';
+    }
+    .otherUserAvatar::after{
+        display: block;
+        clear: both;
+        content:'';
+    }
+
+
+</style>

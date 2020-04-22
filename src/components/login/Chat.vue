@@ -19,13 +19,13 @@
         <div style="text-align:center;line-height:70px;display:block;">
             <span >{{talk.gmtCreate}}</span>
         </div>
-        <div v-if="othername!=talk.sendUserId">
-<!--            <span style="text-align:center;line-height:50px;display:block;">{{talk.message_time}}</span>-->
+        <div v-if="othername!=talk.sendUserId"   class="myUserAvatar">
+
             <img style="width:45px;height:45px;border-radius: 50%;float: right;background-size: 45px 45px;"  :src="myUserAvatar" />
             <p style="float:right;margin-right: 10px;max-width:60%;border-radius: 6px;font-size: 14px;padding:10px;">{{talk.content}}</p>
         </div>
-        <div v-else>
-<!--            <span style="text-align:center;line-height:50px;display:block;">{{talk.message_time}}</span>-->
+        <div v-else  class="otherUserAvatar">
+
             <img style="width:45px;height:45px;border-radius: 50%;float: left;background-size: 45px 45px;" :src="otherUserAvatar" />
             <p style="float:left;margin-left: 10px;max-width:60%;font-size: 14px;padding:10px;border-radius: 6px;" >{{talk.content}}</p>
         </div>
@@ -233,16 +233,17 @@
 
     }
 </script>
-<!--<style>-->
+<style>
+    .myUserAvatar::after{
+        display: block;
+        clear: both;
+        content:'';
+    }
+    .otherUserAvatar::after{
+        display: block;
+        clear: both;
+        content:'';
+    }
 
-<!--    /*even 偶  odd 奇*/-->
-<!--    .content-talk ul li.odd img{width:45px;height:45px;border-radius: 50%;float: left;background: url(../../assets/login/ic_user.png) no-repeat center center;background-size: 45px 45px;}-->
-<!--    .content-talk ul li.even img{width:45px;height:45px;border-radius: 50%;float: right;background: url(../../assets/login/ic_user.png) no-repeat center center;background-size: 45px 45px;}-->
-<!--    .content-talk ul li.odd .in_talk p{background: #fff;float:left;margin-left: 10px;max-width:60%;font-size: 14px;padding:10px;border-radius: 6px;}-->
-<!--    .content-talk ul li.odd b{width:8px;height:14px;display: inline-block;background: url(../../assets/img/login-bg.jpg) no-repeat;background-size: 8px 14px;position: absolute;left:58px;top:8px;}-->
-<!--    .content-talk ul li.even .in_talk p{background: #f6fff6;float:right;margin-right: 10px;max-width:60%;border-radius: 6px;font-size: 14px;padding:10px;-->
-<!--    }-->
-<!--    .content-talk ul li.even b{width:8px;height:14px;display: inline-block;background: url(../../assets/img/login-bg.jpg) no-repeat;background-size: 8px 14px;position: absolute;right:58px;top:8px;}-->
 
-
-<!--</style>-->
+</style>
