@@ -24,6 +24,13 @@
                             placeholder="选择日期">
                     </el-date-picker>
                 </el-form-item>
+                <el-form-item label="任务种类" prop="name">
+                    <Select style="width:200px" v-model="taskListRequest.taskTypeId">
+                        <Option v-for="item in taskTypeIdList" :value="item.value" :key="item.value" >{{
+                            item.label }}
+                        </Option>
+                    </Select>
+                </el-form-item>
                 <el-form-item>
                     <!--                    <el-button type="primary" v-on:click="getUsers">查询</el-button>-->
                     <el-button type="primary" @click="select">查询</el-button>
@@ -53,11 +60,42 @@
                     estimatedTime:'',
                     projectId:''
                 },
+                taskTypeIdList: [
+                    {
+                        value: '',
+                        label: '请选择'
+                    },
+                    {
+                        value: '1',
+                        label: '需求分析'
+                    },
+                    {
+                        value: '2',
+                        label: '原型设计'
+                    },
+                    {
+                        value: '3',
+                        label: '文档编写'
+                    },
+                    {
+                        value: '4',
+                        label: '编码开发'
+                    },
+                    {
+                        value: '5',
+                        label: '测试代码'
+                    },
+                    {
+                        value: '6',
+                        label: '修复bug'
+                    }
+                ],
                 taskListRequest: {
                     projectId: '',
                     name:'',
                     startTime:'',
                     endTime:'',
+                    taskTypeId:'',
                     pageNo: '',
                     pageSize: ''
                 },
@@ -70,10 +108,10 @@
                 tdata2: [],
                 columns4: [
 // 重点说明：key 里面的值，是和后台的字段相对应的
-                    {type: 'selection',width: 60,align: 'center'},  //这里是复选框
                     {title: '任务id',width:170,key: 'id'},
                     {title: '任务名',width:100,key: 'name'},
                     {title: '具体描述',width:200,key:'description'},
+                    {title: '任务种类',width:100,key:'taskTypeName'},
                     {title: '任务截止时间',width:100,key:'estimatedTime',
                         render: (h, params) => {
                             return h('span', {}, params.row.estimatedTime = (!params.row.estimatedTime || params.row.estimatedTime == '') ? '' : utils.formatDate.format(new  Date(params.row.estimatedTime), 'yyyy-MM-dd'))

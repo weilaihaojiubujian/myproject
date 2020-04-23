@@ -25,6 +25,8 @@ import otherUserInfo from '@/components/login/OtherUserInfo'
 import chat from '@/components/login/Chat'
 import chatRecord from '@/components/login/ChatRecord'
 import validationUser from '@/components/login/ValidationUser'
+import evaluationList from '@/components/login/EvaluationList'
+import otherUserInfoByUserId from '@/components/login/OtherUserInfoByUserId'
 
 import Main1 from '@/components/login/admin/Main'
 import Home1 from '@/components/login/admin/Home1'
@@ -38,6 +40,10 @@ import userProjectList1 from '@/components/login/business/UserProjectList1'
 import listFile1 from '@/components/login/business/ListFile1'
 // import projectUserList1 from '@/components/login/business/ProjectUserList1'
 import taskList1 from '@/components/login/business/TaskList1'
+import chat1 from '@/components/login/business/Chat1'
+import userInfo1 from '@/components/login/business/UserInfo1'
+import otherUserInfoByUserId1 from '@/components/login/business/OtherUserInfoByUserId1'
+import otherUserInfo1 from '@/components/login/business/OtherUserInfo1'
 // import otherUserInfo1 from '@/components/login/business/OtherUserInfo1'
 
 // import Login from '@/components/page/Login'
@@ -61,20 +67,6 @@ export default new Router({
             path: '/register',
             name: 'register',
             component: register,
-            hidden: true
-        },
-        {
-            path: '/listFile',
-            name: '文件列表',
-            changeOrigin: true,//是否允许跨越
-            component: listFile,
-            hidden: true
-        },
-        {
-            path: '/listFile/:name',
-            name: '项目文件列表',
-            changeOrigin: true,//是否允许跨越
-            component: listFile1,
             hidden: true
         },
         {
@@ -122,40 +114,7 @@ export default new Router({
 
             ]
         }
-        ,
-        {
-            path: '/',
-            name: '支付管理',
-            component: Home,
-            children: [
-                {
-                    path: '/recharge',
-                    name: '充值',
-                    changeOrigin: true,//是否允许跨越
-                    component: recharge
-                },
-                {
-                    path: '/withdraw',
-                    name: '提现',
-                    changeOrigin: true,//是否允许跨越
-                    component: withdraw
-                },
-                {
-                    path: '/transferAccount',
-                    name: '转账',
-                    changeOrigin: true,//是否允许跨越
-                    component: transferAccount
-                },
-                {
-                    path: '/transferRecord',
-                    name: '转账记录',
-                    changeOrigin: true,//是否允许跨越
-                    component: transferRecord
-                },
 
-
-            ]
-        }
 
         ,
         {
@@ -197,6 +156,27 @@ export default new Router({
                     changeOrigin: true,//是否允许跨越
                     hidden: true,
                     component: validationUser
+                },
+                {
+                    path: '/evaluationList',
+                    name: '评价列表',
+                    changeOrigin: true,//是否允许跨越
+                    hidden: true,
+                    component: evaluationList
+                },
+                {
+                    path: '/otherUserInfoByUserId',
+                    name: '通过用户id查看其它用户信息',
+                    changeOrigin: true,//是否允许跨越
+                    hidden: true,
+                    component: otherUserInfoByUserId
+                } ,
+                {
+                    path: '/listFile',
+                    name: '文件列表',
+                    changeOrigin: true,//是否允许跨越
+                    component: listFile,
+                    hidden: true
                 }
             ]
         }
@@ -207,7 +187,7 @@ export default new Router({
             component: Home,
             children: [
                 { path: '/projectList', component: projectList, name: '项目列表' },
-                { path: '/userProjectList', component: userProjectList, name: '我创建的项目列表' },
+                // { path: '/userProjectList', component: userProjectList, name: '我创建的项目列表' },
                 { path: '/userAcceptProjectList', component: userAcceptProjectList, name: '我接受的项目列表' },
                 {
                     path: '/projectInfo/:id',
@@ -223,6 +203,40 @@ export default new Router({
                     component: projectUserList,
                     hidden: true
                 },
+            ]
+        }
+        ,
+        {
+            path: '/',
+            name: '支付管理',
+            component: Home,
+            children: [
+                {
+                    path: '/recharge',
+                    name: '充值',
+                    changeOrigin: true,//是否允许跨越
+                    component: recharge
+                },
+                {
+                    path: '/withdraw',
+                    name: '提现',
+                    changeOrigin: true,//是否允许跨越
+                    component: withdraw
+                },
+                {
+                    path: '/transferAccount',
+                    name: '转账',
+                    changeOrigin: true,//是否允许跨越
+                    component: transferAccount
+                },
+                {
+                    path: '/transferRecord',
+                    name: '转账记录',
+                    changeOrigin: true,//是否允许跨越
+                    component: transferRecord
+                },
+
+
             ]
         }
         ,
@@ -262,7 +276,7 @@ export default new Router({
             hidden: true,
             children: [
                 {
-                    path: '/home1/main',
+                    path: '/admin/main',
                     name: '主页',
                     component: Main1
                 },
@@ -277,7 +291,7 @@ export default new Router({
             hidden: true,
             children: [
                 {
-                    path: '/home1/projectInfo/:id',
+                    path: '/admin/projectInfo/:id',
                     name: '审核项目详情',
                     changeOrigin: true,//是否允许跨越
                     component: projectInfo,
@@ -295,7 +309,7 @@ export default new Router({
             hidden: true,
             children: [
                 {
-                    path: '/home1/taskInfo/:id',
+                    path: '/admin/taskInfo/:id',
                     name: '审核任务信息',
                     changeOrigin: true,//是否允许跨越
                     component: taskInfo,
@@ -315,7 +329,7 @@ export default new Router({
             hidden: true,
             children: [
                 {
-                    path: '/home2/main',
+                    path: '/business/main',
                     name: '主页',
                     component: Main2
                 },
@@ -331,19 +345,62 @@ export default new Router({
             hidden: true,
             children: [
                 {
-                    path: '/home2/userInfo',
+                    path: '/business/userInfo',
                     name: '用户信息',
                     changeOrigin: true,//是否允许跨越
                     b: true,
-                    component: userInfo
+                    component: userInfo1
                 },
                 {
-                    path: '/home2/otherUserInfo/:id',
+                    path: '/business/otherUserInfo/:id',
                     name: '项目其他用户信息',
                     changeOrigin: true,//是否允许跨越
-                    component: otherUserInfo,
+                    component: otherUserInfo1,
                     b: false
                 },
+                {
+                    path: '/business/listFile/:name',
+                    name: '项目文件列表',
+                    changeOrigin: true,//是否允许跨越
+                    component: listFile1,
+                    b: false
+                }
+                ,
+                {
+                    path: '/business/chat',
+                    name: '用户聊天',
+                    b: false,
+                    changeOrigin: true,//是否允许跨越
+                    component: chat1
+                },
+                {
+                    path: '/business/chatRecord',
+                    name: '用户聊天记录',
+                    b: false,
+                    changeOrigin: true,//是否允许跨越
+                    component: chatRecord
+                },
+                {
+                    path: '/business/validationUser',
+                    name: '实名认证',
+                    changeOrigin: true,//是否允许跨越
+                    b: false,
+                    component: validationUser
+                },
+                {
+                    path: '/business/evaluationList',
+                    name: '用户评价列表',
+                    changeOrigin: true,//是否允许跨越
+                    b: false,
+                    component: evaluationList
+                },
+                {
+                    path: '/business/otherUserInfoByUserId',
+                    name: '通过用户id查看其它用户信息',
+                    changeOrigin: true,//是否允许跨越
+                    b: false,
+                    component: otherUserInfoByUserId1
+                }
             ]
         }
         ,
@@ -355,26 +412,26 @@ export default new Router({
             hidden: true,
             children: [
                 {
-                    path: '/home2/projectList',
+                    path: '/business/projectList',
                     component: projectList1,
                     b: true,
                     name: '项目列表'
                 },
                 {
-                    path: '/home2/userProjectList',
+                    path: '/business/userProjectList',
                     component: userProjectList1,
                     b: true,
                     name: '我创建的项目列表'
                 },
                 {
-                    path: '/home2/projectInfo/:id',
+                    path: '/business/projectInfo/:id',
                     name: '企业项目详情',
                     changeOrigin: true,//是否允许跨越
                     component: projectInfo,
                     b: false
                 },
                 {
-                    path: '/home2/projectUserList/:id',
+                    path: '/business/projectUserList/:id',
                     name: '投标项目的用户列表',
                     changeOrigin: true,//是否允许跨越
                     component: projectUserList,
@@ -391,14 +448,14 @@ export default new Router({
             hidden: true,
             children: [
                 {
-                    path: '/home2/taskInfo/:id',
+                    path: '/business/taskInfo/:id',
                     name: '任务具体信息',
                     changeOrigin: true,//是否允许跨越
                     component: taskInfo,
                     b: false
                 },
                 {
-                    path: '/home2/taskList/:id',
+                    path: '/business/taskList/:id',
                     name: '项目任务列表',
                     changeOrigin: true,//是否允许跨越
                     component: taskList1,
@@ -415,28 +472,28 @@ export default new Router({
             hidden: true,
             children: [
                 {
-                    path: '/recharge',
+                    path: '/business/recharge',
                     name: '充值',
                     changeOrigin: true,//是否允许跨越
                     b: true,
                     component: recharge
                 },
                 {
-                    path: '/withdraw',
+                    path: '/business/withdraw',
                     name: '提现',
                     changeOrigin: true,//是否允许跨越
                     b: true,
                     component: withdraw
                 },
                 {
-                    path: '/transferAccount',
+                    path: '/business/transferAccount',
                     name: '转账',
                     changeOrigin: true,//是否允许跨越
                     b: true,
                     component: transferAccount
                 },
                 {
-                    path: '/transferRecord',
+                    path: '/business/transferRecord',
                     name: '转账记录',
                     changeOrigin: true,//是否允许跨越
                     b: true,

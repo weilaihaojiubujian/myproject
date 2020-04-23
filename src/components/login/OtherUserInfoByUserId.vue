@@ -143,13 +143,13 @@
             }
         },
         mounted(){   //页面初始化方法
-            this.getOtherUserInfo();
+            this.getOtherUserInfoByUserId();
         },
         methods: {
 
-            getOtherUserInfo() {
-                this.userRequest.projectId=this.$route.params.id;
-                this.$axios.post(api.otherUserInfo, JSON.stringify(this.userRequest), {
+            getOtherUserInfoByUserId() {
+                this.userRequest.userId=this.$route.params.userId;
+                this.$axios.post(api.otherUserInfoByUserId, JSON.stringify(this.userRequest), {
                     headers: {
                         'Access-Control-Allow-Origin': '*',
                         'Content-Type': 'application/json; charset=utf-8'
@@ -172,7 +172,7 @@
             //查看评价列表
             handleEvaluation() {
                 console.log(this.userResponse.userId);
-                this.$router.push({ name:'评价列表', params:{userId:this.userResponse.userId}});
+                this.$router.push({ name:'用户评价列表', params:{userId:this.userResponse.userId}});
             }
 
         }

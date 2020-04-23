@@ -93,7 +93,21 @@
                                             this.confirmUser(params,params.index, params.row);
                                         }
                                     }
-                                }, '选择用户来完成任务')
+                                }, '选择用户来完成任务'),
+                                h('Button', {
+                                    props: {
+                                        type: 'primary',
+                                        size: 'small'
+                                    },
+                                    style: {
+                                        marginRight: '3px'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.viewUser(params,params.index, params.row);
+                                        }
+                                    }
+                                }, '查看用户信息')
 
                             ]);
                         }},
@@ -207,7 +221,11 @@
                     });
                 });
             },
-
+            viewUser(params,index, row){
+                this.confirmUserRequest.userId=params.row.userId;
+                console.log(this.confirmUserRequest.userId);
+                this.$router.push({ name:'通过用户id查看其它用户信息', params:{userId:this.confirmUserRequest.userId}});
+            },
 
             handleSelectRow(){
                 //这里是获取点击的这一行的数据，

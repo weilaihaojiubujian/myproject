@@ -21,11 +21,23 @@
                     {{project.gmtModified}}
                 </el-form-item>
                 <el-form-item label="项目状态"  >
-                    <template v-if="project.status=='1'">
-                        未完成
+                    <template v-if="project.status=='0'">
+                        未审核
                     </template>
-                    <template v-else>
+                    <template v-if="project.status=='1'">
+                        未接受
+                    </template>
+                    <template v-if="project.status=='2'">
+                        审核未通过
+                    </template>
+                    <template v-if="project.status=='5'">
+                        已接受
+                    </template>
+                    <template v-if="project.status=='3'">
                         已完成
+                    </template>
+                    <template v-if="project.status=='4'">
+                        已删除
                     </template>
                 </el-form-item>
                 <el-form-item label="创建者"  >

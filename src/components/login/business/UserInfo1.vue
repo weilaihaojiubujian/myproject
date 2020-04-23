@@ -139,7 +139,7 @@
 
 
 <script>
-    import api from '../../api.js';
+    import api from "@/api";
 
     export default {
         inject: ['reload'], // 引入方法
@@ -353,7 +353,7 @@
             handleEvaluation() {
                 var userId = localStorage.getItem("userId");
                 console.log(userId);
-                this.$router.push({ name:'评价列表', params:{userId:userId}});
+                this.$router.push({ name:'用户评价列表', params:{userId:userId}});
             },
             //显示上传头像界面
             handleFile () {
@@ -361,7 +361,7 @@
             },
             //实名验证
             validationUser() {
-                this.$router.push( '/validationUser');
+                this.$router.push( '/business/validationUser');
             },
             //编辑
             editSubmit () {

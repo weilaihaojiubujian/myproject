@@ -55,7 +55,7 @@
 
 
 <script>
-    import api from '../../api.js';
+    import api from "@/api";
 
     export default {
         data() {
@@ -143,13 +143,13 @@
             }
         },
         mounted(){   //页面初始化方法
-            this.getOtherUserInfo();
+            this.getOtherUserInfoByUserId();
         },
         methods: {
 
-            getOtherUserInfo() {
-                this.userRequest.projectId=this.$route.params.id;
-                this.$axios.post(api.otherUserInfo, JSON.stringify(this.userRequest), {
+            getOtherUserInfoByUserId() {
+                this.userRequest.userId=this.$route.params.userId;
+                this.$axios.post(api.otherUserInfoByUserId, JSON.stringify(this.userRequest), {
                     headers: {
                         'Access-Control-Allow-Origin': '*',
                         'Content-Type': 'application/json; charset=utf-8'

@@ -20,41 +20,14 @@
                 <el-form-item>
                     <el-button type="primary" @click="handleAdd">新增</el-button>
                 </el-form-item>
-                <el-form-item>
-                    <el-button type="primary" @click="handleDelete">删除</el-button>
-                </el-form-item>
+<!--                <el-form-item>-->
+<!--                    <el-button type="primary" @click="handleDelete">删除</el-button>-->
+<!--                </el-form-item>-->
             </el-form>
         </el-col>
         <Table border ref="selection"  @on-selection-change="handleSelectRow()" style="margin-top: 20px;"  no-data-text="暂无数据"
                :columns="columns4" :data="tdata2" highlight-row></Table>
         <Page :total="dataCount" :page-size="pageSize" show-total @on-change="changepage"></Page>
-        <!--编辑界面-->
-        <el-dialog title="编辑" v-model="editFormVisible" :visible.sync="editFormVisible" top="0px">
-            <el-form :model="project" label-width="80px" ref="project">
-                <el-form-item label="项目名" prop="name">
-                    <el-input v-model="project.name" auto-complete="off"></el-input>
-                </el-form-item>
-                <el-form-item label="项目具体描述">
-                    <el-input  type="textarea" v-model="project.description" auto-complete="off"></el-input>
-                </el-form-item>
-                <el-form-item label="价格">
-                    <el-input-number v-model="project.price" ></el-input-number>
-                </el-form-item>
-                <el-form-item label="文件">
-                    <input type="file" ref="clearFile" @change="getFile($event)" multiple="multiplt" class="add-file-right-input"  ><br>
-                    <!--                    <el-input type="file" ref="clearFile" @change="getFile($event)" multiple="multiplt" class="add-file-right-input"  ></el-input>-->
-                    <a>只支持doc,docx</a><br />
-                </el-form-item>
-                <el-form-item label="文件名">
-                    <el-input type="textarea" v-model="project.fileName" @change="getFileName"></el-input>
-                    <a>文件名需要加后缀</a><br />
-                </el-form-item>
-            </el-form>
-            <div slot="footer" class="dialog-footer">
-                <el-button @click="editFormVisible = false">取消</el-button>
-                <el-button type="primary" @click="editSubmit" :loading="editLoading">提交</el-button>
-            </div>
-        </el-dialog>
 
         <!--新增界面-->
         <el-dialog title="新增" v-model="addFormVisible" :visible.sync="addFormVisible">
@@ -84,23 +57,7 @@
             </div>
         </el-dialog>
 
-        <el-dialog title="上传文件" v-model="fileFormVisible" :visible.sync="fileFormVisible">
-            <el-form :model="project" label-width="80px"  ref="project">
-                <el-form-item label="文件">
-                    <input type="file" ref="clearFile" @change="getFile($event)" multiple="multiplt" class="add-file-right-input" accept=".zip,.rar" ><br>
-                    <!--                    <el-input type="file" ref="clearFile" @change="getFile($event)" multiple="multiplt" class="add-file-right-input"  ></el-input>-->
-                    <a>只支持.zip,.rar</a><br />
-                </el-form-item>
-                <el-form-item label="文件名">
-                    <el-input type="textarea" v-model="project.fileName" @change="getZipFileName"></el-input>
-                    <a>文件名需要加后缀</a><br />
-                </el-form-item>
-            </el-form>
-            <div slot="footer" class="dialog-footer">
-                <el-button @click="fileFormVisible = false">取消</el-button>
-                <el-button type="primary" @click="fileSubmit" :loading="fileLoading">提交</el-button>
-            </div>
-        </el-dialog>
+
     </div>
 </template>
 <script>
@@ -146,12 +103,11 @@
                 tdata2: [],
                 columns4: [
 // 重点说明：key 里面的值，是和后台的字段相对应的
-                    {type: 'selection',width: 60,align: 'center'},  //这里是复选框
                     {title: '项目id',width:100,key: 'id'},
-                    {title: '项目名',width:100,key: 'name'},
+                    {title: '项目名',width:200,key: 'name'},
                     {title: '创建者',width:100,key:'userId'},
                     {title: '价格',width:100,key:'price'},
-                    {title: '完成进度',width:100,key:'progress'},
+                    {title: '完成进度',width:150,key:'progress'},
                     // //  重点说明一下这里状态，我从后台获取 得到的是  3 2 1 这些数字，但是如何根据不同的数据显示不同的文字，
                     // //  需要用到render 这个函数
                     // {title: '状态',key:'taOrdertype',width:100,
@@ -171,7 +127,6 @@
                     // },
                     {title: '操作',
                         render: (h, params) => {
-                            if(params.row.userId == this.userId){
                                 return h('div', [
                                     h('Button', {
                                         props: {
@@ -186,130 +141,9 @@
                                                 this.projectInfo(params,params.index, params.row);
                                             }
                                         }
-                                    }, '项目详情'),
-                                    h('Button', {
-                                        props: {
-                                            type: 'primary',
-                                            size: 'small'
-                                        },
-                                        style: {
-                                            marginRight: '3px'
-                                        },
-                                        on: {
-                                            click: () => {
-                                                this.taskList(params,params.index, params.row);
-                                            }
-                                        }
-                                    }, '任务列表')
-                                    ,
-                                    h('Button', {
-                                        props: {
-                                            type: 'primary',
-                                            size: 'small'
-                                        },
-                                        style: {
-                                            marginRight: '3px'
-                                        },
-                                        on: {
-                                            click: () => {
-                                                this.getFileList(params,params.index, params.row);
-                                            }
-                                        }
-                                    }, '项目文件列表'),
-                                    h('Button', {
-                                        props: {
-                                            type: 'primary',
-                                            size: 'small'
-                                        },
-                                        style: {
-                                            marginRight: '3px'
-                                        },
-                                        on: {
-                                            click: () => {
-                                                this.handleFile(params,params.index, params.row);
-                                            }
-                                        }
-                                    }, '上传项目代码')
-                                    ,h('Button', {
-                                        props: {
-                                            type: 'primary',
-                                            size: 'small'
-                                        },
-                                        style: {
-                                            marginRight: '3px'
-                                        },
-                                        //  这里就是给表格里面添加一个操作，删除编辑添加啥的，就是在这里了
-                                        //  this.Editadd(params.index)      这个是自己取得一个定义的一个方法，我的是编辑，弹出一个框进行编辑
-                                        //  里面传 params.index   是当前的下标
-                                        on: {
-                                            click: () => {
-                                                this.handleEdit(params,params.index, params.row);
-                                            }
-                                        }
-                                    }, '编辑')
+                                    }, '项目详情')
 
                                 ]);
-                            }else {
-                                return h('div', [
-                                    h('Button', {
-                                        props: {
-                                            type: 'primary',
-                                            size: 'small'
-                                        },
-                                        style: {
-                                            marginRight: '3px'
-                                        },
-                                        on: {
-                                            click: () => {
-                                                this.projectInfo(params,params.index, params.row);
-                                            }
-                                        }
-                                    }, '项目详情'),
-                                    h('Button', {
-                                        props: {
-                                            type: 'primary',
-                                            size: 'small'
-                                        },
-                                        style: {
-                                            marginRight: '3px'
-                                        },
-                                        on: {
-                                            click: () => {
-                                                this.taskList(params,params.index, params.row);
-                                            }
-                                        }
-                                    }, '任务列表')
-                                    ,
-                                    h('Button', {
-                                        props: {
-                                            type: 'primary',
-                                            size: 'small'
-                                        },
-                                        style: {
-                                            marginRight: '3px'
-                                        },
-                                        on: {
-                                            click: () => {
-                                                this.getFileList(params,params.index, params.row);
-                                            }
-                                        }
-                                    }, '项目文件列表'),
-                                    h('Button', {
-                                        props: {
-                                            type: 'primary',
-                                            size: 'small'
-                                        },
-                                        style: {
-                                            marginRight: '3px'
-                                        },
-                                        on: {
-                                            click: () => {
-                                                this.handleFile(params,params.index, params.row);
-                                            }
-                                        }
-                                    }, '上传项目代码')
-                                ]);
-                            }
 
                         }},
                 ],
@@ -352,25 +186,7 @@
                     });
                 }
             },
-            getZipFileName(){
-                var index= this.project.fileName.lastIndexOf(".");
-                //获取后缀
-                var ext = this.project.fileName.substr(index+1);
-                let AllUpExt = ".zip|.rar|";
-                if(AllUpExt.indexOf(ext+ "|") == "-1"){
-                    // this.$message(this, "error", "文件格式不正确!");
-                    this.$message({
-                        message: '文件格式不正确',
-                        type: 'error'
-                    });
-                }else{
-                    // 操作
-                    this.$message({
-                        message: '文件格式正确',
-                        type: 'success'
-                    });
-                }
-            },
+
             // 获取历史记录信息
             getProjectList() {
 
@@ -448,32 +264,6 @@
                 console.log(this.project.id);
                 this.$router.push({ name:'企业项目详情', params:{id:this.project.id}});
             },
-            taskList(params,index, row) {
-                this.project.id=params.row.id;
-                console.log(this.project.id);
-                this.$router.push({ name:'项目任务列表', params:{id:this.project.id}});
-            },
-            getFileList(params,index, row) {
-                this.project.name=params.row.name;
-                console.log(this.project.name);
-                this.$router.push({ name:'项目文件列表', params:{name:this.project.name}});
-            },
-            //显示上传文件界面
-            handleFile (params,index, row) {
-                this.project.name=params.row.name;
-                console.log(this.project.name);
-                this.fileFormVisible = true;
-                this.project = Object.assign({}, row);
-                console.log(this.project);
-            },
-            //显示编辑界面
-            handleEdit (params,index, row) {
-                this.project.id=params.row.id;
-                console.log(this.project.id);
-                this.editFormVisible = true;
-                this.project = Object.assign({}, row);
-                console.log(this.project);
-            },
             //显示新增界面
             handleAdd () {
                 this.addFormVisible = true;
@@ -487,40 +277,7 @@
                 };
 
             },
-            //批量删除
-            handleDelete() {
-                const a = this.$refs.selection.getSelection()
-                for(var i  = 0;i <a.length;i++ ){
-                    this.deleteProjectRequest.id = a[i].id;
-                    this.$axios.post(api.deleteProject, JSON.stringify(this.deleteProjectRequest), {
-                        headers: {
-                            'Access-Control-Allow-Origin': '*',
-                            'Content-Type': 'application/json; charset=utf-8'
-                        },
-                        withCredentials: true,
-                        params:{
-                            openid: localStorage.getItem("openid")
-                        }
-                    }).then(res => {
-                        if (res != null && res.status === 200) {
-                            if (res.data.success) {
 
-                            } else {
-                                console.log(res);
-                            }
-                        } else {
-                            console.log(res);
-                        }
-                    });
-
-                }
-                clearTimeout(this.timer);  //清除延迟执行
-
-                this.timer = setTimeout(()=>{   //设置延迟执行
-                    this.getProjectList();
-                },1000);
-
-            },
             select () {
                 this.$axios.post(api.projectList, JSON.stringify(this.projectListRequest), {
                     headers: {
@@ -556,63 +313,7 @@
 
 
             },
-            //编辑
-            editSubmit () {
-                this.$refs.project.validate((valid) => {
-                    if (valid) {
-                        this.$confirm('确认提交吗？', '提示', {}).then(() => {
-                            this.editLoading = true;
-                            var formData = new FormData();
-                            formData.append("multipartFile", this.project.multipartFile);
-                            formData.append("fileName", this.project.fileName);
-                            formData.append("name", this.project.name);
-                            this.$axios.post(api.uploadFile, formData, {
-                                headers: {
-                                    'Access-Control-Allow-Origin': '*'
-                                    // 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-                                },
-                                withCredentials: true,
-                                params:{
-                                    openid: localStorage.getItem("openid")
-                                }
-                            }).then(res => {
-                                if (res != null && res.status === 200) {
 
-                                    this.project.url=res.data.data;
-                                    this.$axios.post(api.editProject, JSON.stringify(this.project), {
-                                        headers: {
-                                            'Access-Control-Allow-Origin': '*',
-                                            'Content-Type': 'application/json; charset=utf-8'
-                                        },
-                                        withCredentials: true,
-                                        params:{
-                                            openid: localStorage.getItem("openid")
-                                        }
-                                    }).then(res => {
-                                        if (res != null && res.status === 200) {
-                                            this.editLoading = false;
-                                            //NProgress.done();
-                                            this.$message({
-                                                message: '提交成功',
-                                                type: 'success'
-                                            });
-                                            this.$refs['project'].resetFields();
-                                            this.editFormVisible = false;
-
-                                        } else {
-                                            console.log(res);
-                                        }
-                                        alert(res.data.msg);
-                                    });
-                                } else {
-                                    console.log(res);
-                                }
-                                alert(res.data.msg);
-                            });
-                        });
-                    }
-                });
-            },
 
             //新增
             addSubmit() {
@@ -677,46 +378,7 @@
                     }
                 });
             },
-            fileSubmit() {
-                this.$refs.project.validate((valid) => {
-                    if (valid) {
-                        this.$confirm('确认提交吗？', '提示', {}).then(() => {
-                            this.fileLoading = true;
-                            var formData = new FormData();
 
-                            let AllUpExt = ".zip|.rar|";
-                            if(AllUpExt.indexOf(this.project.fileName + "|") == "-1"){
-                                this.$message(this, "error", "文件格式不正确!");
-                            }else{
-                                // 操作
-                            }
-                            formData.append("multipartFile", this.project.multipartFile);
-                            formData.append("fileName", this.project.fileName);
-                            formData.append("name", this.project.name);
-                            this.$axios.post(api.uploadFile, formData, {
-                                headers: {
-                                    'Access-Control-Allow-Origin': '*'
-                                    // 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-                                },
-                                withCredentials: true,
-                                params:{
-                                    openid: localStorage.getItem("openid")
-                                }
-                            }).then(res => {
-                                if (res != null && res.status === 200) {
-                                    this.$message({
-                                        message: '上传文件成功',
-                                        type: 'success'
-                                    });
-                                    this.fileFormVisible = false;
-                                } else {
-                                    console.log(res);
-                                }
-                            });
-                        });
-                    }
-                });
-            },
             handleSelectRow(){
                 //这里是获取点击的这一行的数据，
                 const a = this.$refs.selection.getSelection()

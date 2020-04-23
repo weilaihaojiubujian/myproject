@@ -73,9 +73,9 @@
                             localStorage.setItem("userInfo",JSON.stringify(this.ruleForm));
                             console.log(JSON.parse(localStorage.getItem("userInfo")).loginId);
                             if(res.data.data.roleId=='1'){
-                                this.$router.push( '/home1/main');
+                                this.$router.push( '/admin/main');
                             }else if(res.data.data.roleId=='2'){
-                                this.$router.push( '/home2/main');
+                                this.$router.push( '/business/main');
                             }else{
                                 this.$router.push( '/main');
                             }

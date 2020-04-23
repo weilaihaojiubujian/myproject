@@ -33,7 +33,7 @@
                 </el-form-item>
                 <el-form-item label="任务种类" prop="name">
                     <Select style="width:200px" v-model="taskListRequest.taskTypeId">
-                        <Option v-for="item in taskTypeList" :value="item.value" :key="item.value" >{{
+                        <Option v-for="item in taskTypeIdList" :value="item.value" :key="item.value" >{{
                             item.label }}
                         </Option>
                     </Select>
@@ -221,7 +221,6 @@
                 tdata2: [],
                 columns4: [
 // 重点说明：key 里面的值，是和后台的字段相对应的
-                    {type: 'selection',width: 60,align: 'center'},  //这里是复选框
                     {title: '任务id',width:170,key: 'id'},
                     {title: '任务名',width:100,key: 'name'},
                     {title: '任务截止时间',width:100,key:'estimatedTime',

@@ -44,6 +44,8 @@ const uploadPicture= root1 + 'file/uploadPicture';
 const otherUserInfoByUserId= root1 + 'admin/user/otherUserInfoByUserId';
 const validationUser= root1 + 'admin/user/validationUser';
 const evaluationUser= root1 + 'admin/user/evaluationUser';
+const evaluationList= root1 + 'admin/user/evaluationList';
+const acceptProject= root1 + 'admin/project/acceptProject';
 export default {
     login,
     register,
@@ -89,6 +91,8 @@ export default {
     otherUserInfoByUserId,
     validationUser,
     evaluationUser,
+    evaluationList,
+    acceptProject,
     root,
     root1
 };

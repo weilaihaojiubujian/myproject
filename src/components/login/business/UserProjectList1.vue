@@ -136,27 +136,14 @@
                     email: '',
                     password: ''
                 },
-                userResponse: {
-                    id: '',
-                    loginId: '',
-                    roleName: '',
-                    phone: '',
-                    lastName: '',
-                    firstName: '',
-                    sex: '',
-                    certType: '',
-                    certNo: '',
-                    nation: '',
-                    money: '',
-                    email: '',
-                    roleId: ''
-                },
+
                 project:{
                     id:'',
                     name:'',
                     description:'',
                     price:'',
                     url:'',
+                    userId:'',
                     multipartFile:'',
                     fileName:''
                 },
@@ -213,7 +200,6 @@
                 tdata2: [],
                 columns4: [
 // 重点说明：key 里面的值，是和后台的字段相对应的
-                    {type: 'selection',width: 60,align: 'center'},  //这里是复选框
                     {title: '项目id',width:100,key: 'id'},
                     {title: '项目名',width:100,key: 'name'},
                     {title: '价格',width:100,key:'price'},
@@ -316,7 +302,7 @@
                                                 this.handleFile(params,params.index, params.row);
                                             }
                                         }
-                                    }, '上传项目代码'),
+                                    }, '上传项目文件'),
                                     h('Button', {
                                         props: {
                                             type: 'primary',
@@ -330,7 +316,7 @@
                                                 this.projectUserList(params,params.index, params.row);
                                             }
                                         }
-                                    }, '想要完成项目的用户'),
+                                    }, '投标项目的用户列表'),
                                     h('Button', {
                                         props: {
                                             type: 'primary',
@@ -421,7 +407,7 @@
                                                 this.handleFile(params,params.index, params.row);
                                             }
                                         }
-                                    }, '上传项目代码'),
+                                    }, '上传项目文件'),
                                     h('Button', {
                                         props: {
                                             type: 'primary',
@@ -463,7 +449,21 @@
                                                 this.handleEvaluation(params,params.index, params.row);
                                             }
                                         }
-                                    }, '评价用户')
+                                    }, '评价用户'),
+                                    h('Button', {
+                                        props: {
+                                            type: 'primary',
+                                            size: 'small'
+                                        },
+                                        style: {
+                                            marginRight: '3px'
+                                        },
+                                        on: {
+                                            click: () => {
+                                                this.chat(params,params.index, params.row);
+                                            }
+                                        }
+                                    }, '聊天')
                                 ]);
                             }
                             else if( params.row.status == '5'){
@@ -541,7 +541,7 @@
                                                 this.handleFile(params,params.index, params.row);
                                             }
                                         }
-                                    }, '上传项目代码'),
+                                    }, '上传项目文件'),
                                     h('Button', {
                                         props: {
                                             type: 'primary',
@@ -555,7 +555,21 @@
                                                 this.otherUserInfo(params,params.index, params.row);
                                             }
                                         }
-                                    }, '查看接受项目的用户')
+                                    }, '查看接受项目的用户'),
+                                    h('Button', {
+                                        props: {
+                                            type: 'primary',
+                                            size: 'small'
+                                        },
+                                        style: {
+                                            marginRight: '3px'
+                                        },
+                                        on: {
+                                            click: () => {
+                                                this.chat(params,params.index, params.row);
+                                            }
+                                        }
+                                    }, '聊天')
                                 ]);
                             }
                             else {
@@ -633,7 +647,7 @@
                                                 this.handleFile(params,params.index, params.row);
                                             }
                                         }
-                                    }, '上传项目代码'),
+                                    }, '上传项目文件'),
                                     h('Button', {
                                         props: {
                                             type: 'primary',
@@ -811,6 +825,12 @@
 
                 this.evaluationFormVisible = true;
 
+            },
+            //聊天
+            chat(params,index, row) {
+                this.project.userId=params.row.userId;
+                console.log(this.project.userId);
+                this.$router.push({ name:'用户聊天', params:{userId:this.project.userId}});
             },
             confirmProject (params,index, row) {
                 this.project.id=params.row.id;
