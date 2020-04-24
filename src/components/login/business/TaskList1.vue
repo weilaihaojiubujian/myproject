@@ -31,6 +31,13 @@
                             placeholder="选择日期">
                     </el-date-picker>
                 </el-form-item>
+                <el-form-item label="任务种类" prop="name">
+                    <Select style="width:200px" v-model="taskListRequest.taskTypeId">
+                        <Option v-for="item in taskTypeIdList" :value="item.value" :key="item.value" >{{
+                            item.label }}
+                        </Option>
+                    </Select>
+                </el-form-item>
                 <el-form-item>
                     <!--                    <el-button type="primary" v-on:click="getUsers">查询</el-button>-->
                     <el-button type="primary" @click="select">查询</el-button>
@@ -90,6 +97,13 @@
                             placeholder="选择日期">
                     </el-date-picker>
                 </el-form-item>
+                <el-form-item label="任务种类" prop="name">
+                    <Select style="width:200px" v-model="task.taskTypeId">
+                        <Option v-for="item in taskTypeList" :value="item.value" :key="item.value" >{{
+                            item.label }}
+                        </Option>
+                    </Select>
+                </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="addFormVisible = false">取消</el-button>
@@ -110,6 +124,62 @@
                 editLoading: false,
                 addFormVisible: false,//新增界面是否显示
                 addLoading: false,
+                taskTypeIdList: [
+                    {
+                        value: '',
+                        label: '请选择'
+                    },
+                    {
+                        value: '1',
+                        label: '需求分析'
+                    },
+                    {
+                        value: '2',
+                        label: '原型设计'
+                    },
+                    {
+                        value: '3',
+                        label: '文档编写'
+                    },
+                    {
+                        value: '4',
+                        label: '编码开发'
+                    },
+                    {
+                        value: '5',
+                        label: '测试代码'
+                    },
+                    {
+                        value: '6',
+                        label: '修复bug'
+                    }
+                ],
+                taskTypeList: [
+                    {
+                        value: '1',
+                        label: '需求分析'
+                    },
+                    {
+                        value: '2',
+                        label: '原型设计'
+                    },
+                    {
+                        value: '3',
+                        label: '文档编写'
+                    },
+                    {
+                        value: '4',
+                        label: '编码开发'
+                    },
+                    {
+                        value: '5',
+                        label: '测试代码'
+                    },
+                    {
+                        value: '6',
+                        label: '修复bug'
+                    }
+                ],
                 task:{
                     id:'',
                     name:'',
@@ -123,6 +193,7 @@
                     name:'',
                     startTime:'',
                     endTime:'',
+                    taskTypeId:'',
                     status:'',
                     pageNo: '',
                     pageSize: ''
@@ -134,7 +205,7 @@
                     },
                     {
                         value: '1',
-                        label: '审核通过,未被接受'
+                        label: '未完成'
                     },
                     {
                         value: '3',
@@ -150,7 +221,6 @@
                 tdata2: [],
                 columns4: [
 // 重点说明：key 里面的值，是和后台的字段相对应的
-                    {type: 'selection',width: 60,align: 'center'},  //这里是复选框
                     {title: '任务id',width:170,key: 'id'},
                     {title: '任务名',width:100,key: 'name'},
                     {title: '任务截止时间',width:100,key:'estimatedTime',

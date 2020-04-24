@@ -68,7 +68,6 @@
                      tdata2: [],
                      columns4: [
 // 重点说明：key 里面的值，是和后台的字段相对应的
-                         {type: 'selection',width: 60,align: 'center'},  //这里是复选框
                          {title: '项目id',width:100,key: 'id'},
                          {title: '项目名',width:100,key: 'name'},
                          {title: '创建者',width:100,key:'userId'},

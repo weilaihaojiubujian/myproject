@@ -52,7 +52,6 @@
                 tdata2: [],
                 columns4: [
 // 重点说明：key 里面的值，是和后台的字段相对应的
-                    {type: 'selection',width: 60,align: 'center'},  //这里是复选框
                     {title: '用户id',width:170,key: 'userId'},
                     {title: '登陆名',width:100,key: 'loginId'},
                     {title: '手机号',width:100,key:'phone'},

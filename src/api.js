@@ -46,6 +46,14 @@ const validationUser= root1 + 'admin/user/validationUser';
 const evaluationUser= root1 + 'admin/user/evaluationUser';
 const evaluationList= root1 + 'admin/user/evaluationList';
 const acceptProject= root1 + 'admin/project/acceptProject';
+const problemList= root1 + 'admin/problem/problemList';
+const createProblem= root1 + 'admin/problem/createProblem';
+const addClick= root1 + 'admin/problem/addClick';
+const commentList= root1 + 'admin/comment/commentList';
+const createComment= root1 + 'admin/comment/createComment';
+const userProblemList= root1 + 'admin/problem/userProblemList';
+const userCommentList= root1 + 'admin/comment/userCommentList';
+const problemAndComment=root1 + 'admin/comment/problemAndComment';
 export default {
     login,
     register,
@@ -93,6 +101,14 @@ export default {
     evaluationUser,
     evaluationList,
     acceptProject,
+    createProblem,
+    problemList,
+    addClick,
+    commentList,
+    createComment,
+    userProblemList,
+    userCommentList,
+    problemAndComment,
     root,
     root1
 };

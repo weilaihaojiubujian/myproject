@@ -27,6 +27,11 @@ import chatRecord from '@/components/login/ChatRecord'
 import validationUser from '@/components/login/ValidationUser'
 import evaluationList from '@/components/login/EvaluationList'
 import otherUserInfoByUserId from '@/components/login/OtherUserInfoByUserId'
+import problemList from '@/components/login/ProblemList'
+import commentList from '@/components/login/CommentList'
+import userProblemList from '@/components/login/UserProblemList'
+import userCommentList from '@/components/login/UserCommentList'
+import problemAndComment from '@/components/login/ProblemAndComment'
 
 import Main1 from '@/components/login/admin/Main'
 import Home1 from '@/components/login/admin/Home1'
@@ -44,7 +49,9 @@ import chat1 from '@/components/login/business/Chat1'
 import userInfo1 from '@/components/login/business/UserInfo1'
 import otherUserInfoByUserId1 from '@/components/login/business/OtherUserInfoByUserId1'
 import otherUserInfo1 from '@/components/login/business/OtherUserInfo1'
-// import otherUserInfo1 from '@/components/login/business/OtherUserInfo1'
+import problemList1 from '@/components/login/business/ProblemList1'
+import userProblemList1 from '@/components/login/business/UserProblemList1'
+import userCommentList1 from '@/components/login/business/UserCommentList1'
 
 // import Login from '@/components/page/Login'
 Vue.use(Router)
@@ -203,6 +210,41 @@ export default new Router({
                     component: projectUserList,
                     hidden: true
                 },
+            ]
+        }
+        ,
+        {
+            path: '/',
+            component: Home,
+            name: '问题管理',
+            children: [
+
+                { path: '/problemList', component: problemList, name: '问题列表' },
+                { path: '/userProblemList', component: userProblemList, name: '我的问题' },
+                { path: '/userCommentList', component: userCommentList, name: '我的评论' }
+            ]
+        },
+        {
+            path: '/',
+            name: '评论管理',
+            component: Home,
+            hidden: true,
+            children: [
+                {
+                    path: '/commentList',
+                    name: '评论列表',
+                    changeOrigin: true,//是否允许跨越
+                    component: commentList,
+                    hidden: true
+                },
+                {
+                    path: '/problemAndComment',
+                    name: '问题与评论',
+                    changeOrigin: true,//是否允许跨越
+                    component: problemAndComment,
+                    hidden: true
+                }
+
             ]
         }
         ,
@@ -460,6 +502,55 @@ export default new Router({
                     changeOrigin: true,//是否允许跨越
                     component: taskList1,
                     b: false
+                }
+
+            ]
+        },
+        {
+            path: '/',
+            component: Home2,
+            name: '问题管理',
+            b: true,
+            hidden: true,
+            children: [
+
+                { path: '/business/problemList',
+                    component: problemList1,
+                    b: true,
+                    name: '问题列表'
+                },
+                { path: '/business/userProblemList',
+                    component: userProblemList1,
+                    b: true,
+                    name: '我的问题'
+                },
+                { path: '/business/userCommentList',
+                    component: userCommentList1,
+                    b: true,
+                    name: '我的评论'
+                }
+            ]
+        },
+        {
+            path: '/',
+            name: '评论管理',
+            component: Home2,
+            b: false,
+            hidden: true,
+            children: [
+                {
+                    path: '/business/commentList',
+                    name: '问题评论列表',
+                    changeOrigin: true,//是否允许跨越
+                    component: commentList,
+                    hidden: true
+                },
+                {
+                    path: '/business/problemAndComment',
+                    name: '问题和评论',
+                    changeOrigin: true,//是否允许跨越
+                    component: problemAndComment,
+                    hidden: true
                 }
 
             ]

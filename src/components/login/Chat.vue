@@ -159,7 +159,7 @@
                                         if (res != null && res.status === 200) {
 
                                             if (res.data.success) {
-
+                                                this.talks =[];
                                                 // 保存取到的所有数据
                                                 this.ajaxHistoryData =res.data.data.list;
                                                 this.dataCount = res.data.data.count;
@@ -168,6 +168,7 @@
                                                     this.ajaxHistoryData[i].gmtCreate = (!this.ajaxHistoryData[i].gmtCreate || this.ajaxHistoryData[i].gmtCreate == '') ? '' : utils.formatDate.format(new  Date(this.ajaxHistoryData[i].gmtCreate), 'yyyy-MM-dd hh：mm：ss');
                                                     this.talks.push(this.ajaxHistoryData[i]);
                                                 }
+                                                this.chat.content="";
                                             } else {
                                                 console.log(res);
                                             }

@@ -43,6 +43,9 @@
                 <el-form-item label="用户评价"  >
                     {{userResponse.evaluation}}
                 </el-form-item>
+                <el-form-item label="金额"  >
+                    {{userResponse.money}}
+                </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="handleEdit" >编辑</el-button>
                     <el-button  type="primary" @click="handleChangePassword">改变密码</el-button>
