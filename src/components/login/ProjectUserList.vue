@@ -106,7 +106,21 @@
                                             this.viewUser(params,params.index, params.row);
                                         }
                                     }
-                                }, '查看用户信息')
+                                }, '查看用户信息'),
+                                h('Button', {
+                                    props: {
+                                        type: 'primary',
+                                        size: 'small'
+                                    },
+                                    style: {
+                                        marginRight: '3px'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.signature(params,params.index, params.row);
+                                        }
+                                    }
+                                }, '企业合同签名')
 
                             ]);
                         }},
@@ -225,7 +239,10 @@
                 console.log(this.confirmUserRequest.userId);
                 this.$router.push({ name:'通过用户id查看其它用户信息', params:{userId:this.confirmUserRequest.userId}});
             },
-
+            signature(params,index, row) {
+                this.confirmUserRequest.userId=params.row.userId;
+                this.$router.push({ name:'企业合同签名', params:{id:this.projectUserListRequest.id,userId:this.confirmUserRequest.userId}});
+            },
             handleSelectRow(){
                 //这里是获取点击的这一行的数据，
                 const a = this.$refs.selection.getSelection()

@@ -26,6 +26,7 @@
 </template>
 <script>
     import api from "@/api";
+    import signature from "@/components/login/Signature";
 
 
     export default {
@@ -120,7 +121,21 @@
                                                      this.acceptProject(params,params.index, params.row);
                                                  }
                                              }
-                                         }, '报名接受项目')
+                                         }, '报名接受项目'),
+                                         h('Button', {
+                                             props: {
+                                                 type: 'primary',
+                                                 size: 'small'
+                                             },
+                                             style: {
+                                                 marginRight: '3px'
+                                             },
+                                             on: {
+                                                 click: () => {
+                                                     this.signature(params,params.index, params.row);
+                                                 }
+                                             }
+                                         }, '签订合同')
 
                                      ]);
 
@@ -211,6 +226,11 @@
                 console.log(this.project.id);
                 this.$router.push({ name:'项目详情', params:{id:this.project.id}});
             },
+            signature(params,index, row) {
+                this.project.id=params.row.id;
+                console.log(this.project.id);
+                this.$router.push({ name:'合同签名', params:{id:this.project.id}});
+            },
             acceptProject(params,index, row) {
                 this.project.id=params.row.id;
                 this.$confirm('确认报名接受项目吗？', '提示', {}).then(() => {
@@ -231,6 +251,7 @@
                                 message: '投标项目成功',
                                 type: 'success'
                             });
+
                         } else {
                             this.$message({
                                 message: res.data.msg,

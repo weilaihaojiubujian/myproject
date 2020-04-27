@@ -32,6 +32,7 @@ import commentList from '@/components/login/CommentList'
 import userProblemList from '@/components/login/UserProblemList'
 import userCommentList from '@/components/login/UserCommentList'
 import problemAndComment from '@/components/login/ProblemAndComment'
+import signature from '@/components/login/Signature'
 
 import Main1 from '@/components/login/admin/Main'
 import Home1 from '@/components/login/admin/Home1'
@@ -43,6 +44,7 @@ import Home2 from '@/components/login/business/Home2'
 import projectList1 from '@/components/login/business/ProjectList1'
 import userProjectList1 from '@/components/login/business/UserProjectList1'
 import listFile1 from '@/components/login/business/ListFile1'
+import signature1 from '@/components/login/business/Signature1'
 // import projectUserList1 from '@/components/login/business/ProjectUserList1'
 import taskList1 from '@/components/login/business/TaskList1'
 import chat1 from '@/components/login/business/Chat1'
@@ -76,6 +78,7 @@ export default new Router({
             component: register,
             hidden: true
         },
+
         {
             path: '/',
             name: '',
@@ -184,6 +187,12 @@ export default new Router({
                     changeOrigin: true,//是否允许跨越
                     component: listFile,
                     hidden: true
+                } ,
+                {
+                    path: '/signature',
+                    name: '合同签名',
+                    changeOrigin: true,//是否允许跨越
+                    component: signature
                 }
             ]
         }
@@ -442,6 +451,13 @@ export default new Router({
                     changeOrigin: true,//是否允许跨越
                     b: false,
                     component: otherUserInfoByUserId1
+                },
+                {
+                    path: '/business/signature',
+                    name: '企业合同签名',
+                    changeOrigin: true,//是否允许跨越
+                    b: false,
+                    component: signature1
                 }
             ]
         }
