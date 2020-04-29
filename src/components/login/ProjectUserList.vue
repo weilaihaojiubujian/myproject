@@ -27,6 +27,7 @@
                 editLoading: false,
                 addFormVisible: false,//新增界面是否显示
                 addLoading: false,
+                name:'',
                 task:{
                     id:'',
                     name:'',
@@ -132,6 +133,8 @@
 
             // 获取历史记录信息
             getProjectUserList() {
+                this.name=this.$route.params.name;
+                console.log(this.name);
                 this.projectUserListRequest.id=this.$route.params.id;
                 this.confirmUserRequest.projectId=this.$route.params.id;
                 this.$axios.post(api.projectUserList, JSON.stringify(this.projectUserListRequest), {
@@ -241,7 +244,7 @@
             },
             signature(params,index, row) {
                 this.confirmUserRequest.userId=params.row.userId;
-                this.$router.push({ name:'企业合同签名', params:{id:this.projectUserListRequest.id,userId:this.confirmUserRequest.userId}});
+                this.$router.push({ name:'企业合同签名', params:{id:this.projectUserListRequest.id,userId:this.confirmUserRequest.userId,name:this.name}});
             },
             handleSelectRow(){
                 //这里是获取点击的这一行的数据，

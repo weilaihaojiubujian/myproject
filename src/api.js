@@ -54,6 +54,7 @@ const createComment= root1 + 'admin/comment/createComment';
 const userProblemList= root1 + 'admin/problem/userProblemList';
 const userCommentList= root1 + 'admin/comment/userCommentList';
 const problemAndComment=root1 + 'admin/comment/problemAndComment';
+const uploadPDFFile = root1 + 'file/uploadPDFFile';
 export default {
     login,
     register,
@@ -109,6 +110,7 @@ export default {
     userProblemList,
     userCommentList,
     problemAndComment,
+    uploadPDFFile,
     root,
     root1
 };

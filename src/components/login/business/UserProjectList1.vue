@@ -817,7 +817,8 @@
             projectUserList (params,index, row) {
                 this.project.id=params.row.id;
                 console.log(this.project.id);
-                this.$router.push({ name:'投标项目的用户列表', params:{id:this.project.id}});
+                this.project.name=params.row.name;
+                this.$router.push({ name:'投标项目的用户列表', params:{id:this.project.id,name:this.project.name}});
             },
             //评价用户
             handleEvaluation (params,index, row) {

@@ -14,10 +14,16 @@ import VueRouter from 'vue-router'
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';
 
+
+
+
+
 Vue.use(iView);
 // 注册element-ui
 Vue.use(ElementUI)
 Vue.use(VueRouter)
+
+// Vue.use(htmlToPdf)
 Vue.config.productionTip = false
 
 // const axios = Axios.create({
