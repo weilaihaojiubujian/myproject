@@ -172,7 +172,7 @@
             //查看评价列表
             handleEvaluation() {
                 console.log(this.userResponse.userId);
-                this.$router.push({ name:'评价列表', params:{userId:this.userResponse.userId}});
+                this.$router.push({ name:'用户评价列表', params:{userId:this.userResponse.userId}});
             }
 
         }

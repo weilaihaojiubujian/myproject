@@ -317,12 +317,14 @@
             },
             getFileList(params,index, row) {
                 this.project.name=params.row.name;
+                this.project.userId=params.row.userId;
                 console.log(this.project.name);
-                this.$router.push({ name:'文件列表', params:{name:this.project.name}});
+                this.$router.push({ name:'文件列表', params:{name:this.project.name,userId:this.project.userId}});
             },
             //显示上传文件界面
             handleFile (params,index, row) {
                 this.project.name=params.row.name;
+                this.project.userId=params.row.userId;
                 console.log(this.project.name);
                 this.fileFormVisible = true;
                 this.project = Object.assign({}, row);
@@ -377,7 +379,8 @@
                             formData.append("multipartFile", this.project.multipartFile);
                             formData.append("fileName", this.project.fileName);
                             formData.append("name", this.project.name);
-                            this.$axios.post(api.uploadFile, formData, {
+                            formData.append("userId", this.project.userId);
+                            this.$axios.post(api.uploadFileByUserId, formData, {
                                 headers: {
                                     'Access-Control-Allow-Origin': '*'
                                     // 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
@@ -394,6 +397,10 @@
                                     });
                                     this.fileFormVisible = false;
                                 } else {
+                                    this.$message({
+                                        message: res.data.msg,
+                                        type: 'error'
+                                    });
                                     console.log(res);
                                 }
                             });

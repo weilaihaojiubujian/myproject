@@ -55,6 +55,9 @@ const userProblemList= root1 + 'admin/problem/userProblemList';
 const userCommentList= root1 + 'admin/comment/userCommentList';
 const problemAndComment=root1 + 'admin/comment/problemAndComment';
 const uploadPDFFile = root1 + 'file/uploadPDFFile';
+const completeProjectList= root1 + 'admin/project/completeProjectList';
+const auditUserList= root1 + 'admin/auditUserList';
+const bannedUser= root + 'admin/user/bannedUser';
 export default {
     login,
     register,
@@ -111,6 +114,9 @@ export default {
     userCommentList,
     problemAndComment,
     uploadPDFFile,
+    completeProjectList,
+    auditUserList,
+    bannedUser,
     root,
     root1
 };

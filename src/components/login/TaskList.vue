@@ -2,13 +2,13 @@
     <div style="height:500px;overflow:scroll;">
         <!--工具条-->
         <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-            <el-form :inline="true" >
+            <el-form :inline="true">
                 <el-form-item label="任务名" prop="name">
                     <el-input v-model="taskListRequest.name" auto-complete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="状态"  >
+                <el-form-item label="状态">
                     <Select style="width:200px" v-model="taskListRequest.status">
-                        <Option v-for="item in statusList" :value="item.value" :key="item.value" >{{
+                        <Option v-for="item in statusList" :value="item.value" :key="item.value">{{
                             item.label }}
                         </Option>
                     </Select>
@@ -33,7 +33,7 @@
                 </el-form-item>
                 <el-form-item label="任务种类" prop="name">
                     <Select style="width:200px" v-model="taskListRequest.taskTypeId">
-                        <Option v-for="item in taskTypeIdList" :value="item.value" :key="item.value" >{{
+                        <Option v-for="item in taskTypeIdList" :value="item.value" :key="item.value">{{
                             item.label }}
                         </Option>
                     </Select>
@@ -45,23 +45,24 @@
             </el-form>
         </el-col>
         <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-            <el-form :inline="true" >
+            <el-form :inline="true">
                 <el-form-item>
                     <el-button type="primary" @click="handleAdd">新增</el-button>
                 </el-form-item>
             </el-form>
         </el-col>
-        <Table border ref="selection"  @on-selection-change="handleSelectRow()" style="margin-top: 20px;"  no-data-text="暂无数据"
+        <Table border ref="selection" @on-selection-change="handleSelectRow()" style="margin-top: 20px;"
+               no-data-text="暂无数据"
                :columns="columns4" :data="tdata2" highlight-row></Table>
         <Page :total="dataCount" :page-size="pageSize" show-total @on-change="changepage"></Page>
         <!--编辑界面-->
         <el-dialog title="编辑" v-model="editFormVisible" :visible.sync="editFormVisible" top="0px">
-            <el-form :model="task" label-width="80px"  ref="task">
+            <el-form :model="task" label-width="80px" ref="task">
                 <el-form-item label="任务名" prop="name">
                     <el-input v-model="task.name" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="任务具体描述">
-                    <el-input  type="textarea" v-model="task.description" auto-complete="off"></el-input>
+                    <el-input type="textarea" v-model="task.description" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="任务完成时间">
                     <el-date-picker
@@ -81,12 +82,12 @@
 
         <!--新增界面-->
         <el-dialog title="新增" v-model="addFormVisible" :visible.sync="addFormVisible">
-            <el-form :model="task" label-width="80px"  ref="task">
+            <el-form :model="task" label-width="80px" ref="task">
                 <el-form-item label="任务名" prop="name">
                     <el-input v-model="task.name" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="任务具体描述">
-                    <el-input  type="textarea" v-model="task.description" auto-complete="off"></el-input>
+                    <el-input type="textarea" v-model="task.description" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="任务完成时间">
                     <el-date-picker
@@ -99,7 +100,7 @@
                 </el-form-item>
                 <el-form-item label="任务种类" prop="name">
                     <Select style="width:200px" v-model="task.taskTypeId">
-                        <Option v-for="item in taskTypeList" :value="item.value" :key="item.value" >{{
+                        <Option v-for="item in taskTypeList" :value="item.value" :key="item.value">{{
                             item.label }}
                         </Option>
                     </Select>
@@ -119,7 +120,7 @@
     export default {
 
         data() {
-            return{
+            return {
                 editFormVisible: false,//编辑界面是否显示
                 editLoading: false,
                 addFormVisible: false,//新增界面是否显示
@@ -180,21 +181,21 @@
                         label: '修复bug'
                     }
                 ],
-                task:{
-                    id:'',
-                    name:'',
-                    description:'',
-                    estimatedTime:'',
-                    projectId:'',
-                    status:''
+                task: {
+                    id: '',
+                    name: '',
+                    description: '',
+                    estimatedTime: '',
+                    projectId: '',
+                    status: ''
                 },
                 taskListRequest: {
                     projectId: '',
-                    name:'',
-                    startTime:'',
-                    endTime:'',
-                    status:'',
-                    taskTypeId:'',
+                    name: '',
+                    startTime: '',
+                    endTime: '',
+                    status: '',
+                    taskTypeId: '',
                     pageNo: '',
                     pageSize: ''
                 },
@@ -221,28 +222,31 @@
                 tdata2: [],
                 columns4: [
 // 重点说明：key 里面的值，是和后台的字段相对应的
-                    {title: '任务id',width:170,key: 'id'},
-                    {title: '任务名',width:100,key: 'name'},
-                    {title: '任务截止时间',width:100,key:'estimatedTime',
+                    {title: '任务id', width: 170, key: 'id'},
+                    {title: '任务名', width: 100, key: 'name'},
+                    {
+                        title: '任务截止时间', width: 100, key: 'estimatedTime',
                         render: (h, params) => {
-                            return h('span', {}, params.row.estimatedTime = (!params.row.estimatedTime || params.row.estimatedTime == '') ? '' : utils.formatDate.format(new  Date(params.row.estimatedTime), 'yyyy-MM-dd'))
+                            return h('span', {}, params.row.estimatedTime = (!params.row.estimatedTime || params.row.estimatedTime == '') ? '' : utils.formatDate.format(new Date(params.row.estimatedTime), 'yyyy-MM-dd'))
                         }
                     },
-                    {title: '任务种类',width:100,key:'taskTypeName'},
+                    {title: '任务种类', width: 100, key: 'taskTypeName'},
                     // //  重点说明一下这里状态，我从后台获取 得到的是  3 2 1 这些数字，但是如何根据不同的数据显示不同的文字，
                     // //  需要用到render 这个函数
-                    {title: '任务状态',key:'status',width:100,
+                    {
+                        title: '任务状态', key: 'status', width: 100,
                         //  这个地方直接复制，修改从后台获取的字段taOrdertype
                         render: (h, params) => {
-                        if(params.row.status == '3') {
-                            return h('span', {}, '完成')
-                            //  中文就是显示在表格里面的数据
-                        }else if(params.row.status == '1'){
-                        return h('span',{},'未完成')
-                    }
-                    }
+                            if (params.row.status == '3') {
+                                return h('span', {}, '完成')
+                                //  中文就是显示在表格里面的数据
+                            } else if (params.row.status == '1') {
+                                return h('span', {}, '未完成')
+                            }
+                        }
                     },
-                    {title: '操作',
+                    {
+                        title: '操作',
                         render: (h, params) => {
                             return h('div', [
                                 h('Button', {
@@ -258,7 +262,7 @@
                                     //  里面传 params.index   是当前的下标
                                     on: {
                                         click: () => {
-                                            this.handleEdit(params,params.index, params.row);
+                                            this.handleEdit(params, params.index, params.row);
                                         }
                                     }
                                 }, '编辑'),
@@ -275,7 +279,7 @@
                                     //  里面传 params.index   是当前的下标
                                     on: {
                                         click: () => {
-                                            this.taskInfo(params,params.index, params.row);
+                                            this.taskInfo(params, params.index, params.row);
                                         }
                                     }
                                 }, '任务详情'),
@@ -292,12 +296,13 @@
                                     //  里面传 params.index   是当前的下标
                                     on: {
                                         click: () => {
-                                            this.completeTask(params,params.index, params.row);
+                                            this.completeTask(params, params.index, params.row);
                                         }
                                     }
                                 }, '完成任务')
                             ]);
-                        }},
+                        }
+                    },
                 ],
 
             }
@@ -306,14 +311,14 @@
 
             // 获取历史记录信息
             getTaskList() {
-                this.taskListRequest.projectId=this.$route.params.id;
+                this.taskListRequest.projectId = this.$route.params.id;
                 this.$axios.post(api.taskList, JSON.stringify(this.taskListRequest), {
                     headers: {
                         'Access-Control-Allow-Origin': '*',
                         'Content-Type': 'application/json; charset=utf-8'
                     },
                     withCredentials: true,
-                    params:{
+                    params: {
                         openid: localStorage.getItem("openid")
                     }
                 }).then(res => {
@@ -321,7 +326,7 @@
                         if (res.data.success) {
 
                             // 保存取到的所有数据
-                            this.ajaxHistoryData =res.data.data.list;
+                            this.ajaxHistoryData = res.data.data.list;
                             this.dataCount = res.data.data.count;
                             // 初始化显示，小于每页显示条数，全显，大于每页显示条数，取前每页条数显示
                             if (this.dataCount < this.pageSize) {
@@ -338,20 +343,19 @@
                 });
 
 
-
             },
             changepage(index) {
                 // var _start = (index - 1) * this.pageSize;
                 // var _end = index * this.pageSize;
                 // this.tdata2 = this.ajaxHistoryData.slice(_start, _end);
-                this.taskListRequest.pageNo=index;
+                this.taskListRequest.pageNo = index;
                 this.$axios.post(api.taskList, JSON.stringify(this.taskListRequest), {
                     headers: {
                         'Access-Control-Allow-Origin': '*',
                         'Content-Type': 'application/json; charset=utf-8'
                     },
                     withCredentials: true,
-                    params:{
+                    params: {
                         openid: localStorage.getItem("openid")
                     }
                 }).then(res => {
@@ -359,7 +363,7 @@
                         if (res.data.success) {
 
                             // 保存取到的所有数据
-                            this.ajaxHistoryData =res.data.data.list;
+                            this.ajaxHistoryData = res.data.data.list;
                             this.dataCount = res.data.data.count;
                             // 初始化显示，小于每页显示条数，全显，大于每页显示条数，取前每页条数显示
                             if (this.dataCount < this.pageSize) {
@@ -376,34 +380,42 @@
                 });
             },
             //跳到任务详情页
-            taskInfo(params,index, row) {
-                this.task.id=params.row.id;
+            taskInfo(params, index, row) {
+                this.task.id = params.row.id;
                 console.log(this.task.id);
-                this.$router.push({ name:'任务信息', params:{id:this.task.id}});
+                this.$router.push({name: '任务信息', params: {id: this.task.id}});
             },
             //跳到完成任务
-            completeTask(params,index, row) {
-                this.task.id=params.row.id;
+            completeTask(params, index, row) {
+                this.task.id = params.row.id;
                 this.$confirm('确认提交吗？', '提示', {}).then(() => {
-                this.$axios.post(api.completeTask, JSON.stringify(this.task), {
-                    headers: {
-                        'Access-Control-Allow-Origin': '*',
-                        'Content-Type': 'application/json; charset=utf-8'
-                    },
-                    withCredentials: true,
-                    params:{
-                        openid: localStorage.getItem("openid")
-                    }
-                }).then(res => {
-                    if (res != null && res.status === 200) {
+                    this.$axios.post(api.completeTask, JSON.stringify(this.task), {
+                        headers: {
+                            'Access-Control-Allow-Origin': '*',
+                            'Content-Type': 'application/json; charset=utf-8'
+                        },
+                        withCredentials: true,
+                        params: {
+                            openid: localStorage.getItem("openid")
+                        }
+                    }).then(res => {
                         if (res != null && res.status === 200) {
-                            this.editLoading = false;
-                            //NProgress.done();
-                            this.$message({
-                                message: '提交成功',
-                                type: 'success'
-                            });
-                            this.getTaskList();
+                            if (res.data.success) {
+                                this.editLoading = false;
+                                //NProgress.done();
+                                this.$message({
+                                    message: '完成任务成功',
+                                    type: 'success'
+                                });
+                                this.getTaskList();
+                            } else {
+                                this.$message({
+                                    message: res.data.msg,
+                                    type: 'error'
+                                });
+                                console.log(res);
+                            }
+
                         } else {
                             this.$message({
                                 message: res.data.msg,
@@ -411,18 +423,10 @@
                             });
                             console.log(res);
                         }
-
-                    } else {
-                        this.$message({
-                            message: res.data.msg,
-                            type: 'error'
-                        });
-                        console.log(res);
-                    }
-                });
+                    });
                 });
             },
-            select () {
+            select() {
 
                 this.$axios.post(api.taskList, JSON.stringify(this.taskListRequest), {
                     headers: {
@@ -430,7 +434,7 @@
                         'Content-Type': 'application/json; charset=utf-8'
                     },
                     withCredentials: true,
-                    params:{
+                    params: {
                         openid: localStorage.getItem("openid")
                     }
                 }).then(res => {
@@ -438,7 +442,7 @@
                         if (res.data.success) {
 
                             // 保存取到的所有数据
-                            this.ajaxHistoryData =res.data.data.list;
+                            this.ajaxHistoryData = res.data.data.list;
                             this.dataCount = res.data.data.count;
                             // 初始化显示，小于每页显示条数，全显，大于每页显示条数，取前每页条数显示
                             if (this.dataCount < this.pageSize) {
@@ -457,61 +461,68 @@
 
             },
             //显示编辑界面
-            handleEdit (params,index, row) {
-                this.task.id=params.row.id;
+            handleEdit(params, index, row) {
+                this.task.id = params.row.id;
                 console.log(this.task.id);
                 this.editFormVisible = true;
                 this.task = Object.assign({}, row);
-                this.task.estimatedTime = (!this.task.estimatedTime || this.task.estimatedTime == '') ? '' : utils.formatDate.format(new  Date(this.task.estimatedTime), 'yyyy-MM-dd');
+                this.task.estimatedTime = (!this.task.estimatedTime || this.task.estimatedTime == '') ? '' : utils.formatDate.format(new Date(this.task.estimatedTime), 'yyyy-MM-dd');
                 console.log(this.task);
             },
             //显示新增界面
-            handleAdd () {
+            handleAdd() {
                 this.addFormVisible = true;
-                this.task= {
-                    name:'',
-                    description:'',
-                    estimatedTime:''
+                this.task = {
+                    name: '',
+                    description: '',
+                    estimatedTime: ''
                 };
 
             },
             //编辑
-            editSubmit () {
+            editSubmit() {
                 this.$refs.task.validate((valid) => {
                     if (valid) {
                         this.$confirm('确认提交吗？', '提示', {}).then(() => {
                             this.editLoading = true;
-                            this.task.projectId=this.taskListRequest.projectId;
-                            this.task.estimatedTime = (!this.task.estimatedTime || this.task.estimatedTime == '') ? '' : utils.formatDate.format(new  Date(this.task.estimatedTime), 'yyyy-MM-dd');
+                            this.task.projectId = this.taskListRequest.projectId;
+                            this.task.estimatedTime = (!this.task.estimatedTime || this.task.estimatedTime == '') ? '' : utils.formatDate.format(new Date(this.task.estimatedTime), 'yyyy-MM-dd');
                             this.$axios.post(api.editTask, JSON.stringify(this.task), {
                                 headers: {
                                     'Access-Control-Allow-Origin': '*',
                                     'Content-Type': 'application/json; charset=utf-8'
                                 },
                                 withCredentials: true,
-                                params:{
+                                params: {
                                     openid: localStorage.getItem("openid")
                                 }
                             }).then(res => {
                                 if (res != null && res.status === 200) {
-                                        if (res != null && res.status === 200) {
-                                            this.editLoading = false;
-                                            //NProgress.done();
-                                            this.$message({
-                                                message: '提交成功',
-                                                type: 'success'
-                                            });
-                                            this.$refs['task'].resetFields();
-                                            this.editFormVisible = false;
+                                    this.editLoading = false;
+                                    if (res.data.success) {
+                                        //NProgress.done();
+                                        this.$message({
+                                            message: '提交成功',
+                                            type: 'success'
+                                        });
+                                        this.$refs['task'].resetFields();
+                                        this.editFormVisible = false;
 
-                                        } else {
-                                            console.log(res);
-                                        }
+                                    } else {
+                                        this.$message({
+                                            message: res.data.msg,
+                                            type: 'error'
+                                        });
+                                        console.log(res);
+                                    }
 
                                 } else {
+                                    this.$message({
+                                        message: res.data.msg,
+                                        type: 'error'
+                                    });
                                     console.log(res);
                                 }
-                                alert(res.data.msg);
                             });
                         });
                     }
@@ -524,32 +535,40 @@
                     if (valid) {
                         this.$confirm('确认提交吗？', '提示', {}).then(() => {
                             this.addLoading = true;
-                            this.task.projectId=this.taskListRequest.projectId;
-                            this.task.estimatedTime = (!this.task.estimatedTime || this.task.estimatedTime == '') ? '' : utils.formatDate.format(new  Date(this.task.estimatedTime), 'yyyy-MM-dd');
+                            this.task.projectId = this.taskListRequest.projectId;
+                            this.task.estimatedTime = (!this.task.estimatedTime || this.task.estimatedTime == '') ? '' : utils.formatDate.format(new Date(this.task.estimatedTime), 'yyyy-MM-dd');
                             this.$axios.post(api.createTask, JSON.stringify(this.task), {
                                 headers: {
                                     'Access-Control-Allow-Origin': '*',
                                     'Content-Type': 'application/json; charset=utf-8'
                                 },
                                 withCredentials: true,
-                                params:{
+                                params: {
                                     openid: localStorage.getItem("openid")
                                 }
                             }).then(res => {
                                 if (res != null && res.status === 200) {
-                                        if (res != null && res.status === 200) {
-                                            this.addLoading = false;
-                                            //NProgress.done();
-                                            this.$message({
-                                                message: '提交成功',
-                                                type: 'success'
-                                            });
-                                            this.$refs['task'].resetFields();
-                                            this.addFormVisible = false;
-                                        } else {
-                                            console.log(res);
-                                        }
+                                    this.addLoading = false;
+                                    if (res.data.success) {
+                                        //NProgress.done();
+                                        this.$message({
+                                            message: '提交成功',
+                                            type: 'success'
+                                        });
+                                        this.$refs['task'].resetFields();
+                                        this.addFormVisible = false;
+                                    } else {
+                                        this.$message({
+                                            message: res.data.msg,
+                                            type: 'error'
+                                        });
+                                        console.log(res);
+                                    }
                                 } else {
+                                    this.$message({
+                                        message: res.data.msg,
+                                        type: 'error'
+                                    });
                                     console.log(res);
                                 }
                             });
@@ -557,7 +576,7 @@
                     }
                 });
             },
-            handleSelectRow(){
+            handleSelectRow() {
                 //这里是获取点击的这一行的数据，
                 const a = this.$refs.selection.getSelection()
                 console.log(a);
@@ -567,12 +586,12 @@
                 // 出现的就是   1111,2222,3333,4444,
                 //     然后在for外面拿一个变量接收这个b      ~ 感觉表达不太对
                 var b = '';
-                for(var i  = 0;i <a.length;i++ ){
+                for (var i = 0; i < a.length; i++) {
                     this.daifaid = a[i].id
-                    if(a.length > 1){
-                        b  = this.daifaid +','+ b
-                    }else{
-                        b  = this.daifaid
+                    if (a.length > 1) {
+                        b = this.daifaid + ',' + b
+                    } else {
+                        b = this.daifaid
                     }
                 }
                 this.daifaid = b
@@ -590,10 +609,11 @@
 <style>
 
     .ivu-table-row-hover td {
-        background-color: #d63333!important;
+        background-color: #d63333 !important;
     }
+
     .ivu-table-row-highlight td {
-        background-color: #d63333!important;
+        background-color: #d63333 !important;
     }
 
 </style>

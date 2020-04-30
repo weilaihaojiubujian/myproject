@@ -257,8 +257,8 @@
                                 }
                             }).then(res => {
                                 if (res != null && res.status === 200) {
-                                    if (res != null && res.status === 200) {
-                                        this.addLoading = false;
+                                    this.addLoading = false;
+                                    if (res.data.success) {
                                         //NProgress.done();
                                         this.$message({
                                             message: '提交评论成功',

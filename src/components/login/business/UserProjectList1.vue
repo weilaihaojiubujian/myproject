@@ -260,21 +260,7 @@
                                             }
                                         }
                                     }, '项目详情'),
-                                    h('Button', {
-                                        props: {
-                                            type: 'primary',
-                                            size: 'small'
-                                        },
-                                        style: {
-                                            marginRight: '3px'
-                                        },
-                                        on: {
-                                            click: () => {
-                                                this.taskList(params,params.index, params.row);
-                                            }
-                                        }
-                                    }, '任务列表')
-                                    ,
+
                                     h('Button', {
                                         props: {
                                             type: 'primary',
@@ -605,21 +591,7 @@
                                             }
                                         }
                                     }, '项目详情'),
-                                    h('Button', {
-                                        props: {
-                                            type: 'primary',
-                                            size: 'small'
-                                        },
-                                        style: {
-                                            marginRight: '3px'
-                                        },
-                                        on: {
-                                            click: () => {
-                                                this.taskList(params,params.index, params.row);
-                                            }
-                                        }
-                                    }, '任务列表')
-                                    ,
+
                                     h('Button', {
                                         props: {
                                             type: 'primary',
@@ -1009,14 +981,16 @@
                                             this.editFormVisible = false;
 
                                         } else {
+                                            this.$message({
+                                                message: res.data.msg,
+                                                type: 'error'
+                                            });
                                             console.log(res);
                                         }
-                                        alert(res.data.msg);
                                     });
                                 } else {
                                     console.log(res);
                                 }
-                                alert(res.data.msg);
                             });
                         });
                     }
@@ -1202,6 +1176,10 @@
                                     });
                                     this.fileFormVisible = false;
                                 } else {
+                                    this.$message({
+                                        message: res.data.msg,
+                                        type: 'error'
+                                    });
                                     console.log(res);
                                 }
                             });

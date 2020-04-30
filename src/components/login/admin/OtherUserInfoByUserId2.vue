@@ -55,7 +55,7 @@
 
 
 <script>
-    import api from '../../api.js';
+    import api from "@/api";
 
     export default {
         data() {
@@ -172,7 +172,7 @@
             //查看评价列表
             handleEvaluation() {
                 console.log(this.userResponse.userId);
-                this.$router.push({ name:'评价列表', params:{userId:this.userResponse.userId}});
+                this.$router.push({ name:'管理员评价列表', params:{userId:this.userResponse.userId}});
             }
 
         }

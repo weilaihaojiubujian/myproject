@@ -57,6 +57,7 @@
                     {title: '登陆名',width:100,key: 'loginId'},
                     {title: '手机号',width:100,key:'phone'},
                     {title: '角色',width:100,key:'roleName'},
+                    {title: '评价',width:100,key:'evaluation'},
                     // //  重点说明一下这里状态，我从后台获取 得到的是  3 2 1 这些数字，但是如何根据不同的数据显示不同的文字，
                     // //  需要用到render 这个函数
                     // {title: '状态',key:'taOrdertype',width:100,
@@ -220,7 +221,7 @@
                         }
                     }).then(res => {
                         if (res != null && res.status === 200) {
-                            if (res != null && res.status === 200) {
+                            if (res.data.success) {
                                 //NProgress.done();
                                 this.$message({
                                     message: '选择用户成功',

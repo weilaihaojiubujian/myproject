@@ -17,7 +17,7 @@
 
 
 <script>
-    import api from '../../api.js';
+    import api from "@/api";
 
     export default {
         data() {
@@ -51,7 +51,7 @@
                             message: '提现成功',
                             type: 'success'
                         });
-                        this.$router.push( '/userInfo')
+                        this.$router.push( '/business/userInfo')
                     } else {
                         this.$message({
                             message: res.data.msg,

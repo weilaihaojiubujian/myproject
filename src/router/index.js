@@ -38,6 +38,9 @@ import Main1 from '@/components/login/admin/Main'
 import Home1 from '@/components/login/admin/Home1'
 import auditProjectList from '@/components/login/admin/AuditProjectList'
 import auditTaskList from '@/components/login/admin/AuditTaskList'
+import completeProjectList from '@/components/login/admin/CompleteProjectList'
+import otherUserInfoByUserId2 from '@/components/login/admin/OtherUserInfoByUserId2'
+import auditUserList from '@/components/login/admin/AuditUserList'
 
 import Main2 from '@/components/login/business/Main'
 import Home2 from '@/components/login/business/Home2'
@@ -45,6 +48,8 @@ import projectList1 from '@/components/login/business/ProjectList1'
 import userProjectList1 from '@/components/login/business/UserProjectList1'
 import listFile1 from '@/components/login/business/ListFile1'
 import signature1 from '@/components/login/business/Signature1'
+import withdraw1 from '@/components/login/business/Withdraw1'
+import transferAccount1 from '@/components/login/business/TransferAccount1'
 // import projectUserList1 from '@/components/login/business/ProjectUserList1'
 import taskList1 from '@/components/login/business/TaskList1'
 import chat1 from '@/components/login/business/Chat1'
@@ -139,13 +144,13 @@ export default new Router({
                     changeOrigin: true,//是否允许跨越
                     component: userInfo
                 },
-                {
-                    path: '/otherUserInfo/:id',
-                    name: '其他用户信息',
-                    changeOrigin: true,//是否允许跨越
-                    component: otherUserInfo,
-                    hidden: true
-                },
+                // {
+                //     path: '/otherUserInfo/:id',
+                //     name: '其他用户信息',
+                //     changeOrigin: true,//是否允许跨越
+                //     component: otherUserInfo,
+                //     hidden: true
+                // },
                 {
                     path: '/chat',
                     name: '聊天',
@@ -174,13 +179,13 @@ export default new Router({
                     hidden: true,
                     component: evaluationList
                 },
-                {
-                    path: '/otherUserInfoByUserId',
-                    name: '通过用户id查看其它用户信息',
-                    changeOrigin: true,//是否允许跨越
-                    hidden: true,
-                    component: otherUserInfoByUserId
-                } ,
+                // {
+                //     path: '/otherUserInfoByUserId',
+                //     name: '通过用户id查看其它用户信息',
+                //     changeOrigin: true,//是否允许跨越
+                //     hidden: true,
+                //     component: otherUserInfoByUserId
+                // } ,
                 {
                     path: '/listFile',
                     name: '文件列表',
@@ -192,6 +197,7 @@ export default new Router({
                     path: '/signature',
                     name: '合同签名',
                     changeOrigin: true,//是否允许跨越
+                    hidden: true,
                     component: signature
                 }
             ]
@@ -322,6 +328,43 @@ export default new Router({
         {
             path: '/',
             name: '',
+            c: true,
+            hidden: true,
+            leaf: true,//只有一个节点
+            component: Home1,
+            children: [
+                {
+                    path: '/completeProjectList',
+                    name: '完成任务列表',
+                    changeOrigin: true,//是否允许跨越
+                    c: true,
+                    component: completeProjectList
+                }
+
+            ]
+        } ,
+        {
+            path: '/',
+            name: '',
+            c: true,
+            hidden: true,
+            leaf: true,//只有一个节点
+            component: Home1,
+            children: [
+                {
+                    path: '/auditUserList',
+                    name: '审核用户列表',
+                    changeOrigin: true,//是否允许跨越
+                    c: true,
+                    component: auditUserList
+                }
+
+            ]
+        }
+        ,
+        {
+            path: '/',
+            name: '',
             component: Home1,
             c: false,
             hidden: true,
@@ -348,6 +391,20 @@ export default new Router({
                     component: projectInfo,
                     c: false
                 },
+                {
+                    path: '/admin/otherUserInfoByUserId',
+                    name: '查看其它用户信息',
+                    changeOrigin: true,//是否允许跨越
+                    c: false,
+                    component: otherUserInfoByUserId2
+                },
+                {
+                    path: '/business/evaluationList',
+                    name: '管理员评价列表',
+                    changeOrigin: true,//是否允许跨越
+                    c: false,
+                    component: evaluationList
+                }
 
             ]
         }
@@ -590,14 +647,14 @@ export default new Router({
                     name: '提现',
                     changeOrigin: true,//是否允许跨越
                     b: true,
-                    component: withdraw
+                    component: withdraw1
                 },
                 {
                     path: '/business/transferAccount',
                     name: '转账',
                     changeOrigin: true,//是否允许跨越
                     b: true,
-                    component: transferAccount
+                    component: transferAccount1
                 },
                 {
                     path: '/business/transferRecord',
