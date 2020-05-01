@@ -1,5 +1,5 @@
 <template>
-    <div style="height:1000px;overflow:scroll;">
+    <div style="height:1000px;">
 
         <ul  v-for="(talk,index) in talks" :key="index">
 

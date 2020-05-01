@@ -1,5 +1,5 @@
 <template>
-    <div style="height:500px;overflow:scroll;">
+    <div style="height:500px;">
         <!--工具条-->
         <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
             <el-form :inline="true" >
@@ -322,7 +322,7 @@
                         }
                     }).then(res => {
                         if (res != null && res.status === 200) {
-                            if (res != null && res.status === 200) {
+                            if (res.data.success) {
                                 //NProgress.done();
                                 this.$message({
                                     message: '提交成功',
@@ -330,9 +330,12 @@
                                 });
                                 this.getAuditTaskList();
                             } else {
+                                this.$message({
+                                    message: res.data.msg,
+                                    type: 'error'
+                                });
                                 console.log(res);
                             }
-                            alert(res.data.msg);
                         }
                     });
                 });
@@ -353,7 +356,7 @@
                         }
                     }).then(res => {
                         if (res != null && res.status === 200) {
-                            if (res != null && res.status === 200) {
+                            if (res.data.success) {
                                 //NProgress.done();
                                 this.$message({
                                     message: '提交成功',
@@ -361,9 +364,12 @@
                                 });
                                 this.getAuditTaskList();
                             } else {
+                                this.$message({
+                                    message: res.data.msg,
+                                    type: 'error'
+                                });
                                 console.log(res);
                             }
-                            alert(res.data.msg);
                         }
                     });
                 });

@@ -72,7 +72,7 @@
                     //     console.log(res);
                     // }
                     alert(JSON.stringify(this.ruleForm));
-                    alert(res.data.msg);
+
                 });
             }
         }

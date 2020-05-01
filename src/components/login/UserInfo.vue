@@ -430,19 +430,26 @@
                                 if (res != null && res.status === 200) {
 
                                     this.editLoading = false;
-                                    //NProgress.done();
-                                    this.$message({
-                                        message: '提交成功',
-                                        type: 'success'
-                                    });
-                                    // this.$refs['userResponse'].resetFields();
-                                    this.editFormVisible = false;
                                     if (res.data.success) {
+                                        this.$message({
+                                            message: '提交成功',
+                                            type: 'success'
+                                        });
+                                        // this.$refs['userResponse'].resetFields();
+                                        this.editFormVisible = false;
                                         this.getUserInfo();
                                     } else {
+                                        this.$message({
+                                            message: res.data.msg,
+                                            type: 'error'
+                                        });
                                         console.log(res);
                                     }
                                 } else {
+                                    this.$message({
+                                        message: res.data.msg,
+                                        type: 'error'
+                                    });
                                     console.log(res);
                                 }
                             });

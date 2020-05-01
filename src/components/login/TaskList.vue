@@ -1,5 +1,5 @@
 <template>
-    <div style="height:500px;overflow:scroll;">
+    <div style="height:500px;">
         <!--工具条-->
         <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
             <el-form :inline="true">

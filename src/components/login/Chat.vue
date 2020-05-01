@@ -1,5 +1,5 @@
 <template>
-    <div style="height:800px;overflow:scroll;">
+    <div style="height:800px;">
 <!--        <li  v-for="(talk,index) in talks" v-bind:class="{'even':othername!=talk.send_from_id,'odd':othername==talk.send_from_id}">-->
 <!--            <span v-show="showTime(index)" :id="index">{{getLocalTime(talk.message_time)}}</span>-->
 <!--            <img v-bind:src="../../assets/img/login-bg.jpg" alt="" v-if="othername!=talk.send_from_id">-->

@@ -269,7 +269,24 @@
                             }
                         }).then(res => {
                             if (res != null && res.status === 200) {
+                                if (res.data.success) {
+                                    //NProgress.done();
+                                    this.$message({
+                                        message: '上传合同成功',
+                                        type: 'success'
+                                    });
+                                } else {
+                                    this.$message({
+                                        message: res.data.msg,
+                                        type: 'error'
+                                    });
+                                    console.log(res);
+                                }
                             } else {
+                                this.$message({
+                                    message: res.data.msg,
+                                    type: 'error'
+                                });
                                 console.log(res);
                             }
                         });

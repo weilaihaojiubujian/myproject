@@ -1,5 +1,5 @@
 <template>
-    <div style="height:500px;overflow:scroll;">
+    <div style="height:500px;">
 
         <Table border ref="selection"  @on-selection-change="handleSelectRow()" style="margin-top: 20px;" :columns="columns4" :data="tdata2"></Table>
         <Page :total="dataCount" :page-size="pageSize" show-total @on-change="changepage"></Page>
