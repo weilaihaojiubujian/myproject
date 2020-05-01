@@ -50,6 +50,7 @@ import listFile1 from '@/components/login/business/ListFile1'
 import signature1 from '@/components/login/business/Signature1'
 import withdraw1 from '@/components/login/business/Withdraw1'
 import transferAccount1 from '@/components/login/business/TransferAccount1'
+import commentList1 from '@/components/login/business/CommentList1'
 // import projectUserList1 from '@/components/login/business/ProjectUserList1'
 import taskList1 from '@/components/login/business/TaskList1'
 import chat1 from '@/components/login/business/Chat1'
@@ -179,13 +180,13 @@ export default new Router({
                     hidden: true,
                     component: evaluationList
                 },
-                // {
-                //     path: '/otherUserInfoByUserId',
-                //     name: '通过用户id查看其它用户信息',
-                //     changeOrigin: true,//是否允许跨越
-                //     hidden: true,
-                //     component: otherUserInfoByUserId
-                // } ,
+                {
+                    path: '/otherUserInfoByUserId',
+                    name: '通过id查看其它用户信息',
+                    changeOrigin: true,//是否允许跨越
+                    hidden: true,
+                    component: otherUserInfoByUserId
+                } ,
                 {
                     path: '/listFile',
                     name: '文件列表',
@@ -399,7 +400,7 @@ export default new Router({
                     component: otherUserInfoByUserId2
                 },
                 {
-                    path: '/business/evaluationList',
+                    path: '/admin/evaluationList',
                     name: '管理员评价列表',
                     changeOrigin: true,//是否允许跨越
                     c: false,
@@ -615,7 +616,7 @@ export default new Router({
                     path: '/business/commentList',
                     name: '问题评论列表',
                     changeOrigin: true,//是否允许跨越
-                    component: commentList,
+                    component: commentList1,
                     hidden: true
                 },
                 {

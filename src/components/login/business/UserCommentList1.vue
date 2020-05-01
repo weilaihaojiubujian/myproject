@@ -4,7 +4,7 @@
 
         <ul  v-for="(comment,index) in tdata2" :key="index">
             <div   class="myUserAvatar" style="line-height:70px;display:inline-block;">
-                <img style="height:45px;border-radius: 50%;float: left;"  :src=" comment.portraitUrl || this.imgSrc" />
+                <img style="width:45px;height:45px;border-radius: 50%;float: left;background-size: 45px 45px;"  :src=" comment.portraitUrl || this.imgSrc" />
                 <p style="float:left;margin-left: 10px;max-width:90%;font-size: 14px; " @click="handleProblem(comment.id)">{{comment.content}}</p>
 
             </div>

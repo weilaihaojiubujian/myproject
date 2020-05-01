@@ -11,7 +11,7 @@
         </el-col>
         <ul  v-for="(problem,index) in tdata2" :key="index">
             <div   class="myUserAvatar" style="line-height:70px;display:inline-block;">
-                <img style="height:45px;border-radius: 50%;float: left;"  :src=" problem.portraitUrl || this.imgSrc" />
+                <img style="width:45px;height:45px;border-radius: 50%;float: left;background-size: 45px 45px;" @click="otherUserInfoByUserId(problem.userId)"  :src=" problem.portraitUrl || this.imgSrc" />
                 <p style="float:left;margin-left: 10px;max-width:90%;font-size: 14px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap; " @click="handleComment(problem.id,problem.content)">{{problem.content}}</p>
 
             </div>
@@ -231,7 +231,9 @@
                     }
                 });
             },
-
+            otherUserInfoByUserId(id){
+                this.$router.push({ name:'通过用户id查看其它用户信息', params:{userId:id}});
+            },
             handleComment(id,content) {
                 this.addClickRequest.problemId=id;
 
