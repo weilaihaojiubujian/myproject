@@ -228,8 +228,9 @@
             },
             signature(params,index, row) {
                 this.project.id=params.row.id;
+                this.project.userId=params.row.userId;
                 console.log(this.project.id);
-                this.$router.push({ name:'合同签名', params:{id:this.project.id}});
+                this.$router.push({ name:'合同签名', params:{id:this.project.id,userId:this.project.userId}});
             },
             acceptProject(params,index, row) {
                 this.project.id=params.row.id;

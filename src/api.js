@@ -58,6 +58,7 @@ const uploadPDFFile = root1 + 'file/uploadPDFFile';
 const completeProjectList= root1 + 'admin/project/completeProjectList';
 const auditUserList= root1 + 'admin/auditUserList';
 const bannedUser= root + 'admin/user/bannedUser';
+const getRealName= root1 + 'admin/user/getRealName';
 export default {
     login,
     register,
@@ -117,6 +118,7 @@ export default {
     completeProjectList,
     auditUserList,
     bannedUser,
+    getRealName,
     root,
     root1
 };

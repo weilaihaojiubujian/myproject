@@ -2,19 +2,26 @@
     <div id="pdfContainer" class="container" style="background-color:#fff;overflow:scroll;">
         <div class="hello" id="hello">
             合作协议（个人合作）<br>
-            甲方：XXX有限公司<br>
-            乙方：＿＿＿＿先生（或女士，下同）<br>
-            杭州永良企业管理咨询有限公司（以下简称“甲方”）与＿＿＿＿先生（以下简称“乙方”）经过友好协商，在相互信任、相互尊重和互惠互利的原则基础上，双方达成以下合作协议：<br>
-            一、甲乙双方在符合双方共同利益的前提下，就企业管理咨询业务合作等问题，自愿结成战略合作伙伴关系，乙方为甲方提供业务资源，协助甲方促成业务与业绩，实现双方与客户方的多赢局面。<br>
-            二、乙方为甲方提供业务机会时，应严格保守甲方与客户方的商业秘密，不得因己方原因泄露甲方或客户方商业秘密而使甲方商业信誉受到损害。<br>
-            三、甲方在接受乙方提供的业务机会时，应根据自身实力量力而行，确实无法实施或难度较大、难以把握时应开诚布公、坦诚相告并求得乙方的谅解或协助，不得在能力不及的情况下轻率承诺，从而使乙方客户关系受到损害。<br>
-            四、乙方为甲方提供企业管理咨询业务机会并协助达成的，甲方应支付相应的信息资源费用。费用支付的额度视乙方在业务达成及实施过程中所起的作用而定，原则上按实际收费金额的一定百分比执行，按实际到账的阶段与金额支付，具体为每次到账后的若干个工作日内支付。<br>
-            五、违约责任：<br>
-            1、合作双方在业务实施过程中，如因己方原因造成合作方、客户方商业信誉或客户关系受到损害的，受损方除可立即单方面解除合作关系外，还可提出一定数额的经济赔偿要求。同时，已经实现尚未结束的业务中应该支付的相关费用，受损方可不再支付，致损方则还应继续履行支付义务。<br>
-            2、甲方在支付信息资源费用时，如未按约定支付乙方款项的，每延迟一天增加应付金额的5%，直至该笔金额的全额为止。<br>
-            六、争议处理：如发生争议，双方应积极协商解决，协商不成的，受损方可向杭州市仲裁委员会申请仲裁处理。<br>
-            七、本协议有效期暂定一年，自双方代表（乙方为本人）签字之日起计算，即从＿＿＿＿年＿＿月＿＿日至＿＿＿＿年＿＿月＿＿日止。本协议到期后，甲方应付未付的信息资源费用，应继续按本协议支付。<br>
-            八、本协议到期后，双方均未提出终止协议要求的，视作均同意继续合作，本协议继续有效，可不另续约，有效期延长一年。<br>
+            甲方：{{this.getRealNameResponse.myRealName}}<br>
+            乙方：{{this.getRealNameResponse.realName}}<br>
+            甲方在此委托乙方进行项目的开发。为明确双方责任，经友好协商，双方达成以下协议，以资双方共同遵守：<br>
+            一、乙方在充分了解甲方待开发的项目的基本要求，并签定本合同，由甲方向乙方提供该项目的《需求开发说明书》及其他相关文件、资料。<br>
+            二、甲、乙双方认定本合同开发费用预计总金额为项目发布时金额。如果乙方在研发中，超过预计是研发费用，在双方协定下解决。<br>
+            三、甲乙双方经确定签定此合同之后，即正式承接该项目。如乙方不能按时完成，应在合同约定完工日期前的两个工作日内，以书面形式向甲方提出延期的理由和申请延期<br>
+            的具体时间，经甲方批准后方可延期，延期时间以甲方批准的时间为准。延期时间不得超过合作开发时间总长的一倍。若甲方不同意乙方的延期申请，则完工时间不予延长。<br>
+            四、乙方必需以提供项目代码 ，让甲方进行验收工作。乙方保证项目模块的功能符合需求的要求<br>
+            五、甲方的权利和义务：<br>
+            1、提供专人与乙方联络，提供项目所需要的所有资料交给乙方,并保证资料的正确性。<br>
+            2、及时支付费用，保证项目的开发费用及时到位。<br>
+            3、本合同的相关作品、程序、文件源码的版权属甲方所有。<br>
+            六、乙方的权利和义务：<br>
+            1、按照项目进度要求及时完成系统的开发,同时保证项目质量。<br>
+            2、开发完毕,乙方应将系统的文档、源代码移交给甲方,不得将其应用在其他企业。<br>
+            3、不得将甲方开发内容泄露给第三方。<br>
+            七、违约责任：<br>
+            1、任何一方有证据表明对方已经、正在或将要违约,应及时提醒违约方,若违约方仍然违反本合约，可以解除本合同并要求违约方赔偿损失<br>
+            2、因不可抗力而无法承担责任的一方，应在不可抗力发生的3 天内，及时通知另一方。<br>
+            八、争议处理：如发生争议，双方应积极协商解决，协商不成的，受损方可向杭州市仲裁委员会申请仲裁处理。<br>
             九、本协议在执行过程中，双方认为需要补充、变更的，可订立补充协议。补充协议具有同等法律效力。补充协议与本协议不一致的，以补充协议为准。<br>
             十、本协议经双方盖章后生效。本协议一式贰份，甲乙双方各持一份，具有同等法律效力。<br>
             <br><br>
@@ -67,6 +74,13 @@
                     name: ''
 
                 },
+                getRealNameRequest: {
+                    userId:''
+                },
+                getRealNameResponse: {
+                    realName:'',
+                    myRealName:''
+                },
                 multipartFile: '',
                 client: {},
                 points: [],
@@ -87,6 +101,7 @@
         mounted() {
             this.projectId = this.$route.params.id;
             this.userId = this.$route.params.userId
+            this.getRealNameRequest.userId=this.$route.params.userId;
             this.project.name = this.$route.params.name
             console.log(this.project.name);
             this.imgUrl = localStorage.getItem(this.userId + this.projectId);
@@ -95,8 +110,40 @@
             canvas.width = this.$refs.canvasHW.offsetWidth - 50
             this.canvasTxt = canvas.getContext('2d')
             this.stageInfo = canvas.getBoundingClientRect()
+            this.getRealName();
         },
         methods: {
+            getRealName(){
+                this.$axios.post(api.getRealName, JSON.stringify(this.getRealNameRequest), {
+                    headers: {
+                        'Access-Control-Allow-Origin': '*',
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    withCredentials: true,
+                    params:{
+                        openid: localStorage.getItem("openid")
+                    }
+                }).then(res => {
+                    if (res != null && res.status === 200) {
+                        if (res.data.success) {
+
+                            // 保存取到的所有数据
+                            this.getRealNameResponse.realName =res.data.data.realName;
+                            this.getRealNameResponse.myRealName =res.data.data.myRealName;
+                        } else {
+                            this.$message({
+                                message: res.data.msg,
+                                type: 'error'
+                            });
+                            this.$router.push( '/business/validationUser');
+                            console.log(res);
+                        }
+                    } else {
+                        console.log(res);
+                    }
+                });
+
+            }  ,
             //mobile
             touchStart(ev) {
                 ev = ev || event
