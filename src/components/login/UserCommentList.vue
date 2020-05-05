@@ -8,7 +8,9 @@
                 <p style="float:left;margin-left: 10px;max-width:90%;font-size: 14px; " @click="handleProblem(comment.id)">{{comment.content}}</p>
 
             </div>
-
+            <div  style="float:right;line-height:70px;">
+                <span  ><span style="padding-left: 5px;" @click="deleteComment(comment.id)">删除</span></span>
+            </div>
         </ul>
         <div style="text-align:center;line-height:70px;display:block;">
             <Page :total="dataCount" :page-size="pageSize" show-total @on-change="changepage"></Page>
@@ -42,7 +44,9 @@
                     problemId: '',
                     content:''
                 },
-
+                deleteCommentRequest:{
+                    commentId:''
+                },
                 commentListRequest: {
                     problemId: '',
                     pageNo: '',
@@ -177,6 +181,46 @@
             },
             handleProblem(id){
                 this.$router.push({ name:'问题与评论', params:{id:id}});
+            },
+            deleteComment(id){
+                this.deleteCommentRequest.commentId=id;
+                this.$confirm('确认删除吗？', '提示', {}).then(() => {
+                    this.$axios.post(api.deleteComment, JSON.stringify(this.deleteCommentRequest), {
+                        headers: {
+                            'Access-Control-Allow-Origin': '*',
+                            'Content-Type': 'application/json; charset=utf-8'
+                        },
+                        withCredentials: true,
+                        params:{
+                            openid: localStorage.getItem("openid")
+                        }
+                    }).then(res => {
+                        if (res != null && res.status === 200) {
+                            if (res.data.success) {
+                                this.$message({
+                                    message: '删除成功',
+                                    type: 'success'
+                                });
+                                this.getUserCommentList();
+                                console.log(id);
+
+                            } else {
+                                this.$message({
+                                    message: res.data.msg,
+                                    type: 'error'
+                                });
+                                console.log(res);
+                            }
+                        } else {
+                            this.$message({
+                                message: res.data.msg,
+                                type: 'error'
+                            });
+                            console.log(res);
+                        }
+                    });
+
+                });
             },
             changepage(index) {
                 // var _start = (index - 1) * this.pageSize;

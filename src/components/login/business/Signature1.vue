@@ -81,6 +81,10 @@
                     realName:'',
                     myRealName:''
                 },
+                confirmUserRequest: {
+                    projectId: '',
+                    userId: ''
+                },
                 multipartFile: '',
                 client: {},
                 points: [],
@@ -101,6 +105,8 @@
         mounted() {
             this.projectId = this.$route.params.id;
             this.userId = this.$route.params.userId
+            this.confirmUserRequest.userId=this.$route.params.userId;
+            this.confirmUserRequest.projectId=this.$route.params.id;
             this.getRealNameRequest.userId=this.$route.params.userId;
             this.project.name = this.$route.params.name
             console.log(this.project.name);
@@ -296,7 +302,7 @@
                                 }
                             }
                         }
-                        PDF.save('合同' + '.pdf')
+
                         var pdfData = PDF.output('dataurlstring')//获取到base64 的pdf
                         let arr=pdfData.split("base64,")
                         let str=arr[arr.length-1]
@@ -318,25 +324,51 @@
                             if (res != null && res.status === 200) {
                                 if (res.data.success) {
                                     //NProgress.done();
-                                    this.$message({
-                                        message: '上传合同成功',
-                                        type: 'success'
-                                    });
+                                    // this.$message({
+                                    //     message: '上传合同成功',
+                                    //     type: 'success'
+                                    // });
+                                    _this.$axios.post(api.confirmUser, JSON.stringify(_this.confirmUserRequest), {
+                                        headers: {
+                                            'Access-Control-Allow-Origin': '*',
+                                            'Content-Type': 'application/json; charset=utf-8'
+                                        },
+                                        withCredentials: true,
+                                        params: {
+                                            openid: localStorage.getItem("openid")
+                                        }
+                                    }).then(res => {
+                                        if (res != null && res.status === 200) {
+                                            if (res.data.success) {
+                                                //NProgress.done();
+                                                _this.$message({
+                                                    message: '上传合同成功,选择用户成功',
+                                                    type: 'success'
+                                                });
+                                            } else {
+                                                _this.$message({
+                                                    message: res.data.msg,
+                                                    type: 'error'
+                                                });
+                                                console.log(res);
+                                            }
+                                        }});
                                 } else {
-                                    this.$message({
+                                        _this.$message({
                                         message: res.data.msg,
                                         type: 'error'
                                     });
                                     console.log(res);
                                 }
                             } else {
-                                this.$message({
+                                    _this.$message({
                                     message: res.data.msg,
                                     type: 'error'
                                 });
                                 console.log(res);
                             }
                         });
+                        PDF.save('合同' + '.pdf')
                     }
 
                 )

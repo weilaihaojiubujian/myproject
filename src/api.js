@@ -59,6 +59,8 @@ const completeProjectList= root1 + 'admin/project/completeProjectList';
 const auditUserList= root1 + 'admin/auditUserList';
 const bannedUser= root + 'admin/user/bannedUser';
 const getRealName= root1 + 'admin/user/getRealName';
+const deleteProblem=  root1 + 'admin/problem/deleteProblem';
+const deleteComment=root1 + 'admin/comment/deleteComment';
 export default {
     login,
     register,
@@ -119,6 +121,8 @@ export default {
     auditUserList,
     bannedUser,
     getRealName,
+    deleteProblem,
+    deleteComment,
     root,
     root1
 };

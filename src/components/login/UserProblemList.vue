@@ -9,13 +9,15 @@
                 </el-form-item>
             </el-form>
         </el-col>
-        <ul  v-for="(problem,index) in tdata2" :key="index">
+        <ul  v-for="(problem,index) in tdata2" :key="index" >
             <div   class="myUserAvatar" style="line-height:70px;display:inline-block;">
                 <img style="width:45px;height:45px;border-radius: 50%;float: left;background-size: 45px 45px;"  :src=" problem.portraitUrl || this.imgSrc" />
                 <p style="float:left;margin-left: 10px;max-width:90%;font-size: 14px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap; " @click="handleComment(problem.id,problem.content)">{{problem.content}}</p>
 
             </div>
-            <div  style="float:right;">
+            <div  style="float:right;line-height:70px;">
+                <span  ><span style="padding-left: 5px;" @click="deleteProblem(problem.id)">删除</span></span>
+                <span class="feed-legend-pipe">|</span>
                 <span  >评论<span style="padding-left: 5px;" >{{problem.commentCount}}</span></span>
                 <span class="feed-legend-pipe">|</span>
                 <span  >浏览<span style="padding-left: 5px;" >{{problem.click}}</span></span>
@@ -64,6 +66,9 @@
                     content:''
                 },
                 addClickRequest: {
+                    problemId: ''
+                },
+                deleteProblemRequest: {
                     problemId: ''
                 },
                 problemListRequest: {
@@ -231,7 +236,46 @@
                     }
                 });
             },
+            deleteProblem(id){
+                this.deleteProblemRequest.problemId=id;
+                this.$confirm('确认删除吗？', '提示', {}).then(() => {
+                this.$axios.post(api.deleteProblem, JSON.stringify(this.deleteProblemRequest), {
+                    headers: {
+                        'Access-Control-Allow-Origin': '*',
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    withCredentials: true,
+                    params:{
+                        openid: localStorage.getItem("openid")
+                    }
+                }).then(res => {
+                    if (res != null && res.status === 200) {
+                        if (res.data.success) {
+                            this.$message({
+                                message: '删除成功',
+                                type: 'success'
+                            });
+                            this.getUserProblemList();
+                            console.log(id);
 
+                        } else {
+                            this.$message({
+                                message: res.data.msg,
+                                type: 'error'
+                            });
+                            console.log(res);
+                        }
+                    } else {
+                        this.$message({
+                            message: res.data.msg,
+                            type: 'error'
+                        });
+                        console.log(res);
+                    }
+                });
+
+            });
+            },
             handleComment(id,content) {
                 this.addClickRequest.problemId=id;
 
