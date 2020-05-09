@@ -320,23 +320,23 @@
                                 ]);
                             }else if( params.row.status == '3'){
                                 return h('div', [
-                                    h('Button', {
-                                        props: {
-                                            type: 'primary',
-                                            size: 'small'
-                                        },
-                                        style: {
-                                            marginRight: '3px'
-                                        },
-                                        //  这里就是给表格里面添加一个操作，删除编辑添加啥的，就是在这里了
-                                        //  this.Editadd(params.index)      这个是自己取得一个定义的一个方法，我的是编辑，弹出一个框进行编辑
-                                        //  里面传 params.index   是当前的下标
-                                        on: {
-                                            click: () => {
-                                                this.handleEdit(params,params.index, params.row);
-                                            }
-                                        }
-                                    }, '编辑'),
+                                    // h('Button', {
+                                    //     props: {
+                                    //         type: 'primary',
+                                    //         size: 'small'
+                                    //     },
+                                    //     style: {
+                                    //         marginRight: '3px'
+                                    //     },
+                                    //     //  这里就是给表格里面添加一个操作，删除编辑添加啥的，就是在这里了
+                                    //     //  this.Editadd(params.index)      这个是自己取得一个定义的一个方法，我的是编辑，弹出一个框进行编辑
+                                    //     //  里面传 params.index   是当前的下标
+                                    //     on: {
+                                    //         click: () => {
+                                    //             this.handleEdit(params,params.index, params.row);
+                                    //         }
+                                    //     }
+                                    // }, '编辑'),
                                     h('Button', {
                                         props: {
                                             type: 'primary',
@@ -454,23 +454,23 @@
                             }
                             else if( params.row.status == '5'){
                                 return h('div', [
-                                    h('Button', {
-                                        props: {
-                                            type: 'primary',
-                                            size: 'small'
-                                        },
-                                        style: {
-                                            marginRight: '3px'
-                                        },
-                                        //  这里就是给表格里面添加一个操作，删除编辑添加啥的，就是在这里了
-                                        //  this.Editadd(params.index)      这个是自己取得一个定义的一个方法，我的是编辑，弹出一个框进行编辑
-                                        //  里面传 params.index   是当前的下标
-                                        on: {
-                                            click: () => {
-                                                this.handleEdit(params,params.index, params.row);
-                                            }
-                                        }
-                                    }, '编辑'),
+                                    // h('Button', {
+                                    //     props: {
+                                    //         type: 'primary',
+                                    //         size: 'small'
+                                    //     },
+                                    //     style: {
+                                    //         marginRight: '3px'
+                                    //     },
+                                    //     //  这里就是给表格里面添加一个操作，删除编辑添加啥的，就是在这里了
+                                    //     //  this.Editadd(params.index)      这个是自己取得一个定义的一个方法，我的是编辑，弹出一个框进行编辑
+                                    //     //  里面传 params.index   是当前的下标
+                                    //     on: {
+                                    //         click: () => {
+                                    //             this.handleEdit(params,params.index, params.row);
+                                    //         }
+                                    //     }
+                                    // }, '编辑'),
                                     h('Button', {
                                         props: {
                                             type: 'primary',

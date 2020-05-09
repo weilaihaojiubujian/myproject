@@ -28,7 +28,7 @@
                     <el-input placeholder="请输入验证码"  v-model="userInfo.verifyCode" @blur="e"></el-input>
                     <span class="tiShi">{{ tiShi.tishi5}}</span><br>
                 </el-form-item>
-                <div class="checkbox"><input type="checkbox" style="margin-right: 10px;" v-model="userInfo.checkbox">阅读并接受<a href="" >《注册用户协议》</a></div>
+<!--                <div class="checkbox"><input type="checkbox" style="margin-right: 10px;" v-model="userInfo.checkbox">阅读并接受<a href="" >《注册用户协议》</a></div>-->
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="login">返回登录界面</el-button>
@@ -234,8 +234,8 @@
                 }
                 else if (!n.test(this.userInfo.verifyCode)) {this.tiShi.tishi5='验证码格式不正确';this.isReturn = true;}
 
-                //同意协议
-                if (this.userInfo.checkbox!=true) {this.btn=false;alert('是否同意该协议');this.isReturn = true;return}
+                // //同意协议
+                // if (this.userInfo.checkbox!=true) {this.btn=false;alert('是否同意该协议');this.isReturn = true;return}
                 //如果有这些提示就return
                 if (this.tiShi.tishi1 || this.tiShi.tishi2 ||this.tiShi.tishi3 ||this.tiShi.tishi5) return;
                 //if (this.isReturn) return;
