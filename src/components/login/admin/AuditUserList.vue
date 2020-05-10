@@ -3,9 +3,12 @@
         <!--工具条-->
         <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
             <el-form :inline="true" >
+                <el-form-item label="用户id" prop="name">
+                    <el-input v-model="auditUserListRequest.userId" auto-complete="off"></el-input>
+                </el-form-item>
                 <el-form-item>
                     <!--                    <el-button type="primary" v-on:click="getUsers">查询</el-button>-->
-                    <el-button type="primary" >查询</el-button>
+                    <el-button type="primary"  @click="select">查询</el-button>
                 </el-form-item>
             </el-form>
         </el-col>
@@ -66,6 +69,7 @@
                     }
                 ],
                 auditUserListRequest: {
+                    userId: '',
                     pageNo: '',
                     pageSize: ''
                 },
@@ -188,6 +192,38 @@
                 // var _end = index * this.pageSize;
                 // this.tdata2 = this.ajaxHistoryData.slice(_start, _end);
                 this.auditUserListRequest.pageNo=index;
+                this.$axios.post(api.auditUserList, JSON.stringify(this.auditUserListRequest), {
+                    headers: {
+                        'Access-Control-Allow-Origin': '*',
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    withCredentials: true,
+                    params:{
+                        openid: localStorage.getItem("openid")
+                    }
+                }).then(res => {
+                    if (res != null && res.status === 200) {
+                        if (res.data.success) {
+
+                            // 保存取到的所有数据
+                            this.ajaxHistoryData =res.data.data.list;
+                            this.dataCount = res.data.data.count;
+                            // 初始化显示，小于每页显示条数，全显，大于每页显示条数，取前每页条数显示
+                            if (this.dataCount < this.pageSize) {
+                                this.tdata2 = this.ajaxHistoryData;
+                            } else {
+                                this.tdata2 = this.ajaxHistoryData.slice(0, this.pageSize);
+                            }
+                        } else {
+                            console.log(res);
+                        }
+                    } else {
+                        console.log(res);
+                    }
+                });
+
+            },
+            select () {
                 this.$axios.post(api.auditUserList, JSON.stringify(this.auditUserListRequest), {
                     headers: {
                         'Access-Control-Allow-Origin': '*',

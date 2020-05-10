@@ -9,13 +9,30 @@
                 <el-form-item label="创建者" prop="name">
                     <el-input v-model="projectListRequest.userId" auto-complete="off"></el-input>
                 </el-form-item>
+                <el-form-item label="项目完成开始时间">
+                    <el-date-picker
+                            v-model="projectListRequest.startTime"
+                            type="date"
+                            value-format="yyyy-MM-dd"
+                            format="yyyy-MM-dd"
+                            placeholder="选择日期">
+                    </el-date-picker>
+                </el-form-item>
+                <el-form-item label="项目完成结束时间">
+                    <el-date-picker
+                            v-model="projectListRequest.endTime"
+                            type="date"
+                            value-format="yyyy-MM-dd"
+                            format="yyyy-MM-dd"
+                            placeholder="选择日期">
+                    </el-date-picker>
+                </el-form-item>
                 <el-form-item>
                     <!--                    <el-button type="primary" v-on:click="getUsers">查询</el-button>-->
                     <el-button type="primary" @click="select">查询</el-button>
                 </el-form-item>
             </el-form>
         </el-col>
-
         <Table border ref="selection"  @on-selection-change="handleSelectRow()" style="margin-top: 20px;"  no-data-text="暂无数据"
                :columns="columns4" :data="tdata2" highlight-row></Table>
         <Page :total="dataCount" :page-size="pageSize" show-total @on-change="changepage"></Page>
@@ -53,6 +70,8 @@
                 projectListRequest: {
                     name:'',
                     userId: '',
+                    startTime: '',
+                    endTime: '',
                     pageNo: '',
                     pageSize: ''
                 },

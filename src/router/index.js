@@ -336,7 +336,7 @@ export default new Router({
             children: [
                 {
                     path: '/completeProjectList',
-                    name: '完成任务列表',
+                    name: '完成项目列表',
                     changeOrigin: true,//是否允许跨越
                     c: true,
                     component: completeProjectList

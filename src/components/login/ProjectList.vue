@@ -93,6 +93,26 @@
                          // },
                          {title: '操作',
                              render: (h, params) => {
+                                 if(localStorage.getItem(this.userId+params.row.id) != null){
+                                     return h('div', [
+                                         h('Button', {
+                                             props: {
+                                                 type: 'primary',
+                                                 size: 'small'
+                                             },
+                                             style: {
+                                                 marginRight: '3px'
+                                             },
+                                             on: {
+                                                 click: () => {
+                                                     this.projectInfo(params,params.index, params.row);
+                                                 }
+                                             }
+                                         }, '项目详情')
+
+                                     ]);
+                                 }else{
+
                                      return h('div', [
                                          h('Button', {
                                              props: {
@@ -108,20 +128,20 @@
                                                  }
                                              }
                                          }, '项目详情'),
-                                         h('Button', {
-                                             props: {
-                                                 type: 'primary',
-                                                 size: 'small'
-                                             },
-                                             style: {
-                                                 marginRight: '3px'
-                                             },
-                                             on: {
-                                                 click: () => {
-                                                     this.acceptProject(params,params.index, params.row);
-                                                 }
-                                             }
-                                         }, '报名接受项目'),
+                                         // h('Button', {
+                                         //     props: {
+                                         //         type: 'primary',
+                                         //         size: 'small'
+                                         //     },
+                                         //     style: {
+                                         //         marginRight: '3px'
+                                         //     },
+                                         //     on: {
+                                         //         click: () => {
+                                         //             this.acceptProject(params,params.index, params.row);
+                                         //         }
+                                         //     }
+                                         // }, '报名接受项目'),
                                          h('Button', {
                                              props: {
                                                  type: 'primary',
@@ -136,10 +156,8 @@
                                                  }
                                              }
                                          }, '签订合同')
-
                                      ]);
-
-
+                                 }
                          }},
                      ],
 
@@ -232,44 +250,44 @@
                 console.log(this.project.id);
                 this.$router.push({ name:'合同签名', params:{id:this.project.id,userId:this.project.userId}});
             },
-            acceptProject(params,index, row) {
-                this.project.id=params.row.id;
-                this.$confirm('确认报名接受项目吗？', '提示', {}).then(() => {
-                this.$axios.post(api.acceptProject, JSON.stringify(this.project), {
-                    headers: {
-                        'Access-Control-Allow-Origin': '*',
-                        'Content-Type': 'application/json; charset=utf-8'
-                    },
-                    withCredentials: true,
-                    params:{
-                        openid: localStorage.getItem("openid")
-                    }
-                }).then(res => {
-                    if (res != null && res.status === 200) {
-                        if (res.data.success) {
-
-                            this.$message({
-                                message: '投标项目成功',
-                                type: 'success'
-                            });
-
-                        } else {
-                            this.$message({
-                                message: res.data.msg,
-                                type: 'error'
-                            });
-                            console.log(res);
-                        }
-                    } else {
-                        this.$message({
-                            message: res.data.msg,
-                            type: 'error'
-                        });
-                        console.log(res);
-                    }
-                });
-                });
-            },
+            // acceptProject(params,index, row) {
+            //     this.project.id=params.row.id;
+            //     this.$confirm('确认报名接受项目吗？', '提示', {}).then(() => {
+            //     this.$axios.post(api.acceptProject, JSON.stringify(this.project), {
+            //         headers: {
+            //             'Access-Control-Allow-Origin': '*',
+            //             'Content-Type': 'application/json; charset=utf-8'
+            //         },
+            //         withCredentials: true,
+            //         params:{
+            //             openid: localStorage.getItem("openid")
+            //         }
+            //     }).then(res => {
+            //         if (res != null && res.status === 200) {
+            //             if (res.data.success) {
+            //
+            //                 this.$message({
+            //                     message: '投标项目成功',
+            //                     type: 'success'
+            //                 });
+            //
+            //             } else {
+            //                 this.$message({
+            //                     message: res.data.msg,
+            //                     type: 'error'
+            //                 });
+            //                 console.log(res);
+            //             }
+            //         } else {
+            //             this.$message({
+            //                 message: res.data.msg,
+            //                 type: 'error'
+            //             });
+            //             console.log(res);
+            //         }
+            //     });
+            //     });
+            // },
 
 
             select () {
@@ -329,6 +347,7 @@
 
         },
         created() {
+            this.userId=localStorage.getItem("userId");
             this.getProjectList();
         }
 

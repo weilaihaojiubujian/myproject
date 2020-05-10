@@ -40,8 +40,9 @@
                 <div class="canvasBox" ref="canvasHW">
                     <canvas ref="canvasF" @touchstart='touchStart' @touchmove='touchMove' @touchend='touchEnd' @mousedown="mouseDown" @mousemove="mouseMove" @mouseup="mouseUp"></canvas>
                     <div class="btnBox">
-                        <div @click="overwrite">重写</div>
-                        <div @click="commit">提交签名</div>
+                        <div @click="overwrite">重写</div><br>
+                        <div @click="commit">提交签名</div><br>
+                        <div @click="acceptProject">确定合同签名完成</div><br>
                     </div>
                 </div>
             </div>
@@ -70,6 +71,9 @@
                     realName:'',
                     myRealName:''
                 },
+                project:{
+                    id:''
+                },
                 startX: 0,
                 startY: 0,
                 moveY: 0,
@@ -85,6 +89,7 @@
         },
         mounted() {
             this.projectId=this.$route.params.id;
+            this.project.id=this.$route.params.id;
             this.userId=localStorage.getItem("userId");
             this.getRealNameRequest.userId=this.$route.params.userId;
             let canvas = this.$refs.canvasF
@@ -244,10 +249,48 @@
                 this.canvasTxt.clearRect(0, 0, this.$refs.canvasF.width, this.$refs.canvasF.height)
                 this.points = []
             },
+            acceptProject() {
+                this.$confirm('确认合同签名完成并报名接受项目吗？', '提示', {}).then(() => {
+                    this.$axios.post(api.acceptProject, JSON.stringify(this.project), {
+                        headers: {
+                            'Access-Control-Allow-Origin': '*',
+                            'Content-Type': 'application/json; charset=utf-8'
+                        },
+                        withCredentials: true,
+                        params:{
+                            openid: localStorage.getItem("openid")
+                        }
+                    }).then(res => {
+                        if (res != null && res.status === 200) {
+                            if (res.data.success) {
+                                localStorage.setItem(this.userId+this.projectId,this.imgUrl);
+                                this.$message({
+                                    message: '投标项目成功',
+                                    type: 'success'
+                                });
+
+                            } else {
+                                this.$message({
+                                    message: res.data.msg,
+                                    type: 'error'
+                                });
+                                console.log(res);
+                            }
+                        } else {
+                            this.$message({
+                                message: res.data.msg,
+                                type: 'error'
+                            });
+                            console.log(res);
+                        }
+                    });
+                });
+            },
+
             //提交签名
             commit() {
                 this.imgUrl=this.$refs.canvasF.toDataURL();
-                localStorage.setItem(this.userId+this.projectId,this.imgUrl);
+                // localStorage.setItem(this.userId+this.projectId,this.imgUrl);
                 console.log(this.$refs.canvasF.toDataURL()) //签名img回传后台
             }
         }
