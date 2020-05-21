@@ -4,6 +4,13 @@
 
         <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
             <el-form :inline="true" >
+                <el-form-item label="问题名" prop="name">
+                    <el-input v-model="problemListRequest.content" auto-complete="off"></el-input>
+                </el-form-item>
+                <el-form-item>
+                    <!--                    <el-button type="primary" v-on:click="getUsers">查询</el-button>-->
+                    <el-button type="primary" @click="select">查询</el-button>
+                </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="handleAdd">新增问题</el-button>
                 </el-form-item>
@@ -67,6 +74,7 @@
                     problemId: ''
                 },
                 problemListRequest: {
+                    content:'',
                     pageNo: '',
                     pageSize: ''
                 },
@@ -230,6 +238,37 @@
                         console.log(res);
                     }
                 });
+            },
+            select () {
+                this.$axios.post(api.problemList, JSON.stringify(this.problemListRequest), {
+                    headers: {
+                        'Access-Control-Allow-Origin': '*',
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    withCredentials: true,
+                    params:{
+                        openid: localStorage.getItem("openid")
+                    }
+                }).then(res => {
+                    if (res != null && res.status === 200) {
+                        if (res.data.success) {
+                            // 保存取到的所有数据
+                            this.ajaxHistoryData =res.data.data.list;
+                            this.dataCount = res.data.data.count;
+                            // 初始化显示，小于每页显示条数，全显，大于每页显示条数，取前每页条数显示
+                            if (this.dataCount < this.pageSize) {
+                                this.tdata2 = this.ajaxHistoryData;
+                            } else {
+                                this.tdata2 = this.ajaxHistoryData.slice(0, this.pageSize);
+                            }
+                        } else {
+                            console.log(res);
+                        }
+                    } else {
+                        console.log(res);
+                    }
+                });
+
             },
             otherUserInfoByUserId(id){
                 this.$router.push({ name:'通过用户id查看其它用户信息', params:{userId:id}});
