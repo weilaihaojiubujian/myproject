@@ -47,11 +47,42 @@
 
                 }).then(res => {
                     if (res != null && res.status === 200) {
-                        this.$message({
-                            message: '提现成功',
-                            type: 'success'
+                        this.$axios.get(api.goWithdraw,{
+                            headers: {
+                                'Access-Control-Allow-Origin': '*',
+                                'Content-Type': 'application/json; charset=utf-8'
+                            },
+                            withCredentials: true,
+                            params:{
+                                openid: localStorage.getItem("openid")
+                            }
+
+                        }).then(res => {
+                            if (res != null && res.status === 200) {
+
+                                if (res.data.success) {
+                                    this.$message({
+                                        message: '提现成功',
+                                        type: 'success'
+                                    });
+                                    this.$router.push( '/business/userInfo')
+
+                                } else {
+                                    this.$message({
+                                        message: res.data.msg,
+                                        type: 'error'
+                                    });
+                                    console.log(res);
+                                }
+                            } else {
+                                this.$message({
+                                    message: res.data.msg,
+                                    type: 'error'
+                                });
+                                console.log(res);
+                            }
+
                         });
-                        this.$router.push( '/business/userInfo')
                     } else {
                         this.$message({
                             message: res.data.msg,

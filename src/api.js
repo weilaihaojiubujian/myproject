@@ -27,6 +27,7 @@ const auditTask = root1 + 'admin/auditTask';
 const completeTask = root1 + 'admin/task/completeTask';
 const recharge = root1 + 'admin/transfer/recharge';
 const goAlipay = root1 + 'alipay/goAlipay';
+const goWithdraw=root1 + 'alipay/goWithdraw';
 const withdraw = root1 + 'admin/transfer/withdraw';
 const transferAccount = root1 + 'admin/transfer/transferAccount';
 const transferRecord = root1 + 'admin/transfer/transferRecord';
@@ -123,6 +124,7 @@ export default {
     getRealName,
     deleteProblem,
     deleteComment,
+    goWithdraw,
     root,
     root1
 };
