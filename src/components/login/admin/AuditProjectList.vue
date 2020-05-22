@@ -273,7 +273,7 @@
                                     message: '提交成功',
                                     type: 'success'
                                 });
-                                this.getAuditProductList();
+                                this.getAuditProjectList();
                             } else {
                                 this.$message({
                                     message: res.data.msg,
@@ -314,7 +314,7 @@
                                     message: '提交成功',
                                     type: 'success'
                                 });
-                                this.getAuditProductList();
+                                this.getAuditProjectList();
                             } else {
                                 this.$message({
                                     message: res.data.msg,
