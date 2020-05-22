@@ -44,6 +44,7 @@
 <script>
     import api from "@/api";
     import signature from "@/components/login/Signature";
+    import utils from "@/components/utils/utils";
 
 
     export default {
@@ -92,6 +93,11 @@
                     {title: '项目名',width:100,key: 'name'},
                     {title: '创建者',width:100,key:'userId'},
                     {title: '价格',width:100,key:'price'},
+                    {title: '完成时间',width:100,key:'gmtModified',
+                        render: (h, params) => {
+                            return h('span', {}, params.row.gmtModified = (!params.row.gmtModified || params.row.gmtModified == '') ? '' : utils.formatDate.format(new Date(params.row.gmtModified), 'yyyy-MM-dd'))
+                        }
+                    },
                     // //  重点说明一下这里状态，我从后台获取 得到的是  3 2 1 这些数字，但是如何根据不同的数据显示不同的文字，
                     // //  需要用到render 这个函数
                     // {title: '状态',key:'taOrdertype',width:100,
